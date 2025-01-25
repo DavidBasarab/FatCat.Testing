@@ -1,9 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <RootNamespace>FatCat.Testing</RootNamespace>
+        <AssemblyName>FatCat.Testing</AssemblyName>
+        <DebugType>full</DebugType>
+        <LangVersion>default</LangVersion>
+        <VersionPrefix>1.0.1</VersionPrefix>
+        <Authors>David Basarab</Authors>
+        <PackageTags>tools</PackageTags>
+        <PackageProjectUrl>https://github.com/DavidBasarab/FatCat.Testing</PackageProjectUrl>
+        <PackageLicenseExpression>Apache2</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/DavidBasarab/FatCat.Testing</RepositoryUrl>
+        <NoWarn>CS8002,CS1700</NoWarn>
+        <SignAssembly>true</SignAssembly>
+        <TargetFramework>net9.0</TargetFramework>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <NoWarn>$(NoWarn);NETSDK1206</NoWarn>
+    </PropertyGroup>
 
 </Project>
