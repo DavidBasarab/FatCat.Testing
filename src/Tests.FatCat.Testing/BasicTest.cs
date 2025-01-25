@@ -1,5 +1,3 @@
-using Xunit;
-
 namespace Tests.FatCat.Testing;
 
 public class BasicTest
