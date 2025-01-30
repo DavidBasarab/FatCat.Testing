@@ -2,13 +2,13 @@ namespace FatCat.Testing.Exceptions;
 
 public class CompareException(string message) : Exception(message)
 {
-	public static void Mismatch(object expect, object actual)
+	public static void Mismatch(object subject, object expected)
 	{
-		throw new CompareException($"{expect} should be {actual}");
+		throw new CompareException($"{subject} should be {expected}");
 	}
 
-	public static void Match(object expect, object actual)
+	public static void Match(object subject, object expected)
 	{
-		throw new CompareException($"{expect} should not be {actual}");
+		throw new CompareException($"{subject} should not be {expected}");
 	}
 }
