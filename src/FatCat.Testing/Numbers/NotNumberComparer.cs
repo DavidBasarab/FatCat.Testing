@@ -16,15 +16,13 @@ public class NotNumberComparer(int subject) : IShouldNotComparer, INotRangeCompa
 
 	public INotRangeComparer BeInRange(object lower, object upper)
 	{
-		// var upperValue = (int)upper;
-		// var lowerValue = (int)lower;
-		//
-		// if (subject >= lowerValue && subject <= upperValue)
-		// {
-		// 	CompareException.Match(subject, $"{lowerValue} and {upperValue}");
-		// }
-		//
-		// return this;
+		var upperValue = (int)upper;
+		var lowerValue = (int)lower;
+
+		if (subject >= lowerValue && subject <= upperValue)
+		{
+			CompareException.New($"{subject} should not be between {lowerValue} and {upperValue}");
+		}
 
 		return this;
 	}

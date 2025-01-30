@@ -50,4 +50,17 @@ public class NumberTests : BaseTest
 		RunCompareFailTest(() => 2.Should().BeInRange(3, 5), "2 should be between 3 and 5");
 		RunCompareFailTest(() => 6.Should().BeInRange(3, 5), "6 should be between 3 and 5");
 	}
+
+	[Fact]
+	public void GoodNotBeInRange()
+	{
+		2.Should().Not.BeInRange(3, 5);
+		6.Should().Not.BeInRange(3, 5);
+	}
+
+	[Fact]
+	public void BadNotBeInRange()
+	{
+		RunCompareFailTest(() => 2.Should().Not.BeInRange(1, 7), "2 should not be between 1 and 7");
+	}
 }
