@@ -32,4 +32,7 @@
     <ItemGroup>
       <ProjectReference Include="..\FatCat.Testing\FatCat.Testing.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Primatives\" />
+    </ItemGroup>
 </Project>

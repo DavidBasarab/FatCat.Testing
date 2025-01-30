@@ -1,5 +1,4 @@
 using FatCat.Testing;
-using FatCat.Testing.Exceptions;
 
 namespace Tests.FatCat.Testing;
 
@@ -16,12 +15,28 @@ public class NumberTests : BaseTest
 	{
 		RunCompareFailTest(() => new NumberComparer().Compare(1, 2));
 	}
-}
 
-public abstract class BaseTest
-{
-	protected void RunCompareFailTest(Action testAction)
+	[Fact]
+	public void GoodFluent()
 	{
-		Assert.Throws<CompareException>(testAction);
+		1.Should().Be(1);
+	}
+
+	[Fact]
+	public void BadFluent()
+	{
+		RunCompareFailTest(() => 1.Should().Be(2));
+	}
+
+	[Fact]
+	public void GoodNotEqual()
+	{
+		1.Should().Not.Be(2);
+	}
+
+	[Fact]
+	public void BadNotEqual()
+	{
+		RunCompareFailTest(() => 1.Should().Not.Be(1));
 	}
 }
