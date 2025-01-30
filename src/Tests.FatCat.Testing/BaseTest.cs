@@ -8,4 +8,11 @@ public abstract class BaseTest
 	{
 		Assert.Throws<CompareException>(testAction);
 	}
+
+	protected void RunCompareFailTest(Action testAction, string message)
+	{
+		var exception = Assert.Throws<CompareException>(testAction);
+
+		Assert.Equal(message, exception.Message);
+	}
 }

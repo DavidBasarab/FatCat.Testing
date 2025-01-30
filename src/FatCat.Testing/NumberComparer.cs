@@ -2,7 +2,7 @@ using FatCat.Testing.Exceptions;
 
 namespace FatCat.Testing;
 
-public class NumberComparer
+internal class NumberComparer
 {
 	public void Compare(int expected, int actual)
 	{
@@ -16,7 +16,7 @@ public class NumberComparer
 	{
 		if (actual == expected)
 		{
-			CompareException.Mismatch(expected, actual);
+			CompareException.Match(expected, actual);
 		}
 	}
 }
