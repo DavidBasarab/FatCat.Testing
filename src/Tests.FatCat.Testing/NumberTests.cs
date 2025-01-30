@@ -1,5 +1,3 @@
-using FatCat.Testing;
-
 namespace Tests.FatCat.Testing;
 
 public class NumberTests : BaseTest

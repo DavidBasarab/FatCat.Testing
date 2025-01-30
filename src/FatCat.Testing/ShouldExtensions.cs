@@ -1,42 +1,56 @@
+using FatCat.Testing.Exceptions;
+
 namespace FatCat.Testing;
 
 public static class ShouldExtensions
 {
-	public static ShouldComparer Should(this int subject)
+	public static NumberShouldComparer Should(this int subject)
 	{
-		return new ShouldComparer(subject);
+		return new NumberShouldComparer(subject);
 	}
 }
 
-public class ShouldComparer(object subject)
+public class NumberShouldComparer(int subject)
+	: ShouldComparer<NumberShouldComparer, NotNumberShouldComparer>(subject)
 {
-	public NotShouldComparer Not
+	public NumberShouldComparer BeInRange(int lower, int upper)
+	{
+		throw new NotImplementedException();
+	}
+
+	public override NumberShouldComparer Be(object expected)
+	{
+		if (subject != (int)expected)
+		{
+			CompareException.Mismatch(expected, subject);
+		}
+
+		return this;
+	}
+}
+
+public class NotNumberShouldComparer(int subject) : NotShouldComparer<NotNumberShouldComparer>(subject)
+{
+	public override NotNumberShouldComparer Be(object expected)
+	{
+		throw new NotImplementedException();
+	}
+}
+
+public abstract class ShouldComparer<TComparer, TNotComparer>(object subject)
+	where TComparer : ShouldComparer<TComparer, TNotComparer>
+	where TNotComparer : new()
+{
+	public TNotComparer Not
 	{
 		get => new(subject);
 	}
 
-	public ShouldComparer Be(object expected)
-	{
-		// new NumberComparer().Compare(subject, expected);
-
-		if (expected is int intExpected)
-		{
-			new NumberComparer().Compare((int)subject, intExpected);
-		}
-
-		return this;
-	}
+	public abstract TComparer Be(object expected);
 }
 
-public class NotShouldComparer(object subject)
+public abstract class NotShouldComparer<TNotComparer>(object subject)
+	where TNotComparer : NotShouldComparer<TNotComparer>
 {
-	public NotShouldComparer Be(object expected)
-	{
-		if (expected is int intExpected)
-		{
-			new NumberComparer().NotCompare((int)subject, intExpected);
-		}
-
-		return this;
-	}
+	public abstract TNotComparer Be(object expected);
 }
