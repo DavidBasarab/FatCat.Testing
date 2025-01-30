@@ -1,8 +1,9 @@
 namespace FatCat.Testing;
 
-public interface IShouldComparer
+public interface IShouldComparer<out T>
+	where T : IShouldNotComparer
 {
-	IShouldNotComparer Not { get; }
+	T Not { get; }
 
-	IShouldComparer Be(object expected);
+	IShouldComparer<T> Be(object expected);
 }
