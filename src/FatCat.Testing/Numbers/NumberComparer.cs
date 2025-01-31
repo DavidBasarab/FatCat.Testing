@@ -2,11 +2,11 @@ using FatCat.Testing.Exceptions;
 
 namespace FatCat.Testing.Numbers;
 
-public class NumberComparer(int subject) : IShouldComparer<INotRangeComparer>, IRangeComparer
+public class NumberComparer(int subject)
 {
-	public INotRangeComparer Not { get; } = new NotNumberComparer(subject);
+	public NotNumberComparer Not { get; } = new(subject);
 
-	public IRangeComparer BeInRange(object lower, object upper)
+	public NumberComparer BeInRange(object lower, object upper)
 	{
 		var upperValue = (int)upper;
 		var lowerValue = (int)lower;
@@ -19,7 +19,7 @@ public class NumberComparer(int subject) : IShouldComparer<INotRangeComparer>, I
 		return this;
 	}
 
-	IShouldComparer<INotRangeComparer> IShouldComparer<INotRangeComparer>.Be(object expected)
+	public NumberComparer Be(object expected)
 	{
 		if (subject != (int)expected)
 		{
