@@ -3,21 +3,22 @@ namespace Tests.FatCat.Testing;
 public class NumberTests : BaseTest
 {
 	[Fact]
-	public void GoodEqual()
+	public void BadBeInRange()
 	{
-		1.Should().Be(1);
+		RunCompareFailTest(() => 2.Should().BeInRange(3, 5), "2 should be between 3 and 5");
+		RunCompareFailTest(() => 6.Should().BeInRange(3, 5), "6 should be between 3 and 5");
 	}
 
 	[Fact]
-	public void BasicFail()
+	public void BadGreaterThan()
 	{
-		RunCompareFailTest(() => 1.Should().Be(2));
+		RunCompareFailTest(() => 2.Should().BeGreaterThan(3), "2 should be greater than 3");
 	}
 
 	[Fact]
-	public void GoodNotEqual()
+	public void BadNotBeInRange()
 	{
-		1.Should().Not.Be(2);
+		RunCompareFailTest(() => 2.Should().Not.BeInRange(1, 7), "2 should not be between 1 and 7");
 	}
 
 	[Fact]
@@ -27,15 +28,15 @@ public class NumberTests : BaseTest
 	}
 
 	[Fact]
-	public void CompareMessageTest()
+	public void BasicFail()
 	{
-		RunCompareFailTest(() => 1.Should().Be(2), "1 should be 2");
+		RunCompareFailTest(() => 1.Should().Be(2));
 	}
 
 	[Fact]
-	public void NotCompareMessageTest()
+	public void CompareMessageTest()
 	{
-		RunCompareFailTest(() => 1.Should().Not.Be(1), "1 should not be 1");
+		RunCompareFailTest(() => 1.Should().Be(2), "1 should be 2");
 	}
 
 	[Fact]
@@ -45,10 +46,15 @@ public class NumberTests : BaseTest
 	}
 
 	[Fact]
-	public void BadBeInRange()
+	public void GoodEqual()
 	{
-		RunCompareFailTest(() => 2.Should().BeInRange(3, 5), "2 should be between 3 and 5");
-		RunCompareFailTest(() => 6.Should().BeInRange(3, 5), "6 should be between 3 and 5");
+		1.Should().Be(1);
+	}
+
+	[Fact]
+	public void GoodGreaterThan()
+	{
+		2.Should().BeGreaterThan(1);
 	}
 
 	[Fact]
@@ -59,8 +65,14 @@ public class NumberTests : BaseTest
 	}
 
 	[Fact]
-	public void BadNotBeInRange()
+	public void GoodNotEqual()
 	{
-		RunCompareFailTest(() => 2.Should().Not.BeInRange(1, 7), "2 should not be between 1 and 7");
+		1.Should().Not.Be(2);
+	}
+
+	[Fact]
+	public void NotCompareMessageTest()
+	{
+		RunCompareFailTest(() => 1.Should().Not.Be(1), "1 should not be 1");
 	}
 }

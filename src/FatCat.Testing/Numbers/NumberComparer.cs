@@ -6,24 +6,34 @@ public class NumberComparer(int subject)
 {
 	public NotNumberComparer Not { get; } = new(subject);
 
-	public NumberComparer BeInRange(object lower, object upper)
+	public NumberComparer Be(int expected)
 	{
-		var upperValue = (int)upper;
-		var lowerValue = (int)lower;
-
-		if (subject < lowerValue || subject > upperValue)
+		if (subject != expected)
 		{
-			CompareException.New($"{subject} should be between {lowerValue} and {upperValue}");
+			CompareException.Mismatch(subject, expected);
 		}
 
 		return this;
 	}
 
-	public NumberComparer Be(object expected)
+	public NumberComparer BeGreaterThan(int expected)
 	{
-		if (subject != (int)expected)
+		if (subject <= expected)
 		{
-			CompareException.Mismatch(subject, expected);
+			CompareException.New($"{subject} should be greater than {expected}");
+		}
+
+		return this;
+	}
+
+	public NumberComparer BeInRange(int lower, int upper)
+	{
+		var upperValue = upper;
+		var lowerValue = lower;
+
+		if (subject < lowerValue || subject > upperValue)
+		{
+			CompareException.New($"{subject} should be between {lowerValue} and {upperValue}");
 		}
 
 		return this;
