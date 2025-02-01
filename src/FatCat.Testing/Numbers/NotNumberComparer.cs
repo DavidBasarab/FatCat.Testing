@@ -14,16 +14,6 @@ public class NotNumberComparer(int subject)
 		return this;
 	}
 
-	public NotNumberComparer BeGreaterThan(int expected)
-	{
-		if (subject < expected)
-		{
-			CompareException.New($"{subject} should not be less than {expected}");
-		}
-
-		return this;
-	}
-
 	public NotNumberComparer BeInRange(int lower, int upper)
 	{
 		var upperValue = upper;

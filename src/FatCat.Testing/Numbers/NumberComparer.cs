@@ -18,9 +18,19 @@ public class NumberComparer(int subject)
 
 	public NumberComparer BeGreaterThan(int expected)
 	{
-		if (subject <= expected)
+		if (subject < expected)
 		{
 			CompareException.New($"{subject} should be greater than {expected}");
+		}
+
+		return this;
+	}
+
+	public NumberComparer BeLessThan(int expected)
+	{
+		if (subject > expected)
+		{
+			CompareException.New($"{subject} should be less than {expected}");
 		}
 
 		return this;

@@ -75,4 +75,16 @@ public class NumberTests : BaseTest
 	{
 		RunCompareFailTest(() => 1.Should().Not.Be(1), "1 should not be 1");
 	}
+
+	[Fact]
+	public void GoodLessThan()
+	{
+		1.Should().BeLessThan(2);
+	}
+
+	[Fact]
+	public void BadLessThan()
+	{
+		RunCompareFailTest(() => 2.Should().BeLessThan(1), "2 should be less than 1");
+	}
 }
