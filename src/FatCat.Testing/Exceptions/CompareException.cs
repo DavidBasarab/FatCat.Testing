@@ -2,9 +2,9 @@ namespace FatCat.Testing.Exceptions;
 
 public class CompareException(string message) : Exception(message)
 {
-	public static void New(string message)
+	public static void Match(object subject, object expected)
 	{
-		throw new CompareException(message);
+		throw new CompareException($"{subject} should not be {expected}");
 	}
 
 	public static void Mismatch(object subject, object expected)
@@ -12,8 +12,8 @@ public class CompareException(string message) : Exception(message)
 		throw new CompareException($"{subject} should be {expected}");
 	}
 
-	public static void Match(object subject, object expected)
+	public static void New(string message)
 	{
-		throw new CompareException($"{subject} should not be {expected}");
+		throw new CompareException(message);
 	}
 }

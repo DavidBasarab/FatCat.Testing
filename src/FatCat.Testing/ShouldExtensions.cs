@@ -4,8 +4,8 @@ namespace FatCat.Testing;
 
 public static class ShouldExtensions
 {
-	public static NumberComparer Should(this int subject)
+	public static IntComparer Should(this int subject)
 	{
-		return new NumberComparer(subject);
+		return new IntComparer(subject);
 	}
 }
