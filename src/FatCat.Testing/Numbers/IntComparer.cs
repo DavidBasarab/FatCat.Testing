@@ -38,12 +38,9 @@ public class IntComparer(int subject)
 
 	public IntComparer BeInRange(int lower, int upper, string because = null)
 	{
-		var upperValue = upper;
-		var lowerValue = lower;
-
-		if (subject < lowerValue || subject > upperValue)
+		if (subject < lower || subject > upper)
 		{
-			CompareException.New(because ?? $"{subject} should be between {lowerValue} and {upperValue}");
+			CompareException.New(because ?? $"{subject} should be between {lower} and {upper}");
 		}
 
 		return this;

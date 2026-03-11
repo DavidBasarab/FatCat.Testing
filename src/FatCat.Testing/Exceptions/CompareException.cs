@@ -1,6 +1,8 @@
+using Xunit.Sdk;
+
 namespace FatCat.Testing.Exceptions;
 
-public class CompareException(string message) : Exception(message)
+public class CompareException(string message) : XunitException(message)
 {
 	public static void Match(object subject, object expected)
 	{

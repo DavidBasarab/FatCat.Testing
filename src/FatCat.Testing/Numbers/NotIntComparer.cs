@@ -26,12 +26,9 @@ public class NotIntComparer(int subject)
 
 	public NotIntComparer BeInRange(int lower, int upper, string because = null)
 	{
-		var upperValue = upper;
-		var lowerValue = lower;
-
-		if (subject >= lowerValue && subject <= upperValue)
+		if (subject >= lower && subject <= upper)
 		{
-			CompareException.New(because ?? $"{subject} should not be between {lowerValue} and {upperValue}");
+			CompareException.New(because ?? $"{subject} should not be between {lower} and {upper}");
 		}
 
 		return this;

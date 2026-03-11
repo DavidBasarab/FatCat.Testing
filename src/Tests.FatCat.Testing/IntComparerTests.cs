@@ -9,6 +9,12 @@ public class IntComparerTests : BaseTest
 	}
 
 	[Fact]
+	public void Playing()
+	{
+		1.Should().Be(3);
+	}
+
+	[Fact]
 	public void BadBeAroundWithBecause()
 	{
 		RunCompareFailTest(() => 5.Should().BeAround(2, 2, "custom because"), "custom because");
