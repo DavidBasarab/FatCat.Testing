@@ -1,6 +1,6 @@
 # Task
 
-Length Assertions
+String Starts / Ends assertions
 
 ## Feature Context
 
@@ -8,9 +8,7 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 
 ## Tasks
 
-- [ ]  Add `item.Should().HaveLength(int expected)`
-- [ ]  Add `item.Should().Not.HaveLength(int expected)`
-- [ ]  Add methods for nullable strings as well
+- [ ]  Add options the same we have with StringAssertions with Options options = Options.CaseSensitive being the default
 - [ ]  Ensure all compares have a because reason
 
 ## Required Steps
@@ -22,6 +20,7 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 - [ ] Tests written before implementation (TDD)
 - [ ] All tests pass (`dotnet test`)
 - [ ] `jb cleanupcode` run on all modified files
+- [ ] Run `dotnet csharpier .` after `jb cleanupcode`
 - [ ] No compiler warnings introduced
 - [ ] Namespaces match folder paths exactly
 - [ ] No banned patterns used (see `.claude/rules/not-allowed.md`)
@@ -29,9 +28,7 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 
 ## References 
 
-- C:\Code\FatCat.Testing\src\FatCat.Testing\Numbers\NumericComparer.cs
-- C:\Code\FatCat.Testing\src\FatCat.Testing\Numbers\NullableIntComparer.cs
-- C:\Code\FatCat.Testing\src\FatCat.Testing\Numbers\NotNullableIntComparer.cs
+- C:\Code\FatCat.Testing\src\FatCat.Testing\Strings\StringComparer.cs
 
 
 ## Notes

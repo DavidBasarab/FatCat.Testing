@@ -121,6 +121,46 @@ public class StringComparerTests : BaseTest
 		RunCompareFailTest(() => "hello".Should().Be("world", because: "custom because"), "custom because");
 	}
 
+	// EndWith
+
+	[Fact]
+	public void BadEndWith()
+	{
+		RunCompareFailTest(() => "hello world".Should().EndWith("hello"), "hello world should end with hello");
+	}
+
+	// EndWithEquivalentOf
+
+	[Fact]
+	public void BadEndWithEquivalentOf()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().EndWithEquivalentOf("hello"),
+			"hello world should end with equivalent of hello"
+		);
+	}
+
+	[Fact]
+	public void BadEndWithEquivalentOfWithBecause()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().EndWithEquivalentOf("hello", "custom because"),
+			"custom because"
+		);
+	}
+
+	[Fact]
+	public void BadEndWithWithBecause()
+	{
+		RunCompareFailTest(() => "hello world".Should().EndWith("hello", "custom because"), "custom because");
+	}
+
+	[Fact]
+	public void BadEndWith_WhenNull()
+	{
+		RunCompareFailTest(() => ((string)null).Should().EndWith("world"), "null should end with world");
+	}
+
 	[Fact]
 	public void BadHaveLengthWithBecause()
 	{
@@ -271,6 +311,39 @@ public class StringComparerTests : BaseTest
 	}
 
 	[Fact]
+	public void BadNotEndWith()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Not.EndWith("world"),
+			"hello world should not end with world"
+		);
+	}
+
+	[Fact]
+	public void BadNotEndWithEquivalentOf()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Not.EndWithEquivalentOf("WORLD"),
+			"hello world should not end with equivalent of WORLD"
+		);
+	}
+
+	[Fact]
+	public void BadNotEndWithEquivalentOfWithBecause()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Not.EndWithEquivalentOf("WORLD", "custom because"),
+			"custom because"
+		);
+	}
+
+	[Fact]
+	public void BadNotEndWithWithBecause()
+	{
+		RunCompareFailTest(() => "hello world".Should().Not.EndWith("world", "custom because"), "custom because");
+	}
+
+	[Fact]
 	public void BadNotHaveLengthWithBecause()
 	{
 		RunCompareFailTest(() => "hello".Should().Not.HaveLength(5, "custom because"), "custom because");
@@ -292,6 +365,82 @@ public class StringComparerTests : BaseTest
 	public void BadNotHaveValueWithBecause()
 	{
 		RunCompareFailTest(() => "hello".Should().Not.HaveValue("custom because"), "custom because");
+	}
+
+	[Fact]
+	public void BadNotStartWith()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Not.StartWith("hello"),
+			"hello world should not start with hello"
+		);
+	}
+
+	[Fact]
+	public void BadNotStartWithEquivalentOf()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Not.StartWithEquivalentOf("HELLO"),
+			"hello world should not start with equivalent of HELLO"
+		);
+	}
+
+	[Fact]
+	public void BadNotStartWithEquivalentOfWithBecause()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Not.StartWithEquivalentOf("HELLO", "custom because"),
+			"custom because"
+		);
+	}
+
+	[Fact]
+	public void BadNotStartWithWithBecause()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Not.StartWith("hello", "custom because"),
+			"custom because"
+		);
+	}
+
+	// StartWith
+
+	[Fact]
+	public void BadStartWith()
+	{
+		RunCompareFailTest(() => "hello world".Should().StartWith("world"), "hello world should start with world");
+	}
+
+	// StartWithEquivalentOf
+
+	[Fact]
+	public void BadStartWithEquivalentOf()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().StartWithEquivalentOf("world"),
+			"hello world should start with equivalent of world"
+		);
+	}
+
+	[Fact]
+	public void BadStartWithEquivalentOfWithBecause()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().StartWithEquivalentOf("world", "custom because"),
+			"custom because"
+		);
+	}
+
+	[Fact]
+	public void BadStartWithWithBecause()
+	{
+		RunCompareFailTest(() => "hello world".Should().StartWith("world", "custom because"), "custom because");
+	}
+
+	[Fact]
+	public void BadStartWith_WhenNull()
+	{
+		RunCompareFailTest(() => ((string)null).Should().StartWith("hello"), "null should start with hello");
 	}
 
 	[Fact]
@@ -367,6 +516,18 @@ public class StringComparerTests : BaseTest
 	}
 
 	[Fact]
+	public void GoodEndWith()
+	{
+		"hello world".Should().EndWith("world");
+	}
+
+	[Fact]
+	public void GoodEndWithEquivalentOf()
+	{
+		"hello world".Should().EndWithEquivalentOf("WORLD");
+	}
+
+	[Fact]
 	public void GoodHaveLength()
 	{
 		"hello".Should().HaveLength(5);
@@ -433,6 +594,24 @@ public class StringComparerTests : BaseTest
 	}
 
 	[Fact]
+	public void GoodNotEndWith()
+	{
+		"hello world".Should().Not.EndWith("hello");
+	}
+
+	[Fact]
+	public void GoodNotEndWithEquivalentOf()
+	{
+		"hello world".Should().Not.EndWithEquivalentOf("HELLO");
+	}
+
+	[Fact]
+	public void GoodNotEndWith_WhenNull()
+	{
+		((string)null).Should().Not.EndWith("world");
+	}
+
+	[Fact]
 	public void GoodNotHaveLength()
 	{
 		"hello".Should().Not.HaveLength(3);
@@ -448,5 +627,35 @@ public class StringComparerTests : BaseTest
 	public void GoodNotHaveValue()
 	{
 		((string)null).Should().Not.HaveValue();
+	}
+
+	[Fact]
+	public void GoodNotStartWith()
+	{
+		"hello world".Should().Not.StartWith("world");
+	}
+
+	[Fact]
+	public void GoodNotStartWithEquivalentOf()
+	{
+		"hello world".Should().Not.StartWithEquivalentOf("WORLD");
+	}
+
+	[Fact]
+	public void GoodNotStartWith_WhenNull()
+	{
+		((string)null).Should().Not.StartWith("hello");
+	}
+
+	[Fact]
+	public void GoodStartWith()
+	{
+		"hello world".Should().StartWith("hello");
+	}
+
+	[Fact]
+	public void GoodStartWithEquivalentOf()
+	{
+		"hello world".Should().StartWithEquivalentOf("HELLO");
 	}
 }

@@ -71,6 +71,26 @@ public class StringComparer(string subject) : ComparerBase<string, StringCompare
 		return this;
 	}
 
+	public StringComparer EndWith(string expected, string because = null)
+	{
+		if (Subject == null || !Subject.EndsWith(expected, StringComparison.Ordinal))
+		{
+			CompareException.New(because ?? $"{Subject ?? "null"} should end with {expected}");
+		}
+
+		return this;
+	}
+
+	public StringComparer EndWithEquivalentOf(string expected, string because = null)
+	{
+		if (Subject == null || !Subject.EndsWith(expected, StringComparison.OrdinalIgnoreCase))
+		{
+			CompareException.New(because ?? $"{Subject ?? "null"} should end with equivalent of {expected}");
+		}
+
+		return this;
+	}
+
 	public StringComparer HaveLength(int expected, string because = null)
 	{
 		if (Subject == null || Subject.Length != expected)
@@ -86,6 +106,26 @@ public class StringComparer(string subject) : ComparerBase<string, StringCompare
 		if (Subject == null)
 		{
 			CompareException.New(because ?? "subject should have a value");
+		}
+
+		return this;
+	}
+
+	public StringComparer StartWith(string expected, string because = null)
+	{
+		if (Subject == null || !Subject.StartsWith(expected, StringComparison.Ordinal))
+		{
+			CompareException.New(because ?? $"{Subject ?? "null"} should start with {expected}");
+		}
+
+		return this;
+	}
+
+	public StringComparer StartWithEquivalentOf(string expected, string because = null)
+	{
+		if (Subject == null || !Subject.StartsWith(expected, StringComparison.OrdinalIgnoreCase))
+		{
+			CompareException.New(because ?? $"{Subject ?? "null"} should start with equivalent of {expected}");
 		}
 
 		return this;

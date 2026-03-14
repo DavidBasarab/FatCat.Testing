@@ -76,6 +76,26 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
+	public NotStringComparer EndWith(string expected, string because = null)
+	{
+		if (Subject != null && Subject.EndsWith(expected, StringComparison.Ordinal))
+		{
+			CompareException.New(because ?? $"{Subject} should not end with {expected}");
+		}
+
+		return this;
+	}
+
+	public NotStringComparer EndWithEquivalentOf(string expected, string because = null)
+	{
+		if (Subject != null && Subject.EndsWith(expected, StringComparison.OrdinalIgnoreCase))
+		{
+			CompareException.New(because ?? $"{Subject} should not end with equivalent of {expected}");
+		}
+
+		return this;
+	}
+
 	public NotStringComparer HaveLength(int expected, string because = null)
 	{
 		if (Subject != null && Subject.Length == expected)
@@ -91,6 +111,26 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		if (Subject != null)
 		{
 			CompareException.New(because ?? $"{Subject} should not have a value");
+		}
+
+		return this;
+	}
+
+	public NotStringComparer StartWith(string expected, string because = null)
+	{
+		if (Subject != null && Subject.StartsWith(expected, StringComparison.Ordinal))
+		{
+			CompareException.New(because ?? $"{Subject} should not start with {expected}");
+		}
+
+		return this;
+	}
+
+	public NotStringComparer StartWithEquivalentOf(string expected, string because = null)
+	{
+		if (Subject != null && Subject.StartsWith(expected, StringComparison.OrdinalIgnoreCase))
+		{
+			CompareException.New(because ?? $"{Subject} should not start with equivalent of {expected}");
 		}
 
 		return this;
