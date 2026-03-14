@@ -16,6 +16,26 @@ public class StringComparerTests : BaseTest
 		RunCompareFailTest(() => "hello".Should().Be("HELLO"), "hello should be HELLO");
 	}
 
+	// BeEmpty
+
+	[Fact]
+	public void BadBeEmpty_WhenNotEmpty()
+	{
+		RunCompareFailTest(() => "hello".Should().BeEmpty(), "hello should be empty");
+	}
+
+	[Fact]
+	public void BadBeEmpty_WhenNull()
+	{
+		RunCompareFailTest(() => ((string)null).Should().BeEmpty(), "null should be empty");
+	}
+
+	[Fact]
+	public void BadBeEmptyWithBecause()
+	{
+		RunCompareFailTest(() => "hello".Should().BeEmpty("custom because"), "custom because");
+	}
+
 	[Fact]
 	public void BadBeEquivalentTo()
 	{
@@ -61,6 +81,34 @@ public class StringComparerTests : BaseTest
 		RunCompareFailTest(() => "hello".Should().BeNull(), "hello should be null");
 	}
 
+	// BeNullOrEmpty
+
+	[Fact]
+	public void BadBeNullOrEmpty()
+	{
+		RunCompareFailTest(() => "hello".Should().BeNullOrEmpty(), "hello should be null or empty");
+	}
+
+	[Fact]
+	public void BadBeNullOrEmptyWithBecause()
+	{
+		RunCompareFailTest(() => "hello".Should().BeNullOrEmpty("custom because"), "custom because");
+	}
+
+	// BeNullOrWhiteSpace
+
+	[Fact]
+	public void BadBeNullOrWhiteSpace()
+	{
+		RunCompareFailTest(() => "hello".Should().BeNullOrWhiteSpace(), "hello should be null or whitespace");
+	}
+
+	[Fact]
+	public void BadBeNullOrWhiteSpaceWithBecause()
+	{
+		RunCompareFailTest(() => "hello".Should().BeNullOrWhiteSpace("custom because"), "custom because");
+	}
+
 	[Fact]
 	public void BadBeNullWithBecause()
 	{
@@ -89,6 +137,18 @@ public class StringComparerTests : BaseTest
 	public void BadNotBe()
 	{
 		RunCompareFailTest(() => "hello".Should().Not.Be("hello"), "hello should not be hello");
+	}
+
+	[Fact]
+	public void BadNotBeEmpty()
+	{
+		RunCompareFailTest(() => "".Should().Not.BeEmpty(), "subject should not be empty");
+	}
+
+	[Fact]
+	public void BadNotBeEmptyWithBecause()
+	{
+		RunCompareFailTest(() => "".Should().Not.BeEmpty("custom because"), "custom because");
 	}
 
 	[Fact]
@@ -134,6 +194,51 @@ public class StringComparerTests : BaseTest
 	}
 
 	[Fact]
+	public void BadNotBeNullOrEmpty_WhenEmpty()
+	{
+		RunCompareFailTest(() => "".Should().Not.BeNullOrEmpty(), "subject should not be null or empty");
+	}
+
+	[Fact]
+	public void BadNotBeNullOrEmpty_WhenNull()
+	{
+		RunCompareFailTest(() => ((string)null).Should().Not.BeNullOrEmpty(), "null should not be null or empty");
+	}
+
+	[Fact]
+	public void BadNotBeNullOrEmptyWithBecause()
+	{
+		RunCompareFailTest(() => ((string)null).Should().Not.BeNullOrEmpty("custom because"), "custom because");
+	}
+
+	[Fact]
+	public void BadNotBeNullOrWhiteSpace_WhenEmpty()
+	{
+		RunCompareFailTest(() => "".Should().Not.BeNullOrWhiteSpace(), "subject should not be null or whitespace");
+	}
+
+	[Fact]
+	public void BadNotBeNullOrWhiteSpace_WhenNull()
+	{
+		RunCompareFailTest(
+			() => ((string)null).Should().Not.BeNullOrWhiteSpace(),
+			"null should not be null or whitespace"
+		);
+	}
+
+	[Fact]
+	public void BadNotBeNullOrWhiteSpace_WhenWhiteSpace()
+	{
+		RunCompareFailTest(() => "   ".Should().Not.BeNullOrWhiteSpace(), "    should not be null or whitespace");
+	}
+
+	[Fact]
+	public void BadNotBeNullOrWhiteSpaceWithBecause()
+	{
+		RunCompareFailTest(() => "   ".Should().Not.BeNullOrWhiteSpace("custom because"), "custom because");
+	}
+
+	[Fact]
 	public void BadNotBeNullWithBecause()
 	{
 		RunCompareFailTest(() => ((string)null).Should().Not.BeNull("custom because"), "custom because");
@@ -170,6 +275,12 @@ public class StringComparerTests : BaseTest
 	}
 
 	[Fact]
+	public void GoodBeEmpty()
+	{
+		"".Should().BeEmpty();
+	}
+
+	[Fact]
 	public void GoodBeEquivalentTo()
 	{
 		"hello".Should().BeEquivalentTo("hello");
@@ -194,6 +305,36 @@ public class StringComparerTests : BaseTest
 	}
 
 	[Fact]
+	public void GoodBeNullOrEmpty_WhenEmpty()
+	{
+		"".Should().BeNullOrEmpty();
+	}
+
+	[Fact]
+	public void GoodBeNullOrEmpty_WhenNull()
+	{
+		((string)null).Should().BeNullOrEmpty();
+	}
+
+	[Fact]
+	public void GoodBeNullOrWhiteSpace_WhenEmpty()
+	{
+		"".Should().BeNullOrWhiteSpace();
+	}
+
+	[Fact]
+	public void GoodBeNullOrWhiteSpace_WhenNull()
+	{
+		((string)null).Should().BeNullOrWhiteSpace();
+	}
+
+	[Fact]
+	public void GoodBeNullOrWhiteSpace_WhenWhiteSpace()
+	{
+		"   ".Should().BeNullOrWhiteSpace();
+	}
+
+	[Fact]
 	public void GoodHaveValue()
 	{
 		"hello".Should().HaveValue();
@@ -203,6 +344,18 @@ public class StringComparerTests : BaseTest
 	public void GoodNotBe()
 	{
 		"hello".Should().Not.Be("world");
+	}
+
+	[Fact]
+	public void GoodNotBeEmpty()
+	{
+		"hello".Should().Not.BeEmpty();
+	}
+
+	[Fact]
+	public void GoodNotBeEmpty_WhenNull()
+	{
+		((string)null).Should().Not.BeEmpty();
 	}
 
 	[Fact]
@@ -227,6 +380,18 @@ public class StringComparerTests : BaseTest
 	public void GoodNotBeNull()
 	{
 		"hello".Should().Not.BeNull();
+	}
+
+	[Fact]
+	public void GoodNotBeNullOrEmpty()
+	{
+		"hello".Should().Not.BeNullOrEmpty();
+	}
+
+	[Fact]
+	public void GoodNotBeNullOrWhiteSpace()
+	{
+		"hello".Should().Not.BeNullOrWhiteSpace();
 	}
 
 	[Fact]

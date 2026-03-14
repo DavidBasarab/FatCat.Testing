@@ -10,7 +10,19 @@ public class StringComparer(string subject) : ComparerBase<string, StringCompare
 	public StringComparer Be(string expected, Options options = Options.CaseSensitive, string because = null)
 	{
 		if (!StringEqualityHelper.AreEqual(Subject, expected, options))
+		{
 			CompareException.New(because ?? $"{Subject} should be {expected}");
+		}
+
+		return this;
+	}
+
+	public StringComparer BeEmpty(string because = null)
+	{
+		if (Subject != string.Empty)
+		{
+			CompareException.New(because ?? $"{Subject ?? "null"} should be empty");
+		}
 
 		return this;
 	}
@@ -22,7 +34,9 @@ public class StringComparer(string subject) : ComparerBase<string, StringCompare
 	)
 	{
 		if (!StringEqualityHelper.AreEqual(Subject, expected, options))
+		{
 			CompareException.New(because ?? $"{Subject} should be equivalent to {expected}");
+		}
 
 		return this;
 	}
@@ -30,7 +44,29 @@ public class StringComparer(string subject) : ComparerBase<string, StringCompare
 	public StringComparer BeNull(string because = null)
 	{
 		if (Subject != null)
+		{
 			CompareException.New(because ?? $"{Subject} should be null");
+		}
+
+		return this;
+	}
+
+	public StringComparer BeNullOrEmpty(string because = null)
+	{
+		if (!string.IsNullOrEmpty(Subject))
+		{
+			CompareException.New(because ?? $"{Subject} should be null or empty");
+		}
+
+		return this;
+	}
+
+	public StringComparer BeNullOrWhiteSpace(string because = null)
+	{
+		if (!string.IsNullOrWhiteSpace(Subject))
+		{
+			CompareException.New(because ?? $"{Subject} should be null or whitespace");
+		}
 
 		return this;
 	}
@@ -38,7 +74,9 @@ public class StringComparer(string subject) : ComparerBase<string, StringCompare
 	public StringComparer HaveValue(string because = null)
 	{
 		if (Subject == null)
+		{
 			CompareException.New(because ?? "subject should have a value");
+		}
 
 		return this;
 	}

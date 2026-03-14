@@ -1,6 +1,6 @@
 # Task
 
-Adding equality assertions for strings
+Adding Null / Empty / Whitespace assertions for strings
 
 ## Feature Context
 
@@ -9,23 +9,20 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 ## Tasks
 
 - [ ]  Adding new folder for the Strings comparers
-- [ ]  `"item".Should().Be(string expected)` this will be case sensitive
-- [ ]  `"item".Should().Be(string expected, Options.IgnoreCase)` this will IgnoreCase valid Options are `CaseSensitive`, `IgnoreCase` and will default to `CaseSensitive`
-- [ ]  `"item".Should().Not.Be(string expected)` this will be case sensitive
-- [ ]  `"item".Should().Not.Be(string expected, Options.IgnoreCase)` this will IgnoreCase valid Options are `CaseSensitive`, `IgnoreCase` and will default to `CaseSensitive`
-- [ ]  `"item".Should().Be(string expected)` this will be case sensitive
-- [ ]  `"item".Should().Be(string expected, Options.IgnoreCase)` this will IgnoreCase valid Options are `CaseSensitive`, `IgnoreCase` and will default to `CaseSensitive`
-- [ ]  `"item".Should().Not.Be(string expected)` this will be case sensitive
-- [ ]  `"item".Should().Not.Be(string expected, Options.IgnoreCase)` this will IgnoreCase valid Options are `CaseSensitive`, `IgnoreCase` and will default to `CaseSensitive`
-- [ ]  `"item".Should().BeEquivalentTo(string expected)` this will be case sensitive
-- [ ]  `"item".Should().BeEquivalentTo(string expected, Options.IgnoreCase)` this will IgnoreCase valid Options are `CaseSensitive`, `IgnoreCase` and will default to `CaseSensitive`
-- [ ]  `"item".Should().Not.BeEquivalentTo(string expected)` this will be case sensitive
-- [ ]  `"item".Should().Not.BeEquivalentTo(string expected, Options.IgnoreCase)` this will IgnoreCase valid Options are `CaseSensitive`, `IgnoreCase` and will default to `CaseSensitive`
+- [ ]  `"item".Should().BeNull()` if the string is empty then this would be false
+- [ ]  `"item".Should().Not.BeNull()`
+- [ ]  `"item".Should().BeEmpty()`  — string.Empty only
+- [ ]  `"item".Should().Not.BeEmpty()` 
+- [ ]  `"item".Should().BeNullOrEmpty()` — null or ""
+- [ ]  `"item".Should().Not.BeNullOrEmpty()` 
+- [ ]  `"item".Should().BeNullOrWhiteSpace()`  — null, empty, or all whitespace
+- [ ]  `"item".Should().Not.BeNullOrWhiteSpace()` 
 - [ ]  Add methods for nullable strings as well
+- [ ]  Ensure all compares have a because reason
 
 ## Required Steps
 
-1. Run `jb cleanupcode` on all created/modified `.cs` files using the `Toolkit_Default` profile
+1. Run `jb cleanupcode` on all created/modified `.cs` files using the `CineMassive_Default` profile
 
 ## Verification
 
