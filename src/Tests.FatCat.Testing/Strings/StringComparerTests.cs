@@ -76,6 +76,36 @@ public class StringComparerTests : BaseTest
 	}
 
 	[Fact]
+	public void BadBeLowerCasedWithBecause()
+	{
+		RunCompareFailTest(() => "HELLO".Should().BeLowerCased("custom because"), "custom because");
+	}
+
+	[Fact]
+	public void BadBeLowerCased_MixedCase()
+	{
+		RunCompareFailTest(() => "Hello".Should().BeLowerCased(), "Hello should be lower cased");
+	}
+
+	[Fact]
+	public void BadBeLowerCased_NoLetters()
+	{
+		RunCompareFailTest(() => "123".Should().BeLowerCased(), "123 should be lower cased");
+	}
+
+	[Fact]
+	public void BadBeLowerCased_UpperCase()
+	{
+		RunCompareFailTest(() => "HELLO".Should().BeLowerCased(), "HELLO should be lower cased");
+	}
+
+	[Fact]
+	public void BadBeLowerCased_WhenNull()
+	{
+		RunCompareFailTest(() => ((string)null).Should().BeLowerCased(), "null should be lower cased");
+	}
+
+	[Fact]
 	public void BadBeNull()
 	{
 		RunCompareFailTest(() => "hello".Should().BeNull(), "hello should be null");
@@ -113,6 +143,36 @@ public class StringComparerTests : BaseTest
 	public void BadBeNullWithBecause()
 	{
 		RunCompareFailTest(() => "hello".Should().BeNull("custom because"), "custom because");
+	}
+
+	[Fact]
+	public void BadBeUpperCasedWithBecause()
+	{
+		RunCompareFailTest(() => "hello".Should().BeUpperCased("custom because"), "custom because");
+	}
+
+	[Fact]
+	public void BadBeUpperCased_LowerCase()
+	{
+		RunCompareFailTest(() => "hello".Should().BeUpperCased(), "hello should be upper cased");
+	}
+
+	[Fact]
+	public void BadBeUpperCased_MixedCase()
+	{
+		RunCompareFailTest(() => "Hello".Should().BeUpperCased(), "Hello should be upper cased");
+	}
+
+	[Fact]
+	public void BadBeUpperCased_NoLetters()
+	{
+		RunCompareFailTest(() => "123".Should().BeUpperCased(), "123 should be upper cased");
+	}
+
+	[Fact]
+	public void BadBeUpperCased_WhenNull()
+	{
+		RunCompareFailTest(() => ((string)null).Should().BeUpperCased(), "null should be upper cased");
 	}
 
 	[Fact]
@@ -392,6 +452,18 @@ public class StringComparerTests : BaseTest
 	}
 
 	[Fact]
+	public void BadNotBeLowerCased()
+	{
+		RunCompareFailTest(() => "hello".Should().Not.BeLowerCased(), "hello should not be lower cased");
+	}
+
+	[Fact]
+	public void BadNotBeLowerCasedWithBecause()
+	{
+		RunCompareFailTest(() => "hello".Should().Not.BeLowerCased("custom because"), "custom because");
+	}
+
+	[Fact]
 	public void BadNotBeNull()
 	{
 		RunCompareFailTest(() => ((string)null).Should().Not.BeNull(), "subject should not be null");
@@ -446,6 +518,18 @@ public class StringComparerTests : BaseTest
 	public void BadNotBeNullWithBecause()
 	{
 		RunCompareFailTest(() => ((string)null).Should().Not.BeNull("custom because"), "custom because");
+	}
+
+	[Fact]
+	public void BadNotBeUpperCased()
+	{
+		RunCompareFailTest(() => "HELLO".Should().Not.BeUpperCased(), "HELLO should not be upper cased");
+	}
+
+	[Fact]
+	public void BadNotBeUpperCasedWithBecause()
+	{
+		RunCompareFailTest(() => "HELLO".Should().Not.BeUpperCased("custom because"), "custom because");
 	}
 
 	[Fact]
@@ -718,6 +802,20 @@ public class StringComparerTests : BaseTest
 		"hello".Should().Be("HELLO", Options.IgnoreCase);
 	}
 
+	// BeLowerCased
+
+	[Fact]
+	public void GoodBeLowerCased()
+	{
+		"hello".Should().BeLowerCased();
+	}
+
+	[Fact]
+	public void GoodBeLowerCased_WithNonLetters()
+	{
+		"hello 123".Should().BeLowerCased();
+	}
+
 	[Fact]
 	public void GoodBeNull()
 	{
@@ -752,6 +850,20 @@ public class StringComparerTests : BaseTest
 	public void GoodBeNullOrWhiteSpace_WhenWhiteSpace()
 	{
 		"   ".Should().BeNullOrWhiteSpace();
+	}
+
+	// BeUpperCased
+
+	[Fact]
+	public void GoodBeUpperCased()
+	{
+		"HELLO".Should().BeUpperCased();
+	}
+
+	[Fact]
+	public void GoodBeUpperCased_WithNonLetters()
+	{
+		"HELLO 123".Should().BeUpperCased();
 	}
 
 	// Contain (simple)
@@ -924,6 +1036,20 @@ public class StringComparerTests : BaseTest
 		"hello".Should().Not.Be("world", Options.IgnoreCase);
 	}
 
+	// Not.BeLowerCased
+
+	[Fact]
+	public void GoodNotBeLowerCased_UpperCase()
+	{
+		"HELLO".Should().Not.BeLowerCased();
+	}
+
+	[Fact]
+	public void GoodNotBeLowerCased_WhenNull()
+	{
+		((string)null).Should().Not.BeLowerCased();
+	}
+
 	[Fact]
 	public void GoodNotBeNull()
 	{
@@ -940,6 +1066,20 @@ public class StringComparerTests : BaseTest
 	public void GoodNotBeNullOrWhiteSpace()
 	{
 		"hello".Should().Not.BeNullOrWhiteSpace();
+	}
+
+	// Not.BeUpperCased
+
+	[Fact]
+	public void GoodNotBeUpperCased_LowerCase()
+	{
+		"hello".Should().Not.BeUpperCased();
+	}
+
+	[Fact]
+	public void GoodNotBeUpperCased_WhenNull()
+	{
+		((string)null).Should().Not.BeUpperCased();
 	}
 
 	// Not.Contain

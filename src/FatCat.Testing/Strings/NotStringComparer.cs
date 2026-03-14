@@ -39,6 +39,16 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
+	public NotStringComparer BeLowerCased(string because = null)
+	{
+		if (StringEqualityHelper.IsLowerCased(Subject))
+		{
+			CompareException.New(because ?? $"{Subject} should not be lower cased");
+		}
+
+		return this;
+	}
+
 	public NotStringComparer BeNull(string because = null)
 	{
 		if (Subject == null)
@@ -71,6 +81,16 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 				: Subject;
 
 			CompareException.New(because ?? $"{display} should not be null or whitespace");
+		}
+
+		return this;
+	}
+
+	public NotStringComparer BeUpperCased(string because = null)
+	{
+		if (StringEqualityHelper.IsUpperCased(Subject))
+		{
+			CompareException.New(because ?? $"{Subject} should not be upper cased");
 		}
 
 		return this;

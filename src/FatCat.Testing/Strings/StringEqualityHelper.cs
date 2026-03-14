@@ -30,6 +30,16 @@ internal static class StringEqualityHelper
 		return count;
 	}
 
+	internal static bool IsLowerCased(string value)
+	{
+		return value != null && value.Any(char.IsLetter) && value.All(c => !char.IsLetter(c) || char.IsLower(c));
+	}
+
+	internal static bool IsUpperCased(string value)
+	{
+		return value != null && value.Any(char.IsLetter) && value.All(c => !char.IsLetter(c) || char.IsUpper(c));
+	}
+
 	internal static StringComparison ToComparison(Options options)
 	{
 		return options == Options.IgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;

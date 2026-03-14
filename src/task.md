@@ -1,6 +1,6 @@
 # Task
 
-String Contains assertions
+Test refactoring, they are getting large for one file and it would be hard for people to read and understand.  Break up the tests into logical groupings.
 
 ## Feature Context
 
@@ -8,15 +8,8 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 
 ## Tasks
 
-- [ ]  item.Should().Contain(string expected) — case-sensitive
-- [ ]  item.Should().Contain(string expected, OccurrenceConstraint occurrence) — with occurrence count e.g. Exactly.Once(), AtLeast.Twice(), AtMost.Times(5), MoreThan.Thrice(), LessThan.Twice()
-- [ ]  item.Should().Not.Contain(string expected)
-- [ ]  item.Should().ContainAll(params string[] expected) — must contain every substring
-- [ ]  item.Should().Not.ContainAll(params string[] expected) — must not contain ALL of them (can contain some)
-- [ ]  item.Should().ContainAny(params string[] expected) — must contain at least one
-- [ ]  item.Should().Not.ContainAny(params string[] expected) — must contain none
-- [ ]  Add Options options = Options.CaseSensitive to all methods for strings
-- [ ]  Ensure all compares have a because reason
+- [ ]  Refactor Numbers Tests IntComparerTests, move into Numbers folder, put tests into logical groupings on class per grouping.
+- [ ]  Refactor String tests move tests into logical groupings by class.
 
 ## Required Steps
 

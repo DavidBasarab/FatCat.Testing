@@ -41,6 +41,16 @@ public class StringComparer(string subject) : ComparerBase<string, StringCompare
 		return this;
 	}
 
+	public StringComparer BeLowerCased(string because = null)
+	{
+		if (!StringEqualityHelper.IsLowerCased(Subject))
+		{
+			CompareException.New(because ?? $"{Subject ?? "null"} should be lower cased");
+		}
+
+		return this;
+	}
+
 	public StringComparer BeNull(string because = null)
 	{
 		if (Subject != null)
@@ -66,6 +76,16 @@ public class StringComparer(string subject) : ComparerBase<string, StringCompare
 		if (!string.IsNullOrWhiteSpace(Subject))
 		{
 			CompareException.New(because ?? $"{Subject} should be null or whitespace");
+		}
+
+		return this;
+	}
+
+	public StringComparer BeUpperCased(string because = null)
+	{
+		if (!StringEqualityHelper.IsUpperCased(Subject))
+		{
+			CompareException.New(because ?? $"{Subject ?? "null"} should be upper cased");
 		}
 
 		return this;
