@@ -1,16 +1,17 @@
+using FatCat.Testing.Comparers;
 using FatCat.Testing.Exceptions;
 
 namespace FatCat.Testing.Numbers;
 
-public class IntComparer(int subject)
+public class IntComparer(int subject) : ComparerBase<int, IntComparer>(subject)
 {
 	public NotIntComparer Not { get; } = new(subject);
 
 	public IntComparer Be(int expected, string because = null)
 	{
-		if (subject != expected)
+		if (Subject != expected)
 		{
-			CompareException.New(because ?? $"{subject} should be {expected}");
+			CompareException.New(because ?? $"{Subject} should be {expected}");
 		}
 
 		return this;
@@ -18,9 +19,9 @@ public class IntComparer(int subject)
 
 	public IntComparer BeAround(int center, int tolerance, string because = null)
 	{
-		if (Math.Abs(subject - center) > tolerance)
+		if (Math.Abs(Subject - center) > tolerance)
 		{
-			CompareException.New(because ?? $"{subject} should be around {center} within {tolerance}");
+			CompareException.New(because ?? $"{Subject} should be around {center} within {tolerance}");
 		}
 
 		return this;
@@ -28,9 +29,9 @@ public class IntComparer(int subject)
 
 	public IntComparer BeGreaterThan(int expected, string because = null)
 	{
-		if (subject < expected)
+		if (Subject < expected)
 		{
-			CompareException.New(because ?? $"{subject} should be greater than {expected}");
+			CompareException.New(because ?? $"{Subject} should be greater than {expected}");
 		}
 
 		return this;
@@ -38,9 +39,9 @@ public class IntComparer(int subject)
 
 	public IntComparer BeInRange(int lower, int upper, string because = null)
 	{
-		if (subject < lower || subject > upper)
+		if (Subject < lower || Subject > upper)
 		{
-			CompareException.New(because ?? $"{subject} should be between {lower} and {upper}");
+			CompareException.New(because ?? $"{Subject} should be between {lower} and {upper}");
 		}
 
 		return this;
@@ -48,9 +49,9 @@ public class IntComparer(int subject)
 
 	public IntComparer BeLessThan(int expected, string because = null)
 	{
-		if (subject > expected)
+		if (Subject > expected)
 		{
-			CompareException.New(because ?? $"{subject} should be less than {expected}");
+			CompareException.New(because ?? $"{Subject} should be less than {expected}");
 		}
 
 		return this;
@@ -58,9 +59,9 @@ public class IntComparer(int subject)
 
 	public IntComparer BeNegative(string because = null)
 	{
-		if (subject >= 0)
+		if (Subject >= 0)
 		{
-			CompareException.New(because ?? $"{subject} should be negative");
+			CompareException.New(because ?? $"{Subject} should be negative");
 		}
 
 		return this;
@@ -68,9 +69,9 @@ public class IntComparer(int subject)
 
 	public IntComparer BePositive(string because = null)
 	{
-		if (subject <= 0)
+		if (Subject <= 0)
 		{
-			CompareException.New(because ?? $"{subject} should be positive");
+			CompareException.New(because ?? $"{Subject} should be positive");
 		}
 
 		return this;
@@ -78,9 +79,9 @@ public class IntComparer(int subject)
 
 	public IntComparer BeZero(string because = null)
 	{
-		if (subject != 0)
+		if (Subject != 0)
 		{
-			CompareException.New(because ?? $"{subject} should be zero");
+			CompareException.New(because ?? $"{Subject} should be zero");
 		}
 
 		return this;
@@ -88,9 +89,9 @@ public class IntComparer(int subject)
 
 	public IntComparer Match(Func<int, bool> predicate, string because = null)
 	{
-		if (!predicate(subject))
+		if (!predicate(Subject))
 		{
-			CompareException.New(because ?? $"{subject} did not match the predicate");
+			CompareException.New(because ?? $"{Subject} did not match the predicate");
 		}
 
 		return this;

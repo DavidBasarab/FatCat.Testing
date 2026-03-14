@@ -26,7 +26,7 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 
 ## Required Steps
 
-1. Run `jb cleanupcode` on all created/modified `.cs` files using the `CineMassive_Default` profile
+1. Run `jb cleanupcode` on all created/modified `.cs` files using the `Toolkit_Default` profile
 
 ## Verification
 
@@ -46,4 +46,5 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 
 ## Notes
 
+- The general object assertions will be used for all valid types.
 - If there is any logical abstraction or bases classes that should be added put them in.

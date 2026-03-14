@@ -1,14 +1,15 @@
+using FatCat.Testing.Comparers;
 using FatCat.Testing.Exceptions;
 
 namespace FatCat.Testing.Numbers;
 
-public class NotIntComparer(int subject)
+public class NotIntComparer(int subject) : NotComparerBase<int, NotIntComparer>(subject)
 {
 	public NotIntComparer Be(int expected, string because = null)
 	{
-		if (subject == expected)
+		if (Subject == expected)
 		{
-			CompareException.New(because ?? $"{expected} should not be {subject}");
+			CompareException.New(because ?? $"{expected} should not be {Subject}");
 		}
 
 		return this;
@@ -16,9 +17,9 @@ public class NotIntComparer(int subject)
 
 	public NotIntComparer BeGreaterThan(int expected, string because = null)
 	{
-		if (subject > expected)
+		if (Subject > expected)
 		{
-			CompareException.New(because ?? $"{subject} should not be greater than {expected}");
+			CompareException.New(because ?? $"{Subject} should not be greater than {expected}");
 		}
 
 		return this;
@@ -26,9 +27,9 @@ public class NotIntComparer(int subject)
 
 	public NotIntComparer BeInRange(int lower, int upper, string because = null)
 	{
-		if (subject >= lower && subject <= upper)
+		if (Subject >= lower && Subject <= upper)
 		{
-			CompareException.New(because ?? $"{subject} should not be between {lower} and {upper}");
+			CompareException.New(because ?? $"{Subject} should not be between {lower} and {upper}");
 		}
 
 		return this;
@@ -36,9 +37,9 @@ public class NotIntComparer(int subject)
 
 	public NotIntComparer BeLessThan(int expected, string because = null)
 	{
-		if (subject < expected)
+		if (Subject < expected)
 		{
-			CompareException.New(because ?? $"{subject} should not be less than {expected}");
+			CompareException.New(because ?? $"{Subject} should not be less than {expected}");
 		}
 
 		return this;
@@ -46,9 +47,9 @@ public class NotIntComparer(int subject)
 
 	public NotIntComparer BeNegative(string because = null)
 	{
-		if (subject < 0)
+		if (Subject < 0)
 		{
-			CompareException.New(because ?? $"{subject} should not be negative");
+			CompareException.New(because ?? $"{Subject} should not be negative");
 		}
 
 		return this;
@@ -56,9 +57,9 @@ public class NotIntComparer(int subject)
 
 	public NotIntComparer BePositive(string because = null)
 	{
-		if (subject > 0)
+		if (Subject > 0)
 		{
-			CompareException.New(because ?? $"{subject} should not be positive");
+			CompareException.New(because ?? $"{Subject} should not be positive");
 		}
 
 		return this;
@@ -66,9 +67,9 @@ public class NotIntComparer(int subject)
 
 	public NotIntComparer BeZero(string because = null)
 	{
-		if (subject == 0)
+		if (Subject == 0)
 		{
-			CompareException.New(because ?? $"{subject} should not be zero");
+			CompareException.New(because ?? $"{Subject} should not be zero");
 		}
 
 		return this;
@@ -76,9 +77,9 @@ public class NotIntComparer(int subject)
 
 	public NotIntComparer Match(Func<int, bool> predicate, string because = null)
 	{
-		if (predicate(subject))
+		if (predicate(Subject))
 		{
-			CompareException.New(because ?? $"{subject} should not match the predicate");
+			CompareException.New(because ?? $"{Subject} should not match the predicate");
 		}
 
 		return this;

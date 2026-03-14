@@ -1,19 +1,20 @@
+using FatCat.Testing.Comparers;
 using FatCat.Testing.Exceptions;
 
 namespace FatCat.Testing.Numbers;
 
-public class NullableIntComparer(int? subject)
+public class NullableIntComparer(int? subject) : ComparerBase<int?, NullableIntComparer>(subject)
 {
 	public NotNullableIntComparer Not { get; } = new(subject);
 
 	private string SubjectDisplay
 	{
-		get => subject.HasValue ? $"{subject.Value}" : "null";
+		get => Subject.HasValue ? $"{Subject.Value}" : "null";
 	}
 
 	public NullableIntComparer Be(int expected, string because = null)
 	{
-		if (!subject.HasValue || subject.Value != expected)
+		if (!Subject.HasValue || Subject.Value != expected)
 		{
 			CompareException.New(because ?? $"{SubjectDisplay} should be {expected}");
 		}
@@ -23,7 +24,7 @@ public class NullableIntComparer(int? subject)
 
 	public NullableIntComparer BeAround(int center, int tolerance, string because = null)
 	{
-		if (!subject.HasValue || Math.Abs(subject.Value - center) > tolerance)
+		if (!Subject.HasValue || Math.Abs(Subject.Value - center) > tolerance)
 		{
 			CompareException.New(because ?? $"{SubjectDisplay} should be around {center} within {tolerance}");
 		}
@@ -33,7 +34,7 @@ public class NullableIntComparer(int? subject)
 
 	public NullableIntComparer BeGreaterThan(int expected, string because = null)
 	{
-		if (!subject.HasValue || subject.Value < expected)
+		if (!Subject.HasValue || Subject.Value < expected)
 		{
 			CompareException.New(because ?? $"{SubjectDisplay} should be greater than {expected}");
 		}
@@ -43,7 +44,7 @@ public class NullableIntComparer(int? subject)
 
 	public NullableIntComparer BeInRange(int lower, int upper, string because = null)
 	{
-		if (!subject.HasValue || subject.Value < lower || subject.Value > upper)
+		if (!Subject.HasValue || Subject.Value < lower || Subject.Value > upper)
 		{
 			CompareException.New(because ?? $"{SubjectDisplay} should be between {lower} and {upper}");
 		}
@@ -53,7 +54,7 @@ public class NullableIntComparer(int? subject)
 
 	public NullableIntComparer BeLessThan(int expected, string because = null)
 	{
-		if (!subject.HasValue || subject.Value > expected)
+		if (!Subject.HasValue || Subject.Value > expected)
 		{
 			CompareException.New(because ?? $"{SubjectDisplay} should be less than {expected}");
 		}
@@ -63,7 +64,7 @@ public class NullableIntComparer(int? subject)
 
 	public NullableIntComparer BeNegative(string because = null)
 	{
-		if (!subject.HasValue || subject.Value >= 0)
+		if (!Subject.HasValue || Subject.Value >= 0)
 		{
 			CompareException.New(because ?? $"{SubjectDisplay} should be negative");
 		}
@@ -73,9 +74,9 @@ public class NullableIntComparer(int? subject)
 
 	public NullableIntComparer BeNull(string because = null)
 	{
-		if (subject.HasValue)
+		if (Subject.HasValue)
 		{
-			CompareException.New(because ?? $"{subject.Value} should be null");
+			CompareException.New(because ?? $"{Subject.Value} should be null");
 		}
 
 		return this;
@@ -83,7 +84,7 @@ public class NullableIntComparer(int? subject)
 
 	public NullableIntComparer BePositive(string because = null)
 	{
-		if (!subject.HasValue || subject.Value <= 0)
+		if (!Subject.HasValue || Subject.Value <= 0)
 		{
 			CompareException.New(because ?? $"{SubjectDisplay} should be positive");
 		}
@@ -93,7 +94,7 @@ public class NullableIntComparer(int? subject)
 
 	public NullableIntComparer BeZero(string because = null)
 	{
-		if (!subject.HasValue || subject.Value != 0)
+		if (!Subject.HasValue || Subject.Value != 0)
 		{
 			CompareException.New(because ?? $"{SubjectDisplay} should be zero");
 		}
@@ -103,7 +104,7 @@ public class NullableIntComparer(int? subject)
 
 	public NullableIntComparer HaveValue(string because = null)
 	{
-		if (!subject.HasValue)
+		if (!Subject.HasValue)
 		{
 			CompareException.New(because ?? "value should not be null");
 		}
@@ -113,7 +114,7 @@ public class NullableIntComparer(int? subject)
 
 	public NullableIntComparer Match(Func<int, bool> predicate, string because = null)
 	{
-		if (!subject.HasValue || !predicate(subject.Value))
+		if (!Subject.HasValue || !predicate(Subject.Value))
 		{
 			CompareException.New(because ?? $"{SubjectDisplay} did not match the predicate");
 		}

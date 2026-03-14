@@ -20,7 +20,7 @@
 1. <!-- Step 1 -->
 2. <!-- Step 2 -->
 3. <!-- Step 3 -->
-4. Run `jb cleanupcode` on all created/modified `.cs` files using the `CineMassive_Default` profile
+4. Run `jb cleanupcode` on all created/modified `.cs` files using the `Toolkit_Default` profile
 
 ## Verification
 
