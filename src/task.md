@@ -1,6 +1,6 @@
 # Task
 
-Add Nullability for int
+General Object Assertions (inherited by all types via Should())
 
 ## Feature Context
 
@@ -8,11 +8,20 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 
 ## Tasks
 
-- [ ] Add `3?.Should().Be(3)`
-- [ ] Add `someValue?.Should().BeNull()`
-- [ ] Add `someValue?.Should().HaveValue()`
-- [ ] Add `someValue?.Should().Not.HaveValue()`
-- [ ] Add all other valid methods to be used as a nullable int.  This would mean that you can do `3.Should().BePositive()` and `3?.Should().BePositive()`
+- [ ] Add `3.Should().BeOneOf(2, 3, 4, 5)`
+- [ ] Add `3.Should().BeOneOf(someIntList)`
+- [ ] Add `3.Should().BeOfType<T>()`
+- [ ] Add `3.Should().BeOfType(Type t)`
+- [ ] Add `3.Should().BeAssignableTo<T>()`
+- [ ] Add `3.Should().BeAssignableTo(Type t)`
+- [ ] Add `3.Should().Not.BeOneOf(2, 3, 4, 5)`
+- [ ] Add `3.Should().Not.BeOneOf(someIntList)`
+- [ ] Add `3.Should().Not.BeOfType<T>()`
+- [ ] Add `3.Should().Not.BeOfType(Type t)`
+- [ ] Add `3.Should().Not.BeAssignableTo<T>()`
+- [ ] Add `3.Should().Not.BeAssignableTo(Type t)`
+- [ ] Satisfy(Action<int> inspector) — runs nested assertions
+- [ ] Add all other valid methods to be used as a nullable int.
 - [ ] Add a because reason to each added method
 
 ## Required Steps
@@ -37,5 +46,4 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 
 ## Notes
 
-- Nullable Int Comparing should be in a separate file than the IntCompare.
 - If there is any logical abstraction or bases classes that should be added put them in.
