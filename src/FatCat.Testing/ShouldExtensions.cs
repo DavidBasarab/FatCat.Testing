@@ -8,4 +8,9 @@ public static class ShouldExtensions
 	{
 		return new IntComparer(subject);
 	}
+
+	public static NullableIntComparer Should(this int? subject)
+	{
+		return new NullableIntComparer(subject);
+	}
 }

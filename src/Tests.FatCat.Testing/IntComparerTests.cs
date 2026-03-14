@@ -9,12 +9,6 @@ public class IntComparerTests : BaseTest
 	}
 
 	[Fact]
-	public void Playing()
-	{
-		1.Should().Be(3);
-	}
-
-	[Fact]
 	public void BadBeAroundWithBecause()
 	{
 		RunCompareFailTest(() => 5.Should().BeAround(2, 2, "custom because"), "custom because");
@@ -102,6 +96,18 @@ public class IntComparerTests : BaseTest
 	}
 
 	[Fact]
+	public void BadMatch()
+	{
+		RunCompareFailTest(() => 3.Should().Match(x => x % 2 == 0), "3 did not match the predicate");
+	}
+
+	[Fact]
+	public void BadMatchWithBecause()
+	{
+		RunCompareFailTest(() => 3.Should().Match(x => x % 2 == 0, "custom because"), "custom because");
+	}
+
+	[Fact]
 	public void BadNotBeGreaterThan()
 	{
 		RunCompareFailTest(() => 5.Should().Not.BeGreaterThan(3), "5 should not be greater than 3");
@@ -186,6 +192,18 @@ public class IntComparerTests : BaseTest
 	}
 
 	[Fact]
+	public void BadNotMatch()
+	{
+		RunCompareFailTest(() => 4.Should().Not.Match(x => x % 2 == 0), "4 should not match the predicate");
+	}
+
+	[Fact]
+	public void BadNotMatchWithBecause()
+	{
+		RunCompareFailTest(() => 4.Should().Not.Match(x => x % 2 == 0, "custom because"), "custom because");
+	}
+
+	[Fact]
 	public void BasicFail()
 	{
 		RunCompareFailTest(() => 1.Should().Be(2));
@@ -250,6 +268,12 @@ public class IntComparerTests : BaseTest
 	}
 
 	[Fact]
+	public void GoodMatch()
+	{
+		4.Should().Match(x => x % 2 == 0);
+	}
+
+	[Fact]
 	public void GoodNotBeGreaterThan()
 	{
 		2.Should().Not.BeGreaterThan(3);
@@ -295,6 +319,12 @@ public class IntComparerTests : BaseTest
 	public void GoodNotEqual()
 	{
 		1.Should().Not.Be(2);
+	}
+
+	[Fact]
+	public void GoodNotMatch()
+	{
+		3.Should().Not.Match(x => x % 2 == 0);
 	}
 
 	[Fact]

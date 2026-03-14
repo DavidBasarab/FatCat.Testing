@@ -85,4 +85,14 @@ public class IntComparer(int subject)
 
 		return this;
 	}
+
+	public IntComparer Match(Func<int, bool> predicate, string because = null)
+	{
+		if (!predicate(subject))
+		{
+			CompareException.New(because ?? $"{subject} did not match the predicate");
+		}
+
+		return this;
+	}
 }

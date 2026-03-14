@@ -73,4 +73,14 @@ public class NotIntComparer(int subject)
 
 		return this;
 	}
+
+	public NotIntComparer Match(Func<int, bool> predicate, string because = null)
+	{
+		if (predicate(subject))
+		{
+			CompareException.New(because ?? $"{subject} should not match the predicate");
+		}
+
+		return this;
+	}
 }
