@@ -21,3 +21,5 @@ These are banned outright. Do not use them. Do not suggest them.
 - No abbreviations that don't meet the top-3 Google rule
 - No more than one class per file (except interface + direct implementation)
 - No namespace that does not match the folder path exactly
+- No dead code — if code is no longer needed, delete it entirely
+- No classes made redundant by abstraction — when a generic or base class replaces a concrete class, delete the concrete class and remove all references to it
