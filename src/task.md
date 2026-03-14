@@ -1,28 +1,25 @@
 # Task
 
-General Object Assertions (inherited by all types via Should())
+Using the int as a base we are going to create other assertions for the other C# number primitives
 
 ## Feature Context
 
-This will be a replacement for FluentAssertions.  The syntax will be slightly different and the intention is to use it with doing unit tests in C#.  This first feature is to focus on implement the checks for the int.
+This will be a replacement for FluentAssertions.  The syntax will be slightly different and the intention is to use it with doing unit tests in C#.  This first feature is to focus on implement the checks for the number primitives.
 
 ## Tasks
 
-- [ ] Add `3.Should().BeOneOf(2, 3, 4, 5)`
-- [ ] Add `3.Should().BeOneOf(someIntList)`
-- [ ] Add `3.Should().BeOfType<T>()`
-- [ ] Add `3.Should().BeOfType(Type t)`
-- [ ] Add `3.Should().BeAssignableTo<T>()`
-- [ ] Add `3.Should().BeAssignableTo(Type t)`
-- [ ] Add `3.Should().Not.BeOneOf(2, 3, 4, 5)`
-- [ ] Add `3.Should().Not.BeOneOf(someIntList)`
-- [ ] Add `3.Should().Not.BeOfType<T>()`
-- [ ] Add `3.Should().Not.BeOfType(Type t)`
-- [ ] Add `3.Should().Not.BeAssignableTo<T>()`
-- [ ] Add `3.Should().Not.BeAssignableTo(Type t)`
-- [ ] Satisfy(Action<int> inspector) — runs nested assertions
-- [ ] Add all other valid methods to be used as a nullable int.
-- [ ] Add a because reason to each added method
+- [ ]  Assertion for `byte`
+- [ ]  Assertion for `sbyte`
+- [ ]  Assertion for `short`
+- [ ]  Assertion for `ushort`
+- [ ]  Assertion for `uint`
+- [ ]  Assertion for `long`
+- [ ]  Assertion for `ulong`
+- [ ]  Assertion for `nint`
+- [ ]  Assertion for `unit`
+- [ ]  Assertion for `float`
+- [ ]  Assertion for `double`
+- [ ]  Assertion for `decimal`
 
 ## Required Steps
 
@@ -47,4 +44,6 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 ## Notes
 
 - The general object assertions will be used for all valid types.
+- Keep the types in there own logical files
+- Use Templates to keep the code cleaner and less of it
 - If there is any logical abstraction or bases classes that should be added put them in.
