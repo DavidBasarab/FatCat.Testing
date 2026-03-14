@@ -355,3 +355,4 @@ MigrationBackup/
 *.sln.iml
 .vsCode/
 *appsettings.development.json*
+/src/task.md
