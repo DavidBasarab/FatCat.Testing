@@ -121,6 +121,141 @@ public class StringComparerTests : BaseTest
 		RunCompareFailTest(() => "hello".Should().Be("world", because: "custom because"), "custom because");
 	}
 
+	[Fact]
+	public void BadContain()
+	{
+		RunCompareFailTest(() => "hello world".Should().Contain("xyz"), "hello world should contain xyz");
+	}
+
+	[Fact]
+	public void BadContainAllWithBecause()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().ContainAll(["xyz"], because: "custom because"),
+			"custom because"
+		);
+	}
+
+	[Fact]
+	public void BadContainAll_MissingOne()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().ContainAll(["hello", "xyz"]),
+			"hello world should contain all of [xyz]"
+		);
+	}
+
+	[Fact]
+	public void BadContainAll_WhenNull()
+	{
+		RunCompareFailTest(
+			() => ((string)null).Should().ContainAll(["hello"]),
+			"null should contain all of [hello]"
+		);
+	}
+
+	[Fact]
+	public void BadContainAnyWithBecause()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().ContainAny(["xyz"], because: "custom because"),
+			"custom because"
+		);
+	}
+
+	[Fact]
+	public void BadContainAny_ContainsNone()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().ContainAny(["xyz", "abc"]),
+			"hello world should contain at least one of [xyz, abc]"
+		);
+	}
+
+	[Fact]
+	public void BadContainAny_WhenNull()
+	{
+		RunCompareFailTest(
+			() => ((string)null).Should().ContainAny(["hello"]),
+			"null should contain at least one of [hello]"
+		);
+	}
+
+	[Fact]
+	public void BadContainWithBecause()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Contain("xyz", because: "custom because"),
+			"custom because"
+		);
+	}
+
+	[Fact]
+	public void BadContain_AtLeastTwice()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Contain("hello", AtLeast.Twice()),
+			"hello world should contain hello at least 2 times but found 1"
+		);
+	}
+
+	[Fact]
+	public void BadContain_AtMostThrice()
+	{
+		RunCompareFailTest(
+			() => "hello hello hello hello".Should().Contain("hello", AtMost.Thrice()),
+			"hello hello hello hello should contain hello at most 3 times but found 4"
+		);
+	}
+
+	[Fact]
+	public void BadContain_DifferentCase()
+	{
+		RunCompareFailTest(() => "hello world".Should().Contain("HELLO"), "hello world should contain HELLO");
+	}
+
+	[Fact]
+	public void BadContain_ExactlyOnce_TooFew()
+	{
+		RunCompareFailTest(
+			() => "world".Should().Contain("hello", Exactly.Once()),
+			"world should contain hello exactly 1 time but found 0"
+		);
+	}
+
+	[Fact]
+	public void BadContain_ExactlyOnce_TooMany()
+	{
+		RunCompareFailTest(
+			() => "hello hello".Should().Contain("hello", Exactly.Once()),
+			"hello hello should contain hello exactly 1 time but found 2"
+		);
+	}
+
+	[Fact]
+	public void BadContain_LessThanThrice()
+	{
+		RunCompareFailTest(
+			() => "hello hello hello".Should().Contain("hello", LessThan.Thrice()),
+			"hello hello hello should contain hello less than 3 times but found 3"
+		);
+	}
+
+	[Fact]
+	public void BadContain_MoreThanOnce()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Contain("hello", MoreThan.Once()),
+			"hello world should contain hello more than 1 time but found 1"
+		);
+	}
+
+	[Fact]
+	public void BadContain_WhenNull()
+	{
+		RunCompareFailTest(() => ((string)null).Should().Contain("hello"), "null should contain hello");
+	}
+
 	// EndWith
 
 	[Fact]
@@ -144,7 +279,7 @@ public class StringComparerTests : BaseTest
 	public void BadEndWithEquivalentOfWithBecause()
 	{
 		RunCompareFailTest(
-			() => "hello world".Should().EndWithEquivalentOf("hello", "custom because"),
+			() => "hello world".Should().EndWithEquivalentOf("hello", because: "custom because"),
 			"custom because"
 		);
 	}
@@ -152,7 +287,16 @@ public class StringComparerTests : BaseTest
 	[Fact]
 	public void BadEndWithWithBecause()
 	{
-		RunCompareFailTest(() => "hello world".Should().EndWith("hello", "custom because"), "custom because");
+		RunCompareFailTest(
+			() => "hello world".Should().EndWith("hello", because: "custom because"),
+			"custom because"
+		);
+	}
+
+	[Fact]
+	public void BadEndWith_DifferentCase()
+	{
+		RunCompareFailTest(() => "hello world".Should().EndWith("WORLD"), "hello world should end with WORLD");
 	}
 
 	[Fact]
@@ -311,6 +455,69 @@ public class StringComparerTests : BaseTest
 	}
 
 	[Fact]
+	public void BadNotContain()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Not.Contain("hello"),
+			"hello world should not contain hello"
+		);
+	}
+
+	[Fact]
+	public void BadNotContainAllWithBecause()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Not.ContainAll(["hello", "world"], because: "custom because"),
+			"custom because"
+		);
+	}
+
+	[Fact]
+	public void BadNotContainAll_ContainsAll()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Not.ContainAll(["hello", "world"]),
+			"hello world should not contain all of [hello, world]"
+		);
+	}
+
+	[Fact]
+	public void BadNotContainAny()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Not.ContainAny(["hello", "xyz"]),
+			"hello world should not contain any of [hello, xyz]"
+		);
+	}
+
+	[Fact]
+	public void BadNotContainAnyWithBecause()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Not.ContainAny(["hello"], because: "custom because"),
+			"custom because"
+		);
+	}
+
+	[Fact]
+	public void BadNotContainWithBecause()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Not.Contain("hello", because: "custom because"),
+			"custom because"
+		);
+	}
+
+	[Fact]
+	public void BadNotContain_IgnoreCase()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Not.Contain("HELLO", Options.IgnoreCase),
+			"hello world should not contain HELLO"
+		);
+	}
+
+	[Fact]
 	public void BadNotEndWith()
 	{
 		RunCompareFailTest(
@@ -323,7 +530,7 @@ public class StringComparerTests : BaseTest
 	public void BadNotEndWithEquivalentOf()
 	{
 		RunCompareFailTest(
-			() => "hello world".Should().Not.EndWithEquivalentOf("WORLD"),
+			() => "hello world".Should().Not.EndWithEquivalentOf("WORLD", Options.IgnoreCase),
 			"hello world should not end with equivalent of WORLD"
 		);
 	}
@@ -332,7 +539,7 @@ public class StringComparerTests : BaseTest
 	public void BadNotEndWithEquivalentOfWithBecause()
 	{
 		RunCompareFailTest(
-			() => "hello world".Should().Not.EndWithEquivalentOf("WORLD", "custom because"),
+			() => "hello world".Should().Not.EndWithEquivalentOf("WORLD", Options.IgnoreCase, "custom because"),
 			"custom because"
 		);
 	}
@@ -340,7 +547,19 @@ public class StringComparerTests : BaseTest
 	[Fact]
 	public void BadNotEndWithWithBecause()
 	{
-		RunCompareFailTest(() => "hello world".Should().Not.EndWith("world", "custom because"), "custom because");
+		RunCompareFailTest(
+			() => "hello world".Should().Not.EndWith("world", because: "custom because"),
+			"custom because"
+		);
+	}
+
+	[Fact]
+	public void BadNotEndWith_IgnoreCase()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Not.EndWith("WORLD", Options.IgnoreCase),
+			"hello world should not end with WORLD"
+		);
 	}
 
 	[Fact]
@@ -380,7 +599,7 @@ public class StringComparerTests : BaseTest
 	public void BadNotStartWithEquivalentOf()
 	{
 		RunCompareFailTest(
-			() => "hello world".Should().Not.StartWithEquivalentOf("HELLO"),
+			() => "hello world".Should().Not.StartWithEquivalentOf("HELLO", Options.IgnoreCase),
 			"hello world should not start with equivalent of HELLO"
 		);
 	}
@@ -389,7 +608,7 @@ public class StringComparerTests : BaseTest
 	public void BadNotStartWithEquivalentOfWithBecause()
 	{
 		RunCompareFailTest(
-			() => "hello world".Should().Not.StartWithEquivalentOf("HELLO", "custom because"),
+			() => "hello world".Should().Not.StartWithEquivalentOf("HELLO", Options.IgnoreCase, "custom because"),
 			"custom because"
 		);
 	}
@@ -398,8 +617,17 @@ public class StringComparerTests : BaseTest
 	public void BadNotStartWithWithBecause()
 	{
 		RunCompareFailTest(
-			() => "hello world".Should().Not.StartWith("hello", "custom because"),
+			() => "hello world".Should().Not.StartWith("hello", because: "custom because"),
 			"custom because"
+		);
+	}
+
+	[Fact]
+	public void BadNotStartWith_IgnoreCase()
+	{
+		RunCompareFailTest(
+			() => "hello world".Should().Not.StartWith("HELLO", Options.IgnoreCase),
+			"hello world should not start with HELLO"
 		);
 	}
 
@@ -426,7 +654,7 @@ public class StringComparerTests : BaseTest
 	public void BadStartWithEquivalentOfWithBecause()
 	{
 		RunCompareFailTest(
-			() => "hello world".Should().StartWithEquivalentOf("world", "custom because"),
+			() => "hello world".Should().StartWithEquivalentOf("world", because: "custom because"),
 			"custom because"
 		);
 	}
@@ -434,7 +662,18 @@ public class StringComparerTests : BaseTest
 	[Fact]
 	public void BadStartWithWithBecause()
 	{
-		RunCompareFailTest(() => "hello world".Should().StartWith("world", "custom because"), "custom because");
+		RunCompareFailTest(
+			() => "hello world".Should().StartWith("world", because: "custom because"),
+			"custom because"
+		);
+	}
+
+	// StartWith / EndWith with Options
+
+	[Fact]
+	public void BadStartWith_DifferentCase()
+	{
+		RunCompareFailTest(() => "hello world".Should().StartWith("HELLO"), "hello world should start with HELLO");
 	}
 
 	[Fact]
@@ -515,6 +754,110 @@ public class StringComparerTests : BaseTest
 		"   ".Should().BeNullOrWhiteSpace();
 	}
 
+	// Contain (simple)
+
+	[Fact]
+	public void GoodContain()
+	{
+		"hello world".Should().Contain("hello");
+	}
+
+	// ContainAll
+
+	[Fact]
+	public void GoodContainAll()
+	{
+		"hello world".Should().ContainAll(["hello", "world"]);
+	}
+
+	[Fact]
+	public void GoodContainAll_IgnoreCase()
+	{
+		"hello world".Should().ContainAll(["HELLO", "WORLD"], Options.IgnoreCase);
+	}
+
+	// ContainAny
+
+	[Fact]
+	public void GoodContainAny()
+	{
+		"hello world".Should().ContainAny(["hello", "xyz"]);
+	}
+
+	[Fact]
+	public void GoodContainAny_IgnoreCase()
+	{
+		"hello world".Should().ContainAny(["HELLO", "XYZ"], Options.IgnoreCase);
+	}
+
+	[Fact]
+	public void GoodContain_AtLeastTimes()
+	{
+		"ab ab ab".Should().Contain("ab", AtLeast.Times(2));
+	}
+
+	[Fact]
+	public void GoodContain_AtLeastTwice()
+	{
+		"hello hello hello".Should().Contain("hello", AtLeast.Twice());
+	}
+
+	[Fact]
+	public void GoodContain_AtMostThrice()
+	{
+		"hello hello".Should().Contain("hello", AtMost.Thrice());
+	}
+
+	[Fact]
+	public void GoodContain_AtMostTimes()
+	{
+		"ab ab".Should().Contain("ab", AtMost.Times(5));
+	}
+
+	// Contain with OccurrenceConstraint
+
+	[Fact]
+	public void GoodContain_ExactlyOnce()
+	{
+		"hello world".Should().Contain("hello", Exactly.Once());
+	}
+
+	[Fact]
+	public void GoodContain_ExactlyTimes()
+	{
+		"ab ab ab".Should().Contain("ab", Exactly.Times(3));
+	}
+
+	[Fact]
+	public void GoodContain_IgnoreCase()
+	{
+		"hello world".Should().Contain("HELLO", Options.IgnoreCase);
+	}
+
+	[Fact]
+	public void GoodContain_LessThanThrice()
+	{
+		"hello hello".Should().Contain("hello", LessThan.Thrice());
+	}
+
+	[Fact]
+	public void GoodContain_LessThanTimes()
+	{
+		"ab ab".Should().Contain("ab", LessThan.Times(5));
+	}
+
+	[Fact]
+	public void GoodContain_MoreThanOnce()
+	{
+		"hello hello".Should().Contain("hello", MoreThan.Once());
+	}
+
+	[Fact]
+	public void GoodContain_MoreThanTimes()
+	{
+		"ab ab ab".Should().Contain("ab", MoreThan.Times(2));
+	}
+
 	[Fact]
 	public void GoodEndWith()
 	{
@@ -524,7 +867,13 @@ public class StringComparerTests : BaseTest
 	[Fact]
 	public void GoodEndWithEquivalentOf()
 	{
-		"hello world".Should().EndWithEquivalentOf("WORLD");
+		"hello world".Should().EndWithEquivalentOf("WORLD", Options.IgnoreCase);
+	}
+
+	[Fact]
+	public void GoodEndWith_IgnoreCase()
+	{
+		"hello world".Should().EndWith("WORLD", Options.IgnoreCase);
 	}
 
 	[Fact]
@@ -593,6 +942,54 @@ public class StringComparerTests : BaseTest
 		"hello".Should().Not.BeNullOrWhiteSpace();
 	}
 
+	// Not.Contain
+
+	[Fact]
+	public void GoodNotContain()
+	{
+		"hello world".Should().Not.Contain("xyz");
+	}
+
+	// Not.ContainAll
+
+	[Fact]
+	public void GoodNotContainAll_MissingSome()
+	{
+		"hello world".Should().Not.ContainAll(["hello", "xyz"]);
+	}
+
+	[Fact]
+	public void GoodNotContainAll_WhenNull()
+	{
+		((string)null).Should().Not.ContainAll(["hello"]);
+	}
+
+	// Not.ContainAny
+
+	[Fact]
+	public void GoodNotContainAny()
+	{
+		"hello world".Should().Not.ContainAny(["xyz", "abc"]);
+	}
+
+	[Fact]
+	public void GoodNotContainAny_WhenNull()
+	{
+		((string)null).Should().Not.ContainAny(["hello"]);
+	}
+
+	[Fact]
+	public void GoodNotContain_IgnoreCase()
+	{
+		"hello world".Should().Not.Contain("XYZ", Options.IgnoreCase);
+	}
+
+	[Fact]
+	public void GoodNotContain_WhenNull()
+	{
+		((string)null).Should().Not.Contain("hello");
+	}
+
 	[Fact]
 	public void GoodNotEndWith()
 	{
@@ -603,6 +1000,12 @@ public class StringComparerTests : BaseTest
 	public void GoodNotEndWithEquivalentOf()
 	{
 		"hello world".Should().Not.EndWithEquivalentOf("HELLO");
+	}
+
+	[Fact]
+	public void GoodNotEndWith_IgnoreCase()
+	{
+		"hello world".Should().Not.EndWith("HELLO", Options.IgnoreCase);
 	}
 
 	[Fact]
@@ -642,6 +1045,12 @@ public class StringComparerTests : BaseTest
 	}
 
 	[Fact]
+	public void GoodNotStartWith_IgnoreCase()
+	{
+		"hello world".Should().Not.StartWith("WORLD", Options.IgnoreCase);
+	}
+
+	[Fact]
 	public void GoodNotStartWith_WhenNull()
 	{
 		((string)null).Should().Not.StartWith("hello");
@@ -656,6 +1065,12 @@ public class StringComparerTests : BaseTest
 	[Fact]
 	public void GoodStartWithEquivalentOf()
 	{
-		"hello world".Should().StartWithEquivalentOf("HELLO");
+		"hello world".Should().StartWithEquivalentOf("HELLO", Options.IgnoreCase);
+	}
+
+	[Fact]
+	public void GoodStartWith_IgnoreCase()
+	{
+		"hello world".Should().StartWith("HELLO", Options.IgnoreCase);
 	}
 }

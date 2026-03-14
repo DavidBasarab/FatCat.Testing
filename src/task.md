@@ -1,6 +1,6 @@
 # Task
 
-String Starts / Ends assertions
+String Contains assertions
 
 ## Feature Context
 
@@ -8,7 +8,14 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 
 ## Tasks
 
-- [ ]  Add options the same we have with StringAssertions with Options options = Options.CaseSensitive being the default
+- [ ]  item.Should().Contain(string expected) — case-sensitive
+- [ ]  item.Should().Contain(string expected, OccurrenceConstraint occurrence) — with occurrence count e.g. Exactly.Once(), AtLeast.Twice(), AtMost.Times(5), MoreThan.Thrice(), LessThan.Twice()
+- [ ]  item.Should().Not.Contain(string expected)
+- [ ]  item.Should().ContainAll(params string[] expected) — must contain every substring
+- [ ]  item.Should().Not.ContainAll(params string[] expected) — must not contain ALL of them (can contain some)
+- [ ]  item.Should().ContainAny(params string[] expected) — must contain at least one
+- [ ]  item.Should().Not.ContainAny(params string[] expected) — must contain none
+- [ ]  Add Options options = Options.CaseSensitive to all methods for strings
 - [ ]  Ensure all compares have a because reason
 
 ## Required Steps

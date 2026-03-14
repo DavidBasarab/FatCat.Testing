@@ -71,9 +71,77 @@ public class StringComparer(string subject) : ComparerBase<string, StringCompare
 		return this;
 	}
 
-	public StringComparer EndWith(string expected, string because = null)
+	public StringComparer Contain(string expected, Options options = Options.CaseSensitive, string because = null)
 	{
-		if (Subject == null || !Subject.EndsWith(expected, StringComparison.Ordinal))
+		if (StringEqualityHelper.CountOccurrences(Subject, expected, options) == 0)
+		{
+			CompareException.New(because ?? $"{Subject ?? "null"} should contain {expected}");
+		}
+
+		return this;
+	}
+
+	public StringComparer Contain(
+		string expected,
+		OccurrenceConstraint occurrence,
+		Options options = Options.CaseSensitive,
+		string because = null
+	)
+	{
+		var count = StringEqualityHelper.CountOccurrences(Subject, expected, options);
+
+		if (!occurrence.IsSatisfiedBy(count))
+		{
+			CompareException.New(
+				because
+					?? $"{Subject ?? "null"} should contain {expected} {occurrence.Description()} but found {count}"
+			);
+		}
+
+		return this;
+	}
+
+	public StringComparer ContainAll(
+		string[] expected,
+		Options options = Options.CaseSensitive,
+		string because = null
+	)
+	{
+		var missing = expected
+			.Where(e => StringEqualityHelper.CountOccurrences(Subject, e, options) == 0)
+			.ToList();
+
+		if (missing.Count > 0)
+		{
+			CompareException.New(
+				because ?? $"{Subject ?? "null"} should contain all of [{string.Join(", ", missing)}]"
+			);
+		}
+
+		return this;
+	}
+
+	public StringComparer ContainAny(
+		string[] expected,
+		Options options = Options.CaseSensitive,
+		string because = null
+	)
+	{
+		var hasAny = expected.Any(e => StringEqualityHelper.CountOccurrences(Subject, e, options) > 0);
+
+		if (!hasAny)
+		{
+			CompareException.New(
+				because ?? $"{Subject ?? "null"} should contain at least one of [{string.Join(", ", expected)}]"
+			);
+		}
+
+		return this;
+	}
+
+	public StringComparer EndWith(string expected, Options options = Options.CaseSensitive, string because = null)
+	{
+		if (Subject == null || !Subject.EndsWith(expected, StringEqualityHelper.ToComparison(options)))
 		{
 			CompareException.New(because ?? $"{Subject ?? "null"} should end with {expected}");
 		}
@@ -81,9 +149,13 @@ public class StringComparer(string subject) : ComparerBase<string, StringCompare
 		return this;
 	}
 
-	public StringComparer EndWithEquivalentOf(string expected, string because = null)
+	public StringComparer EndWithEquivalentOf(
+		string expected,
+		Options options = Options.CaseSensitive,
+		string because = null
+	)
 	{
-		if (Subject == null || !Subject.EndsWith(expected, StringComparison.OrdinalIgnoreCase))
+		if (Subject == null || !Subject.EndsWith(expected, StringEqualityHelper.ToComparison(options)))
 		{
 			CompareException.New(because ?? $"{Subject ?? "null"} should end with equivalent of {expected}");
 		}
@@ -111,9 +183,13 @@ public class StringComparer(string subject) : ComparerBase<string, StringCompare
 		return this;
 	}
 
-	public StringComparer StartWith(string expected, string because = null)
+	public StringComparer StartWith(
+		string expected,
+		Options options = Options.CaseSensitive,
+		string because = null
+	)
 	{
-		if (Subject == null || !Subject.StartsWith(expected, StringComparison.Ordinal))
+		if (Subject == null || !Subject.StartsWith(expected, StringEqualityHelper.ToComparison(options)))
 		{
 			CompareException.New(because ?? $"{Subject ?? "null"} should start with {expected}");
 		}
@@ -121,9 +197,13 @@ public class StringComparer(string subject) : ComparerBase<string, StringCompare
 		return this;
 	}
 
-	public StringComparer StartWithEquivalentOf(string expected, string because = null)
+	public StringComparer StartWithEquivalentOf(
+		string expected,
+		Options options = Options.CaseSensitive,
+		string because = null
+	)
 	{
-		if (Subject == null || !Subject.StartsWith(expected, StringComparison.OrdinalIgnoreCase))
+		if (Subject == null || !Subject.StartsWith(expected, StringEqualityHelper.ToComparison(options)))
 		{
 			CompareException.New(because ?? $"{Subject ?? "null"} should start with equivalent of {expected}");
 		}
