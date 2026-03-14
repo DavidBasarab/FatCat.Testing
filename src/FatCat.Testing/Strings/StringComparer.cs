@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using FatCat.Testing.Comparers;
 using FatCat.Testing.Exceptions;
 
@@ -208,6 +209,26 @@ public class StringComparer(string subject) : ComparerBase<string, StringCompare
 		if (Subject == null || !StringEqualityHelper.MatchesWildcard(Subject, pattern, options))
 		{
 			CompareException.New(because ?? $"{Subject ?? "null"} should match {pattern}");
+		}
+
+		return this;
+	}
+
+	public StringComparer MatchRegex(string pattern, string because = null)
+	{
+		if (Subject == null || !Regex.IsMatch(Subject, pattern))
+		{
+			CompareException.New(because ?? $"{Subject ?? "null"} should match regex {pattern}");
+		}
+
+		return this;
+	}
+
+	public StringComparer MatchRegex(Regex regex, string because = null)
+	{
+		if (Subject == null || !regex.IsMatch(Subject))
+		{
+			CompareException.New(because ?? $"{Subject ?? "null"} should match regex {regex}");
 		}
 
 		return this;

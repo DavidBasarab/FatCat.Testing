@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using FatCat.Testing.Comparers;
 using FatCat.Testing.Exceptions;
 
@@ -199,6 +200,26 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		if (Subject != null && StringEqualityHelper.MatchesWildcard(Subject, pattern, options))
 		{
 			CompareException.New(because ?? $"{Subject} should not match {pattern}");
+		}
+
+		return this;
+	}
+
+	public NotStringComparer MatchRegex(string pattern, string because = null)
+	{
+		if (Subject != null && Regex.IsMatch(Subject, pattern))
+		{
+			CompareException.New(because ?? $"{Subject} should not match regex {pattern}");
+		}
+
+		return this;
+	}
+
+	public NotStringComparer MatchRegex(Regex regex, string because = null)
+	{
+		if (Subject != null && regex.IsMatch(Subject))
+		{
+			CompareException.New(because ?? $"{Subject} should not match regex {regex}");
 		}
 
 		return this;
