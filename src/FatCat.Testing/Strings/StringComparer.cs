@@ -71,6 +71,16 @@ public class StringComparer(string subject) : ComparerBase<string, StringCompare
 		return this;
 	}
 
+	public StringComparer HaveLength(int expected, string because = null)
+	{
+		if (Subject == null || Subject.Length != expected)
+		{
+			CompareException.New(because ?? $"{Subject ?? "null"} should have length {expected}");
+		}
+
+		return this;
+	}
+
 	public StringComparer HaveValue(string because = null)
 	{
 		if (Subject == null)

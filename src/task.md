@@ -1,6 +1,6 @@
 # Task
 
-Adding Null / Empty / Whitespace assertions for strings
+Length Assertions
 
 ## Feature Context
 
@@ -8,21 +8,14 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 
 ## Tasks
 
-- [ ]  Adding new folder for the Strings comparers
-- [ ]  `"item".Should().BeNull()` if the string is empty then this would be false
-- [ ]  `"item".Should().Not.BeNull()`
-- [ ]  `"item".Should().BeEmpty()`  — string.Empty only
-- [ ]  `"item".Should().Not.BeEmpty()` 
-- [ ]  `"item".Should().BeNullOrEmpty()` — null or ""
-- [ ]  `"item".Should().Not.BeNullOrEmpty()` 
-- [ ]  `"item".Should().BeNullOrWhiteSpace()`  — null, empty, or all whitespace
-- [ ]  `"item".Should().Not.BeNullOrWhiteSpace()` 
+- [ ]  Add `item.Should().HaveLength(int expected)`
+- [ ]  Add `item.Should().Not.HaveLength(int expected)`
 - [ ]  Add methods for nullable strings as well
 - [ ]  Ensure all compares have a because reason
 
 ## Required Steps
 
-1. Run `jb cleanupcode` on all created/modified `.cs` files using the `CineMassive_Default` profile
+1. Run `jb cleanupcode` on all created/modified `.cs` files using the `Toolkit_Default` profile
 
 ## Verification
 

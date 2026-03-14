@@ -76,6 +76,16 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
+	public NotStringComparer HaveLength(int expected, string because = null)
+	{
+		if (Subject != null && Subject.Length == expected)
+		{
+			CompareException.New(because ?? $"{Subject} should not have length {expected}");
+		}
+
+		return this;
+	}
+
 	public NotStringComparer HaveValue(string because = null)
 	{
 		if (Subject != null)
