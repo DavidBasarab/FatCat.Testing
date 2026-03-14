@@ -1,6 +1,6 @@
 # Task
 
-String wild card matching.
+String RegEx Assertions
 
 ## Feature Context
 
@@ -8,9 +8,10 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 
 ## Tasks
 
-- [ ]  item.Should().Match(string wildcardPattern) — case-sensitive, supports * and ?
-- [ ]  item.Should().Not.Match(string wildcardPattern)
-- [ ]  Add optiions for case sensativity
+- [ ]  item.Should().MatchRegex(string pattern)
+- [ ]  item.Should().MatchRegex(Regex regex)
+- [ ]  item.Should().Not.MatchRegex(string pattern)
+- [ ]  item.Should().Not.MatchRegex(Regex regex)
 - [ ]  Add because to all methods
 
 ## Required Steps
@@ -41,3 +42,4 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 - Use Templates to keep the code cleaner and less of it
 - If there is any logical abstraction or bases classes that should be added put them in.
 - Understand the complete architecture and follow the pattern we have for the Numeric Compares
+- Keep test files in a logical group to prevent too many test method in the same test file

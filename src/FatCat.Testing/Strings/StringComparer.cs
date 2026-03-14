@@ -203,6 +203,16 @@ public class StringComparer(string subject) : ComparerBase<string, StringCompare
 		return this;
 	}
 
+	public StringComparer Match(string pattern, Options options = Options.CaseSensitive, string because = null)
+	{
+		if (Subject == null || !StringEqualityHelper.MatchesWildcard(Subject, pattern, options))
+		{
+			CompareException.New(because ?? $"{Subject ?? "null"} should match {pattern}");
+		}
+
+		return this;
+	}
+
 	public StringComparer StartWith(
 		string expected,
 		Options options = Options.CaseSensitive,

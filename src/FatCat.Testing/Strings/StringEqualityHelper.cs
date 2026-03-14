@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace FatCat.Testing.Strings;
 
 internal static class StringEqualityHelper
@@ -38,6 +40,14 @@ internal static class StringEqualityHelper
 	internal static bool IsUpperCased(string value)
 	{
 		return value != null && value.Any(char.IsLetter) && value.All(c => !char.IsLetter(c) || char.IsUpper(c));
+	}
+
+	internal static bool MatchesWildcard(string subject, string pattern, Options options)
+	{
+		var escaped = Regex.Escape(pattern).Replace("\\*", ".*").Replace("\\?", ".");
+		var regexOptions = options == Options.IgnoreCase ? RegexOptions.IgnoreCase : RegexOptions.None;
+
+		return Regex.IsMatch(subject, $"^{escaped}$", regexOptions);
 	}
 
 	internal static StringComparison ToComparison(Options options)

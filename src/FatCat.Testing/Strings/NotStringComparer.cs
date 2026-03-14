@@ -194,6 +194,16 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
+	public NotStringComparer Match(string pattern, Options options = Options.CaseSensitive, string because = null)
+	{
+		if (Subject != null && StringEqualityHelper.MatchesWildcard(Subject, pattern, options))
+		{
+			CompareException.New(because ?? $"{Subject} should not match {pattern}");
+		}
+
+		return this;
+	}
+
 	public NotStringComparer StartWith(
 		string expected,
 		Options options = Options.CaseSensitive,
