@@ -21,6 +21,7 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 - [ ]  `"item".Should().BeEquivalentTo(string expected, Options.IgnoreCase)` this will IgnoreCase valid Options are `CaseSensitive`, `IgnoreCase` and will default to `CaseSensitive`
 - [ ]  `"item".Should().Not.BeEquivalentTo(string expected)` this will be case sensitive
 - [ ]  `"item".Should().Not.BeEquivalentTo(string expected, Options.IgnoreCase)` this will IgnoreCase valid Options are `CaseSensitive`, `IgnoreCase` and will default to `CaseSensitive`
+- [ ]  Add methods for nullable strings as well
 
 ## Required Steps
 
@@ -36,11 +37,12 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 - [ ] No banned patterns used (see `.claude/rules/not-allowed.md`)
 - [ ] Report results before finishing
 
-## References
+## References 
 
-- C:\Code\FatCat.Testing\src\Tests.FatCat.Testing\IntComparerTests.cs
-- C:\Code\FatCat.Testing\src\FatCat.Testing\Numbers\IntComparer.cs
-- C:\Code\FatCat.Testing\src\FatCat.Testing\Numbers\NotIntComparer.cs
+- C:\Code\FatCat.Testing\src\FatCat.Testing\Numbers\NumericComparer.cs
+- C:\Code\FatCat.Testing\src\FatCat.Testing\Numbers\NullableIntComparer.cs
+- C:\Code\FatCat.Testing\src\FatCat.Testing\Numbers\NotNullableIntComparer.cs
+
 
 ## Notes
 
@@ -48,4 +50,4 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 - Keep the types in there own logical files
 - Use Templates to keep the code cleaner and less of it
 - If there is any logical abstraction or bases classes that should be added put them in.
-- Understand the complete architure and follow the pattern we have for the Numeric Compares
+- Understand the complete architecture and follow the pattern we have for the Numeric Compares

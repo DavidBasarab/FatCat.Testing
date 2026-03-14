@@ -1,4 +1,5 @@
 using FatCat.Testing.Numbers;
+using StringComparer = FatCat.Testing.Strings.StringComparer;
 
 namespace FatCat.Testing;
 
@@ -72,5 +73,10 @@ public static class ShouldExtensions
 	public static NumericComparer<ushort> Should(this ushort subject)
 	{
 		return new NumericComparer<ushort>(subject);
+	}
+
+	public static StringComparer Should(this string subject)
+	{
+		return new StringComparer(subject);
 	}
 }
