@@ -1,6 +1,6 @@
 # Task
 
-Test refactoring, they are getting large for one file and it would be hard for people to read and understand.  Break up the tests into logical groupings.
+String wild card matching.
 
 ## Feature Context
 
@@ -8,8 +8,10 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 
 ## Tasks
 
-- [ ]  Refactor Numbers Tests IntComparerTests, move into Numbers folder, put tests into logical groupings on class per grouping.
-- [ ]  Refactor String tests move tests into logical groupings by class.
+- [ ]  item.Should().Match(string wildcardPattern) — case-sensitive, supports * and ?
+- [ ]  item.Should().Not.Match(string wildcardPattern)
+- [ ]  Add optiions for case sensativity
+- [ ]  Add because to all methods
 
 ## Required Steps
 
@@ -28,7 +30,8 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 
 ## References 
 
-- C:\Code\FatCat.Testing\src\FatCat.Testing\Strings\StringComparer.cs
+- C:\Code\FatCat.Testing\src\Tests.FatCat.Testing\Strings\StringComparerTests.cs
+- C:\Code\FatCat.Testing\src\Tests.FatCat.Testing\IntComparerTests.cs
 
 
 ## Notes

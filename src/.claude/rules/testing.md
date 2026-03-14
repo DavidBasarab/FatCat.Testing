@@ -9,6 +9,7 @@
 - Each test verifies exactly one thing.
 - A failing test must tell you precisely what broke without investigation.
 - Test names are sentences describing the expected behavior.
+- Test method names must NOT contain underscores (`_`). Use PascalCase only.
 
 ```csharp
 [Fact] public void BeAPost() { ... }
