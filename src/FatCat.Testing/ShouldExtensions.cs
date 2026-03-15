@@ -1,4 +1,7 @@
+#nullable enable
+
 using FatCat.Testing.Numbers;
+using FatCat.Testing.Strings;
 
 namespace FatCat.Testing;
 
@@ -72,5 +75,10 @@ public static class ShouldExtensions
 	public static NumericComparer<ushort> Should(this ushort subject)
 	{
 		return new NumericComparer<ushort>(subject);
+	}
+
+	public static NullableStringComparer Should(this string? subject)
+	{
+		return new NullableStringComparer(subject);
 	}
 }

@@ -1,6 +1,6 @@
 # Task
 
-Adding equality assertions for strings
+Make all string assertions work with nullable
 
 ## Feature Context
 
@@ -8,19 +8,7 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 
 ## Tasks
 
-- [ ]  Adding new folder for the Strings comparers
-- [ ]  `"item".Should().Be(string expected)` this will be case sensitive
-- [ ]  `"item".Should().Be(string expected, Options.IgnoreCase)` this will IgnoreCase valid Options are `CaseSensitive`, `IgnoreCase` and will default to `CaseSensitive`
-- [ ]  `"item".Should().Not.Be(string expected)` this will be case sensitive
-- [ ]  `"item".Should().Not.Be(string expected, Options.IgnoreCase)` this will IgnoreCase valid Options are `CaseSensitive`, `IgnoreCase` and will default to `CaseSensitive`
-- [ ]  `"item".Should().Be(string expected)` this will be case sensitive
-- [ ]  `"item".Should().Be(string expected, Options.IgnoreCase)` this will IgnoreCase valid Options are `CaseSensitive`, `IgnoreCase` and will default to `CaseSensitive`
-- [ ]  `"item".Should().Not.Be(string expected)` this will be case sensitive
-- [ ]  `"item".Should().Not.Be(string expected, Options.IgnoreCase)` this will IgnoreCase valid Options are `CaseSensitive`, `IgnoreCase` and will default to `CaseSensitive`
-- [ ]  `"item".Should().BeEquivalentTo(string expected)` this will be case sensitive
-- [ ]  `"item".Should().BeEquivalentTo(string expected, Options.IgnoreCase)` this will IgnoreCase valid Options are `CaseSensitive`, `IgnoreCase` and will default to `CaseSensitive`
-- [ ]  `"item".Should().Not.BeEquivalentTo(string expected)` this will be case sensitive
-- [ ]  `"item".Should().Not.BeEquivalentTo(string expected, Options.IgnoreCase)` this will IgnoreCase valid Options are `CaseSensitive`, `IgnoreCase` and will default to `CaseSensitive`
+- [ ]  Make all string assertions work with nullable
 
 ## Required Steps
 
@@ -31,16 +19,17 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 - [ ] Tests written before implementation (TDD)
 - [ ] All tests pass (`dotnet test`)
 - [ ] `jb cleanupcode` run on all modified files
+- [ ] Run `dotnet csharpier .` after `jb cleanupcode`
 - [ ] No compiler warnings introduced
 - [ ] Namespaces match folder paths exactly
 - [ ] No banned patterns used (see `.claude/rules/not-allowed.md`)
 - [ ] Report results before finishing
 
-## References
+## References 
 
+- C:\Code\FatCat.Testing\src\Tests.FatCat.Testing\Strings\StringComparerTests.cs
 - C:\Code\FatCat.Testing\src\Tests.FatCat.Testing\IntComparerTests.cs
-- C:\Code\FatCat.Testing\src\FatCat.Testing\Numbers\IntComparer.cs
-- C:\Code\FatCat.Testing\src\FatCat.Testing\Numbers\NotIntComparer.cs
+
 
 ## Notes
 
@@ -48,4 +37,5 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 - Keep the types in there own logical files
 - Use Templates to keep the code cleaner and less of it
 - If there is any logical abstraction or bases classes that should be added put them in.
-- Understand the complete architure and follow the pattern we have for the Numeric Compares
+- Understand the complete architecture and follow the pattern we have for the Numeric Compares
+- Keep test files in a logical group to prevent too many test method in the same test file
