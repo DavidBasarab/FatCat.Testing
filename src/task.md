@@ -1,6 +1,6 @@
 # Task
 
-String RegEx Assertions
+Make all string assertions work with nullable
 
 ## Feature Context
 
@@ -8,11 +8,7 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 
 ## Tasks
 
-- [ ]  item.Should().MatchRegex(string pattern)
-- [ ]  item.Should().MatchRegex(Regex regex)
-- [ ]  item.Should().Not.MatchRegex(string pattern)
-- [ ]  item.Should().Not.MatchRegex(Regex regex)
-- [ ]  Add because to all methods
+- [ ]  Make all string assertions work with nullable
 
 ## Required Steps
 

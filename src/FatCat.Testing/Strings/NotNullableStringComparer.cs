@@ -1,12 +1,19 @@
+#nullable enable
+
 using System.Text.RegularExpressions;
 using FatCat.Testing.Comparers;
 using FatCat.Testing.Exceptions;
 
 namespace FatCat.Testing.Strings;
 
-public class NotStringComparer(string subject) : NotComparerBase<string, NotStringComparer>(subject)
+public class NotNullableStringComparer(string? subject)
+	: NotComparerBase<string?, NotNullableStringComparer>(subject)
 {
-	public NotStringComparer Be(string expected, Options options = Options.CaseSensitive, string because = null)
+	public NotNullableStringComparer Be(
+		string expected,
+		Options options = Options.CaseSensitive,
+		string? because = null
+	)
 	{
 		if (StringEqualityHelper.AreEqual(Subject, expected, options))
 		{
@@ -16,7 +23,7 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer BeEmpty(string because = null)
+	public NotNullableStringComparer BeEmpty(string? because = null)
 	{
 		if (Subject == string.Empty)
 		{
@@ -26,10 +33,10 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer BeEquivalentTo(
+	public NotNullableStringComparer BeEquivalentTo(
 		string expected,
 		Options options = Options.CaseSensitive,
-		string because = null
+		string? because = null
 	)
 	{
 		if (StringEqualityHelper.AreEqual(Subject, expected, options))
@@ -40,7 +47,7 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer BeLowerCased(string because = null)
+	public NotNullableStringComparer BeLowerCased(string? because = null)
 	{
 		if (StringEqualityHelper.IsLowerCased(Subject))
 		{
@@ -50,7 +57,7 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer BeNull(string because = null)
+	public NotNullableStringComparer BeNull(string? because = null)
 	{
 		if (Subject == null)
 		{
@@ -60,7 +67,7 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer BeNullOrEmpty(string because = null)
+	public NotNullableStringComparer BeNullOrEmpty(string? because = null)
 	{
 		if (string.IsNullOrEmpty(Subject))
 		{
@@ -72,7 +79,7 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer BeNullOrWhiteSpace(string because = null)
+	public NotNullableStringComparer BeNullOrWhiteSpace(string? because = null)
 	{
 		if (string.IsNullOrWhiteSpace(Subject))
 		{
@@ -87,7 +94,7 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer BeUpperCased(string because = null)
+	public NotNullableStringComparer BeUpperCased(string? because = null)
 	{
 		if (StringEqualityHelper.IsUpperCased(Subject))
 		{
@@ -97,10 +104,10 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer Contain(
+	public NotNullableStringComparer Contain(
 		string expected,
 		Options options = Options.CaseSensitive,
-		string because = null
+		string? because = null
 	)
 	{
 		if (Subject != null && StringEqualityHelper.CountOccurrences(Subject, expected, options) > 0)
@@ -111,10 +118,10 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer ContainAll(
+	public NotNullableStringComparer ContainAll(
 		string[] expected,
 		Options options = Options.CaseSensitive,
-		string because = null
+		string? because = null
 	)
 	{
 		var allContained = expected.All(e => StringEqualityHelper.CountOccurrences(Subject, e, options) > 0);
@@ -129,10 +136,10 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer ContainAny(
+	public NotNullableStringComparer ContainAny(
 		string[] expected,
 		Options options = Options.CaseSensitive,
-		string because = null
+		string? because = null
 	)
 	{
 		var found = expected.Where(e => StringEqualityHelper.CountOccurrences(Subject, e, options) > 0).ToList();
@@ -147,10 +154,10 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer EndWith(
+	public NotNullableStringComparer EndWith(
 		string expected,
 		Options options = Options.CaseSensitive,
-		string because = null
+		string? because = null
 	)
 	{
 		if (Subject != null && Subject.EndsWith(expected, StringEqualityHelper.ToComparison(options)))
@@ -161,10 +168,10 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer EndWithEquivalentOf(
+	public NotNullableStringComparer EndWithEquivalentOf(
 		string expected,
 		Options options = Options.CaseSensitive,
-		string because = null
+		string? because = null
 	)
 	{
 		if (Subject != null && Subject.EndsWith(expected, StringEqualityHelper.ToComparison(options)))
@@ -175,7 +182,7 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer HaveLength(int expected, string because = null)
+	public NotNullableStringComparer HaveLength(int expected, string? because = null)
 	{
 		if (Subject != null && Subject.Length == expected)
 		{
@@ -185,7 +192,7 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer HaveValue(string because = null)
+	public NotNullableStringComparer HaveValue(string? because = null)
 	{
 		if (Subject != null)
 		{
@@ -195,7 +202,11 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer Match(string pattern, Options options = Options.CaseSensitive, string because = null)
+	public NotNullableStringComparer Match(
+		string pattern,
+		Options options = Options.CaseSensitive,
+		string? because = null
+	)
 	{
 		if (Subject != null && StringEqualityHelper.MatchesWildcard(Subject, pattern, options))
 		{
@@ -205,7 +216,7 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer MatchRegex(string pattern, string because = null)
+	public NotNullableStringComparer MatchRegex(string pattern, string? because = null)
 	{
 		if (Subject != null && Regex.IsMatch(Subject, pattern))
 		{
@@ -215,7 +226,7 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer MatchRegex(Regex regex, string because = null)
+	public NotNullableStringComparer MatchRegex(Regex regex, string? because = null)
 	{
 		if (Subject != null && regex.IsMatch(Subject))
 		{
@@ -225,10 +236,10 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer StartWith(
+	public NotNullableStringComparer StartWith(
 		string expected,
 		Options options = Options.CaseSensitive,
-		string because = null
+		string? because = null
 	)
 	{
 		if (Subject != null && Subject.StartsWith(expected, StringEqualityHelper.ToComparison(options)))
@@ -239,10 +250,10 @@ public class NotStringComparer(string subject) : NotComparerBase<string, NotStri
 		return this;
 	}
 
-	public NotStringComparer StartWithEquivalentOf(
+	public NotNullableStringComparer StartWithEquivalentOf(
 		string expected,
 		Options options = Options.CaseSensitive,
-		string because = null
+		string? because = null
 	)
 	{
 		if (Subject != null && Subject.StartsWith(expected, StringEqualityHelper.ToComparison(options)))
