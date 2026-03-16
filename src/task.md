@@ -1,41 +1,36 @@
 # Task
 
-Add `DateTime` methods
+Add `TimeSpan` methods
 
 ## Feature Context
 
-This will be a replacement for FluentAssertions.  The syntax will be slightly different and the intention is to use it with doing unit tests in C#.  This feature is adding support for `DateTime`.
+This will be a replacement for FluentAssertions.  The syntax will be slightly different and the intention is to use it with doing unit tests in C#.  This feature is adding support for `TimeSpan`.
 
 ## Tasks
 
 
-- [ ]  Be(DateTime expected)
-- [ ]  NotBe(DateTime expected)
-- [ ]  BeAfter(DateTime expected)
-- [ ]  BeOnOrAfter(DateTime expected)
-- [ ]  BeBefore(DateTime expected)
-- [ ]  BeOnOrBefore(DateTime expected)
-- [ ]  BeCloseTo(DateTime expected, TimeSpan precision) — within a time window
-- [ ]  NotBeCloseTo(DateTime expected, TimeSpan precision)
-- [ ]  HaveYear(int expected)
-- [ ]  NotHaveYear(int expected)
-- [ ]  HaveMonth(int expected)
-- [ ]  NotHaveMonth(int expected)
-- [ ]  HaveDay(int expected)
-- [ ]  NotHaveDay(int expected)
-- [ ]  HaveHour(int expected)
-- [ ]  NotHaveHour(int expected)
-- [ ]  HaveMinute(int expected)
-- [ ]  NotHaveMinute(int expected)
-- [ ]  HaveSecond(int expected)
-- [ ]  NotHaveSecond(int expected)
-- [ ]  HaveMillisecond(int expected)
-- [ ]  NotHaveMillisecond(int expected)
-- [ ]  BeUtc() — DateTimeKind.Utc
-- [ ]  BeLocal() — DateTimeKind.Local
-- [ ]  HaveKind(DateTimeKind expected)
-- [ ]  HaveOffset(TimeSpan expected)
-- [ ]  NotHaveOffset(TimeSpan expected)
+- [ ]  Be(TimeSpan expected)
+- [ ]  NotBe(TimeSpan expected)
+- [ ]  BeGreaterThan(TimeSpan expected)
+- [ ]  BeGreaterThanOrEqualTo(TimeSpan expected)
+- [ ]  BeLessThan(TimeSpan expected)
+- [ ]  BeLessThanOrEqualTo(TimeSpan expected)
+- [ ]  BeCloseTo(TimeSpan expected, TimeSpan precision)
+- [ ]  NotBeCloseTo(TimeSpan expected, TimeSpan precision)
+- [ ]  BePositive() — TimeSpan > TimeSpan.Zero
+- [ ]  BeNegative() — TimeSpan < TimeSpan.Zero
+- [ ]  .Not.BePositive() — TimeSpan > TimeSpan.Zero
+- [ ]  .Not.BeNegative() — TimeSpan < TimeSpan.Zero
+- [ ]  HaveDays(int expected)
+- [ ]  NotHaveDays(int expected)
+- [ ]  HaveHours(int expected)
+- [ ]  NotHaveHours(int expected)
+- [ ]  HaveMinutes(int expected)
+- [ ]  NotHaveMinutes(int expected)
+- [ ]  HaveSeconds(int expected)
+- [ ]  NotHaveSeconds(int expected)
+- [ ]  HaveMilliseconds(int expected)
+- [ ]  NotHaveMilliseconds(int expected)
 - [ ]  Make all char assertions work with nullable
 
 ## Required Steps

@@ -5,6 +5,7 @@ using FatCat.Testing.Characters;
 using FatCat.Testing.DateTimes;
 using FatCat.Testing.Numbers;
 using FatCat.Testing.Strings;
+using FatCat.Testing.TimeSpans;
 
 namespace FatCat.Testing;
 
@@ -113,5 +114,15 @@ public static class ShouldExtensions
 	public static NullableStringComparer Should(this string? subject)
 	{
 		return new NullableStringComparer(subject);
+	}
+
+	public static TimeSpanComparer Should(this TimeSpan subject)
+	{
+		return new TimeSpanComparer(subject);
+	}
+
+	public static NullableTimeSpanComparer Should(this TimeSpan? subject)
+	{
+		return new NullableTimeSpanComparer(subject);
 	}
 }
