@@ -8,18 +8,18 @@ public class NullableTimeSpanHaveMillisecondsTests : BaseTest
 		var span = TimeSpan.FromMilliseconds(500);
 
 		RunCompareFailTest(
-			() => ((TimeSpan?)span).Should().HaveMilliseconds(600),
-			"00:00:00.5000000 should have milliseconds 600"
-		);
+							() => ((TimeSpan?)span).Should().HaveMilliseconds(600),
+							"00:00:00.5000000 should have milliseconds 600"
+						);
 	}
 
 	[Fact]
 	public void BadHaveMillisecondsNullValue()
 	{
 		RunCompareFailTest(
-			() => ((TimeSpan?)null).Should().HaveMilliseconds(600),
-			"null should have milliseconds 600"
-		);
+							() => ((TimeSpan?)null).Should().HaveMilliseconds(600),
+							"null should have milliseconds 600"
+						);
 	}
 
 	[Fact]
@@ -28,9 +28,9 @@ public class NullableTimeSpanHaveMillisecondsTests : BaseTest
 		var span = TimeSpan.FromMilliseconds(500);
 
 		RunCompareFailTest(
-			() => ((TimeSpan?)span).Should().HaveMilliseconds(600, "custom because"),
-			"custom because"
-		);
+							() => ((TimeSpan?)span).Should().HaveMilliseconds(600, "custom because"),
+							"custom because"
+						);
 	}
 
 	[Fact]
@@ -39,9 +39,9 @@ public class NullableTimeSpanHaveMillisecondsTests : BaseTest
 		var span = TimeSpan.FromMilliseconds(500);
 
 		RunCompareFailTest(
-			() => ((TimeSpan?)span).Should().Not.HaveMilliseconds(500),
-			"00:00:00.5000000 should not have milliseconds 500"
-		);
+							() => ((TimeSpan?)span).Should().Not.HaveMilliseconds(500),
+							"00:00:00.5000000 should not have milliseconds 500"
+						);
 	}
 
 	[Fact]
@@ -50,9 +50,9 @@ public class NullableTimeSpanHaveMillisecondsTests : BaseTest
 		var span = TimeSpan.FromMilliseconds(500);
 
 		RunCompareFailTest(
-			() => ((TimeSpan?)span).Should().Not.HaveMilliseconds(500, "custom because"),
-			"custom because"
-		);
+							() => ((TimeSpan?)span).Should().Not.HaveMilliseconds(500, "custom because"),
+							"custom because"
+						);
 	}
 
 	[Fact]
@@ -72,8 +72,5 @@ public class NullableTimeSpanHaveMillisecondsTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotHaveMillisecondsWhenNull()
-	{
-		((TimeSpan?)null).Should().Not.HaveMilliseconds(500);
-	}
+	public void GoodNotHaveMillisecondsWhenNull() { ((TimeSpan?)null).Should().Not.HaveMilliseconds(500); }
 }

@@ -1,29 +1,9 @@
-Phase 1 — Remaining Primitives & Value Types
-These are all structurally similar to what you've already built, so you'll get them done fast:
-
-bool (if not done)
-char — equality, BeUpperCase(), BeLowerCase(), BeDigit(), BeWhiteSpace(), BeLetterOrDigit(), BeLetter()
-byte / sbyte — same as int assertions (comparison, range, sign)
-short / ushort — same
-long / ulong — same
-float — comparison + BeApproximately(), BeNaN(), NotBeNaN() (no Be()/NotBe())
-double — same as float
-decimal — same as int (does support exact Be()/NotBe())
-
-
-Phase 2 — Common BCL Struct Types
-Still value types but slightly richer:
-
-DateTime / DateTimeOffset — big surface area (before/after, within range, HaveYear(), HaveMonth(), HaveDay(), HaveHour(), etc.)
-TimeSpan — comparison + BePositive(), BeNegative(), BeCloseTo()
-Guid — Be(), NotBe(), BeEmpty(), NotBeEmpty()
-Enum — Be(), HaveFlag(), NotHaveFlag(), BeDefined()
 
 
 Phase 3 — Collections
 Before user objects, because they're still BCL and your numeric/string assertions feed directly into them:
 
-IEnumerable<T> — the big one
+ — the big one
 IList<T> / List<T>
 IDictionary<TKey, TValue>
 array (has some unique assertions)

@@ -11,10 +11,7 @@ public class NullableTimeSpanBeNegativeTests : BaseTest
 	}
 
 	[Fact]
-	public void BadBeNegativeNullValue()
-	{
-		RunCompareFailTest(() => ((TimeSpan?)null).Should().BeNegative(), "null should be negative");
-	}
+	public void BadBeNegativeNullValue() { RunCompareFailTest(() => ((TimeSpan?)null).Should().BeNegative(), "null should be negative"); }
 
 	[Fact]
 	public void BadBeNegativeWithBecause()
@@ -57,8 +54,5 @@ public class NullableTimeSpanBeNegativeTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotBeNegativeWhenNull()
-	{
-		((TimeSpan?)null).Should().Not.BeNegative();
-	}
+	public void GoodNotBeNegativeWhenNull() { ((TimeSpan?)null).Should().Not.BeNegative(); }
 }

@@ -10,22 +10,13 @@ public class IntBeNegativeTests : BaseTest
 	}
 
 	[Fact]
-	public void BadBeNegativeWithBecause()
-	{
-		RunCompareFailTest(() => 1.Should().BeNegative("custom because"), "custom because");
-	}
+	public void BadBeNegativeWithBecause() { RunCompareFailTest(() => 1.Should().BeNegative("custom because"), "custom because"); }
 
 	[Fact]
-	public void BadNotBeNegative()
-	{
-		RunCompareFailTest(() => (-1).Should().Not.BeNegative(), "-1 should not be negative");
-	}
+	public void BadNotBeNegative() { RunCompareFailTest(() => (-1).Should().Not.BeNegative(), "-1 should not be negative"); }
 
 	[Fact]
-	public void BadNotBeNegativeWithBecause()
-	{
-		RunCompareFailTest(() => (-1).Should().Not.BeNegative("custom because"), "custom because");
-	}
+	public void BadNotBeNegativeWithBecause() { RunCompareFailTest(() => (-1).Should().Not.BeNegative("custom because"), "custom because"); }
 
 	[Fact]
 	public void GoodBeNegative()

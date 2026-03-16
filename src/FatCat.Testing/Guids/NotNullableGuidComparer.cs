@@ -7,30 +7,21 @@ public class NotNullableGuidComparer(Guid? subject) : NotComparerBase<Guid?, Not
 {
 	public NotNullableGuidComparer Be(Guid expected, string because = null)
 	{
-		if (Subject.HasValue && Subject.Value == expected)
-		{
-			CompareException.New(because ?? $"{Subject.Value} should not be {expected}");
-		}
+		if (Subject.HasValue && Subject.Value == expected) { CompareException.New(because ?? $"{Subject.Value} should not be {expected}"); }
 
 		return this;
 	}
 
 	public NotNullableGuidComparer BeEmpty(string because = null)
 	{
-		if (Subject.HasValue && Subject.Value == Guid.Empty)
-		{
-			CompareException.New(because ?? $"{Subject.Value} should not be empty");
-		}
+		if (Subject.HasValue && Subject.Value == Guid.Empty) { CompareException.New(because ?? $"{Subject.Value} should not be empty"); }
 
 		return this;
 	}
 
 	public NotNullableGuidComparer HaveValue(string because = null)
 	{
-		if (Subject.HasValue)
-		{
-			CompareException.New(because ?? $"{Subject.Value} should not have a value");
-		}
+		if (Subject.HasValue) { CompareException.New(because ?? $"{Subject.Value} should not have a value"); }
 
 		return this;
 	}

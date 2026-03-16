@@ -8,18 +8,18 @@ public class NullableDateTimeHaveMillisecondTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45, 500);
 
 		RunCompareFailTest(
-			() => ((DateTime?)date).Should().HaveMillisecond(600),
-			"2024-06-15 10:30:45 should have millisecond 600"
-		);
+							() => ((DateTime?)date).Should().HaveMillisecond(600),
+							"2024-06-15 10:30:45 should have millisecond 600"
+						);
 	}
 
 	[Fact]
 	public void BadHaveMillisecondNullValue()
 	{
 		RunCompareFailTest(
-			() => ((DateTime?)null).Should().HaveMillisecond(600),
-			"null should have millisecond 600"
-		);
+							() => ((DateTime?)null).Should().HaveMillisecond(600),
+							"null should have millisecond 600"
+						);
 	}
 
 	[Fact]
@@ -28,9 +28,9 @@ public class NullableDateTimeHaveMillisecondTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45, 500);
 
 		RunCompareFailTest(
-			() => ((DateTime?)date).Should().HaveMillisecond(600, "custom because"),
-			"custom because"
-		);
+							() => ((DateTime?)date).Should().HaveMillisecond(600, "custom because"),
+							"custom because"
+						);
 	}
 
 	[Fact]
@@ -39,9 +39,9 @@ public class NullableDateTimeHaveMillisecondTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45, 500);
 
 		RunCompareFailTest(
-			() => ((DateTime?)date).Should().Not.HaveMillisecond(500),
-			"2024-06-15 10:30:45 should not have millisecond 500"
-		);
+							() => ((DateTime?)date).Should().Not.HaveMillisecond(500),
+							"2024-06-15 10:30:45 should not have millisecond 500"
+						);
 	}
 
 	[Fact]
@@ -50,9 +50,9 @@ public class NullableDateTimeHaveMillisecondTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45, 500);
 
 		RunCompareFailTest(
-			() => ((DateTime?)date).Should().Not.HaveMillisecond(500, "custom because"),
-			"custom because"
-		);
+							() => ((DateTime?)date).Should().Not.HaveMillisecond(500, "custom because"),
+							"custom because"
+						);
 	}
 
 	[Fact]
@@ -72,8 +72,5 @@ public class NullableDateTimeHaveMillisecondTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotHaveMillisecondWhenNull()
-	{
-		((DateTime?)null).Should().Not.HaveMillisecond(500);
-	}
+	public void GoodNotHaveMillisecondWhenNull() { ((DateTime?)null).Should().Not.HaveMillisecond(500); }
 }

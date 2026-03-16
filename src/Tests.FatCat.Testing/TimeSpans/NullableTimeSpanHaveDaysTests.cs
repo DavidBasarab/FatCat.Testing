@@ -11,10 +11,7 @@ public class NullableTimeSpanHaveDaysTests : BaseTest
 	}
 
 	[Fact]
-	public void BadHaveDaysNullValue()
-	{
-		RunCompareFailTest(() => ((TimeSpan?)null).Should().HaveDays(5), "null should have days 5");
-	}
+	public void BadHaveDaysNullValue() { RunCompareFailTest(() => ((TimeSpan?)null).Should().HaveDays(5), "null should have days 5"); }
 
 	[Fact]
 	public void BadHaveDaysWithBecause()
@@ -57,8 +54,5 @@ public class NullableTimeSpanHaveDaysTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotHaveDaysWhenNull()
-	{
-		((TimeSpan?)null).Should().Not.HaveDays(3);
-	}
+	public void GoodNotHaveDaysWhenNull() { ((TimeSpan?)null).Should().Not.HaveDays(3); }
 }

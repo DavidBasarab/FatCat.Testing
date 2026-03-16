@@ -7,20 +7,14 @@ public class NotGuidComparer(Guid subject) : NotComparerBase<Guid, NotGuidCompar
 {
 	public NotGuidComparer Be(Guid expected, string because = null)
 	{
-		if (Subject == expected)
-		{
-			CompareException.New(because ?? $"{Subject} should not be {expected}");
-		}
+		if (Subject == expected) { CompareException.New(because ?? $"{Subject} should not be {expected}"); }
 
 		return this;
 	}
 
 	public NotGuidComparer BeEmpty(string because = null)
 	{
-		if (Subject == Guid.Empty)
-		{
-			CompareException.New(because ?? $"{Subject} should not be empty");
-		}
+		if (Subject == Guid.Empty) { CompareException.New(because ?? $"{Subject} should not be empty"); }
 
 		return this;
 	}

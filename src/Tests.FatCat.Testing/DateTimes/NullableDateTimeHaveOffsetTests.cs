@@ -8,18 +8,18 @@ public class NullableDateTimeHaveOffsetTests : BaseTest
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
 		RunCompareFailTest(
-			() => ((DateTime?)utcDate).Should().HaveOffset(TimeSpan.FromHours(5)),
-			"2024-06-15 10:30:45 should have offset 05:00:00"
-		);
+							() => ((DateTime?)utcDate).Should().HaveOffset(TimeSpan.FromHours(5)),
+							"2024-06-15 10:30:45 should have offset 05:00:00"
+						);
 	}
 
 	[Fact]
 	public void BadHaveOffsetNullValue()
 	{
 		RunCompareFailTest(
-			() => ((DateTime?)null).Should().HaveOffset(TimeSpan.FromHours(5)),
-			"null should have offset 05:00:00"
-		);
+							() => ((DateTime?)null).Should().HaveOffset(TimeSpan.FromHours(5)),
+							"null should have offset 05:00:00"
+						);
 	}
 
 	[Fact]
@@ -28,9 +28,9 @@ public class NullableDateTimeHaveOffsetTests : BaseTest
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
 		RunCompareFailTest(
-			() => ((DateTime?)utcDate).Should().HaveOffset(TimeSpan.FromHours(5), "custom because"),
-			"custom because"
-		);
+							() => ((DateTime?)utcDate).Should().HaveOffset(TimeSpan.FromHours(5), "custom because"),
+							"custom because"
+						);
 	}
 
 	[Fact]
@@ -39,9 +39,9 @@ public class NullableDateTimeHaveOffsetTests : BaseTest
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
 		RunCompareFailTest(
-			() => ((DateTime?)utcDate).Should().Not.HaveOffset(TimeSpan.Zero),
-			"2024-06-15 10:30:45 should not have offset 00:00:00"
-		);
+							() => ((DateTime?)utcDate).Should().Not.HaveOffset(TimeSpan.Zero),
+							"2024-06-15 10:30:45 should not have offset 00:00:00"
+						);
 	}
 
 	[Fact]
@@ -50,9 +50,9 @@ public class NullableDateTimeHaveOffsetTests : BaseTest
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
 		RunCompareFailTest(
-			() => ((DateTime?)utcDate).Should().Not.HaveOffset(TimeSpan.Zero, "custom because"),
-			"custom because"
-		);
+							() => ((DateTime?)utcDate).Should().Not.HaveOffset(TimeSpan.Zero, "custom because"),
+							"custom because"
+						);
 	}
 
 	[Fact]
@@ -72,8 +72,5 @@ public class NullableDateTimeHaveOffsetTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotHaveOffsetWhenNull()
-	{
-		((DateTime?)null).Should().Not.HaveOffset(TimeSpan.Zero);
-	}
+	public void GoodNotHaveOffsetWhenNull() { ((DateTime?)null).Should().Not.HaveOffset(TimeSpan.Zero); }
 }

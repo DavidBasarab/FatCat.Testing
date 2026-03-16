@@ -18,9 +18,9 @@ public class DateTimeBeOnOrAfterTests : BaseTest
 		var laterDate = new DateTime(2024, 6, 16);
 
 		RunCompareFailTest(
-			() => date.Should().BeOnOrAfter(laterDate),
-			"2024-06-15 10:30:45 should be on or after 2024-06-16 00:00:00"
-		);
+							() => date.Should().BeOnOrAfter(laterDate),
+							"2024-06-15 10:30:45 should be on or after 2024-06-16 00:00:00"
+						);
 	}
 
 	[Fact]
@@ -48,9 +48,9 @@ public class DateTimeBeOnOrAfterTests : BaseTest
 		var earlierDate = new DateTime(2024, 6, 14);
 
 		RunCompareFailTest(
-			() => date.Should().Not.BeOnOrAfter(earlierDate),
-			"2024-06-15 10:30:45 should not be on or after 2024-06-14 00:00:00"
-		);
+							() => date.Should().Not.BeOnOrAfter(earlierDate),
+							"2024-06-15 10:30:45 should not be on or after 2024-06-14 00:00:00"
+						);
 	}
 
 	[Fact]

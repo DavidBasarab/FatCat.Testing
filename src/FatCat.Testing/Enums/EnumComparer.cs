@@ -10,24 +10,21 @@ public class EnumComparer<T>(T subject) : ComparerBase<T, EnumComparer<T>>(subje
 
 	public EnumComparer<T> Be(T expected, string because = null)
 	{
-		if (!Subject.Equals(expected))
-			CompareException.New(because ?? $"{Subject} should be {expected}");
+		if (!Subject.Equals(expected)) { CompareException.New(because ?? $"{Subject} should be {expected}"); }
 
 		return this;
 	}
 
 	public EnumComparer<T> BeDefined(string because = null)
 	{
-		if (!Enum.IsDefined(typeof(T), Subject))
-			CompareException.New(because ?? $"{Subject} should be defined");
+		if (!Enum.IsDefined(typeof(T), Subject)) { CompareException.New(because ?? $"{Subject} should be defined"); }
 
 		return this;
 	}
 
 	public EnumComparer<T> HaveFlag(T expected, string because = null)
 	{
-		if (!Subject.HasFlag(expected))
-			CompareException.New(because ?? $"{Subject} should have flag {expected}");
+		if (!Subject.HasFlag(expected)) { CompareException.New(because ?? $"{Subject} should have flag {expected}"); }
 
 		return this;
 	}
