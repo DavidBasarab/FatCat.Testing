@@ -15,20 +15,14 @@ public class NotNullableStringComparer(string? subject)
 		string? because = null
 	)
 	{
-		if (StringEqualityHelper.AreEqual(Subject, expected, options))
-		{
-			CompareException.New(because ?? $"{Subject} should not be {expected}");
-		}
+		if (StringEqualityHelper.AreEqual(Subject, expected, options)) { CompareException.New(because ?? $"{Subject} should not be {expected}"); }
 
 		return this;
 	}
 
 	public NotNullableStringComparer BeEmpty(string? because = null)
 	{
-		if (Subject == string.Empty)
-		{
-			CompareException.New(because ?? "subject should not be empty");
-		}
+		if (Subject == string.Empty) { CompareException.New(because ?? "subject should not be empty"); }
 
 		return this;
 	}
@@ -39,30 +33,21 @@ public class NotNullableStringComparer(string? subject)
 		string? because = null
 	)
 	{
-		if (StringEqualityHelper.AreEqual(Subject, expected, options))
-		{
-			CompareException.New(because ?? $"{Subject} should not be equivalent to {expected}");
-		}
+		if (StringEqualityHelper.AreEqual(Subject, expected, options)) { CompareException.New(because ?? $"{Subject} should not be equivalent to {expected}"); }
 
 		return this;
 	}
 
 	public NotNullableStringComparer BeLowerCased(string? because = null)
 	{
-		if (StringEqualityHelper.IsLowerCased(Subject))
-		{
-			CompareException.New(because ?? $"{Subject} should not be lower cased");
-		}
+		if (StringEqualityHelper.IsLowerCased(Subject)) { CompareException.New(because ?? $"{Subject} should not be lower cased"); }
 
 		return this;
 	}
 
 	public NotNullableStringComparer BeNull(string? because = null)
 	{
-		if (Subject == null)
-		{
-			CompareException.New(because ?? "subject should not be null");
-		}
+		if (Subject == null) { CompareException.New(because ?? "subject should not be null"); }
 
 		return this;
 	}
@@ -96,10 +81,7 @@ public class NotNullableStringComparer(string? subject)
 
 	public NotNullableStringComparer BeUpperCased(string? because = null)
 	{
-		if (StringEqualityHelper.IsUpperCased(Subject))
-		{
-			CompareException.New(because ?? $"{Subject} should not be upper cased");
-		}
+		if (StringEqualityHelper.IsUpperCased(Subject)) { CompareException.New(because ?? $"{Subject} should not be upper cased"); }
 
 		return this;
 	}
@@ -110,10 +92,7 @@ public class NotNullableStringComparer(string? subject)
 		string? because = null
 	)
 	{
-		if (Subject != null && StringEqualityHelper.CountOccurrences(Subject, expected, options) > 0)
-		{
-			CompareException.New(because ?? $"{Subject} should not contain {expected}");
-		}
+		if (Subject != null && StringEqualityHelper.CountOccurrences(Subject, expected, options) > 0) { CompareException.New(because ?? $"{Subject} should not contain {expected}"); }
 
 		return this;
 	}
@@ -129,8 +108,8 @@ public class NotNullableStringComparer(string? subject)
 		if (allContained)
 		{
 			CompareException.New(
-				because ?? $"{Subject ?? "null"} should not contain all of [{string.Join(", ", expected)}]"
-			);
+								because ?? $"{Subject ?? "null"} should not contain all of [{string.Join(", ", expected)}]"
+								);
 		}
 
 		return this;
@@ -147,8 +126,8 @@ public class NotNullableStringComparer(string? subject)
 		if (found.Count > 0)
 		{
 			CompareException.New(
-				because ?? $"{Subject ?? "null"} should not contain any of [{string.Join(", ", expected)}]"
-			);
+								because ?? $"{Subject ?? "null"} should not contain any of [{string.Join(", ", expected)}]"
+								);
 		}
 
 		return this;
@@ -160,10 +139,7 @@ public class NotNullableStringComparer(string? subject)
 		string? because = null
 	)
 	{
-		if (Subject != null && Subject.EndsWith(expected, StringEqualityHelper.ToComparison(options)))
-		{
-			CompareException.New(because ?? $"{Subject} should not end with {expected}");
-		}
+		if (Subject != null && Subject.EndsWith(expected, StringEqualityHelper.ToComparison(options))) { CompareException.New(because ?? $"{Subject} should not end with {expected}"); }
 
 		return this;
 	}
@@ -174,30 +150,21 @@ public class NotNullableStringComparer(string? subject)
 		string? because = null
 	)
 	{
-		if (Subject != null && Subject.EndsWith(expected, StringEqualityHelper.ToComparison(options)))
-		{
-			CompareException.New(because ?? $"{Subject} should not end with equivalent of {expected}");
-		}
+		if (Subject != null && Subject.EndsWith(expected, StringEqualityHelper.ToComparison(options))) { CompareException.New(because ?? $"{Subject} should not end with equivalent of {expected}"); }
 
 		return this;
 	}
 
 	public NotNullableStringComparer HaveLength(int expected, string? because = null)
 	{
-		if (Subject != null && Subject.Length == expected)
-		{
-			CompareException.New(because ?? $"{Subject} should not have length {expected}");
-		}
+		if (Subject != null && Subject.Length == expected) { CompareException.New(because ?? $"{Subject} should not have length {expected}"); }
 
 		return this;
 	}
 
 	public NotNullableStringComparer HaveValue(string? because = null)
 	{
-		if (Subject != null)
-		{
-			CompareException.New(because ?? $"{Subject} should not have a value");
-		}
+		if (Subject != null) { CompareException.New(because ?? $"{Subject} should not have a value"); }
 
 		return this;
 	}
@@ -208,30 +175,21 @@ public class NotNullableStringComparer(string? subject)
 		string? because = null
 	)
 	{
-		if (Subject != null && StringEqualityHelper.MatchesWildcard(Subject, pattern, options))
-		{
-			CompareException.New(because ?? $"{Subject} should not match {pattern}");
-		}
+		if (Subject != null && StringEqualityHelper.MatchesWildcard(Subject, pattern, options)) { CompareException.New(because ?? $"{Subject} should not match {pattern}"); }
 
 		return this;
 	}
 
 	public NotNullableStringComparer MatchRegex(string pattern, string? because = null)
 	{
-		if (Subject != null && Regex.IsMatch(Subject, pattern))
-		{
-			CompareException.New(because ?? $"{Subject} should not match regex {pattern}");
-		}
+		if (Subject != null && Regex.IsMatch(Subject, pattern)) { CompareException.New(because ?? $"{Subject} should not match regex {pattern}"); }
 
 		return this;
 	}
 
 	public NotNullableStringComparer MatchRegex(Regex regex, string? because = null)
 	{
-		if (Subject != null && regex.IsMatch(Subject))
-		{
-			CompareException.New(because ?? $"{Subject} should not match regex {regex}");
-		}
+		if (Subject != null && regex.IsMatch(Subject)) { CompareException.New(because ?? $"{Subject} should not match regex {regex}"); }
 
 		return this;
 	}
@@ -242,10 +200,7 @@ public class NotNullableStringComparer(string? subject)
 		string? because = null
 	)
 	{
-		if (Subject != null && Subject.StartsWith(expected, StringEqualityHelper.ToComparison(options)))
-		{
-			CompareException.New(because ?? $"{Subject} should not start with {expected}");
-		}
+		if (Subject != null && Subject.StartsWith(expected, StringEqualityHelper.ToComparison(options))) { CompareException.New(because ?? $"{Subject} should not start with {expected}"); }
 
 		return this;
 	}
@@ -256,10 +211,7 @@ public class NotNullableStringComparer(string? subject)
 		string? because = null
 	)
 	{
-		if (Subject != null && Subject.StartsWith(expected, StringEqualityHelper.ToComparison(options)))
-		{
-			CompareException.New(because ?? $"{Subject} should not start with equivalent of {expected}");
-		}
+		if (Subject != null && Subject.StartsWith(expected, StringEqualityHelper.ToComparison(options))) { CompareException.New(because ?? $"{Subject} should not start with equivalent of {expected}"); }
 
 		return this;
 	}
