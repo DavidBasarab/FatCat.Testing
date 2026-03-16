@@ -8,13 +8,16 @@ public class NullableDateTimeHaveMonthTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().HaveMonth(7),
-							"2024-06-15 10:30:45 should have month 7"
-						);
+			() => ((DateTime?)date).Should().HaveMonth(7),
+			"2024-06-15 10:30:45 should have month 7"
+		);
 	}
 
 	[Fact]
-	public void BadHaveMonthNullValue() { RunCompareFailTest(() => ((DateTime?)null).Should().HaveMonth(7), "null should have month 7"); }
+	public void BadHaveMonthNullValue()
+	{
+		RunCompareFailTest(() => ((DateTime?)null).Should().HaveMonth(7), "null should have month 7");
+	}
 
 	[Fact]
 	public void BadHaveMonthWithBecause()
@@ -30,9 +33,9 @@ public class NullableDateTimeHaveMonthTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().Not.HaveMonth(6),
-							"2024-06-15 10:30:45 should not have month 6"
-						);
+			() => ((DateTime?)date).Should().Not.HaveMonth(6),
+			"2024-06-15 10:30:45 should not have month 6"
+		);
 	}
 
 	[Fact]
@@ -60,5 +63,8 @@ public class NullableDateTimeHaveMonthTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotHaveMonthWhenNull() { ((DateTime?)null).Should().Not.HaveMonth(6); }
+	public void GoodNotHaveMonthWhenNull()
+	{
+		((DateTime?)null).Should().Not.HaveMonth(6);
+	}
 }

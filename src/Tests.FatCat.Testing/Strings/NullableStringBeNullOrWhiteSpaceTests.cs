@@ -8,56 +8,68 @@ public class NullableStringBeNullOrWhiteSpaceTests : BaseTest
 	public void BadBeNullOrWhiteSpace()
 	{
 		RunCompareFailTest(
-							() => ((string?)"hello").Should().BeNullOrWhiteSpace(),
-							"hello should be null or whitespace"
-						);
+			() => ((string?)"hello").Should().BeNullOrWhiteSpace(),
+			"hello should be null or whitespace"
+		);
 	}
 
 	[Fact]
 	public void BadBeNullOrWhiteSpaceWithBecause()
 	{
 		RunCompareFailTest(
-							() => ((string?)"hello").Should().BeNullOrWhiteSpace("custom because"),
-							"custom because"
-						);
+			() => ((string?)"hello").Should().BeNullOrWhiteSpace("custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]
 	public void BadNotBeNullOrWhiteSpaceWhenNull()
 	{
 		RunCompareFailTest(
-							() => ((string?)null).Should().Not.BeNullOrWhiteSpace(),
-							"null should not be null or whitespace"
-						);
+			() => ((string?)null).Should().Not.BeNullOrWhiteSpace(),
+			"null should not be null or whitespace"
+		);
 	}
 
 	[Fact]
 	public void BadNotBeNullOrWhiteSpaceWhenWhiteSpace()
 	{
 		RunCompareFailTest(
-							() => ((string?)"   ").Should().Not.BeNullOrWhiteSpace(),
-							"    should not be null or whitespace"
-						);
+			() => ((string?)"   ").Should().Not.BeNullOrWhiteSpace(),
+			"    should not be null or whitespace"
+		);
 	}
 
 	[Fact]
 	public void BadNotBeNullOrWhiteSpaceWithBecause()
 	{
 		RunCompareFailTest(
-							() => ((string?)null).Should().Not.BeNullOrWhiteSpace("custom because"),
-							"custom because"
-						);
+			() => ((string?)null).Should().Not.BeNullOrWhiteSpace("custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]
-	public void GoodBeNullOrWhiteSpaceWhenEmpty() { ((string?)"").Should().BeNullOrWhiteSpace(); }
+	public void GoodBeNullOrWhiteSpaceWhenEmpty()
+	{
+		((string?)"").Should().BeNullOrWhiteSpace();
+	}
 
 	[Fact]
-	public void GoodBeNullOrWhiteSpaceWhenNull() { ((string?)null).Should().BeNullOrWhiteSpace(); }
+	public void GoodBeNullOrWhiteSpaceWhenNull()
+	{
+		((string?)null).Should().BeNullOrWhiteSpace();
+	}
 
 	[Fact]
-	public void GoodBeNullOrWhiteSpaceWhenWhiteSpace() { ((string?)"   ").Should().BeNullOrWhiteSpace(); }
+	public void GoodBeNullOrWhiteSpaceWhenWhiteSpace()
+	{
+		((string?)"   ").Should().BeNullOrWhiteSpace();
+	}
 
 	[Fact]
-	public void GoodNotBeNullOrWhiteSpace() { ((string?)"hello").Should().Not.BeNullOrWhiteSpace(); }
+	public void GoodNotBeNullOrWhiteSpace()
+	{
+		((string?)"hello").Should().Not.BeNullOrWhiteSpace();
+	}
 }

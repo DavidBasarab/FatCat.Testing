@@ -9,9 +9,9 @@ public class NullableDateTimeBeBeforeTests : BaseTest
 		var earlierDate = new DateTime(2024, 6, 14);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().BeBefore(earlierDate),
-							"2024-06-15 10:30:45 should be before 2024-06-14 00:00:00"
-						);
+			() => ((DateTime?)date).Should().BeBefore(earlierDate),
+			"2024-06-15 10:30:45 should be before 2024-06-14 00:00:00"
+		);
 	}
 
 	[Fact]
@@ -20,9 +20,9 @@ public class NullableDateTimeBeBeforeTests : BaseTest
 		var earlierDate = new DateTime(2024, 6, 14);
 
 		RunCompareFailTest(
-							() => ((DateTime?)null).Should().BeBefore(earlierDate),
-							"null should be before 2024-06-14 00:00:00"
-						);
+			() => ((DateTime?)null).Should().BeBefore(earlierDate),
+			"null should be before 2024-06-14 00:00:00"
+		);
 	}
 
 	[Fact]
@@ -32,9 +32,9 @@ public class NullableDateTimeBeBeforeTests : BaseTest
 		var earlierDate = new DateTime(2024, 6, 14);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().BeBefore(earlierDate, "custom because"),
-							"custom because"
-						);
+			() => ((DateTime?)date).Should().BeBefore(earlierDate, "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]
@@ -44,9 +44,9 @@ public class NullableDateTimeBeBeforeTests : BaseTest
 		var laterDate = new DateTime(2024, 6, 16);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().Not.BeBefore(laterDate),
-							"2024-06-15 10:30:45 should not be before 2024-06-16 00:00:00"
-						);
+			() => ((DateTime?)date).Should().Not.BeBefore(laterDate),
+			"2024-06-15 10:30:45 should not be before 2024-06-16 00:00:00"
+		);
 	}
 
 	[Fact]
@@ -56,9 +56,9 @@ public class NullableDateTimeBeBeforeTests : BaseTest
 		var laterDate = new DateTime(2024, 6, 16);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().Not.BeBefore(laterDate, "custom because"),
-							"custom because"
-						);
+			() => ((DateTime?)date).Should().Not.BeBefore(laterDate, "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]

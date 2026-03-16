@@ -43,9 +43,9 @@ public class DateTimeBeTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 
 		RunCompareFailTest(
-							() => date.Should().Not.Be(date),
-							"2024-06-15 10:30:45 should not be 2024-06-15 10:30:45"
-						);
+			() => date.Should().Not.Be(date),
+			"2024-06-15 10:30:45 should not be 2024-06-15 10:30:45"
+		);
 	}
 
 	[Fact]

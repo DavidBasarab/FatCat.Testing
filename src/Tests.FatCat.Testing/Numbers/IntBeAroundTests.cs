@@ -3,10 +3,16 @@ namespace Tests.FatCat.Testing.Numbers;
 public class IntBeAroundTests : BaseTest
 {
 	[Fact]
-	public void BadBeAround() { RunCompareFailTest(() => 5.Should().BeAround(2, 2), "5 should be around 2 within 2"); }
+	public void BadBeAround()
+	{
+		RunCompareFailTest(() => 5.Should().BeAround(2, 2), "5 should be around 2 within 2");
+	}
 
 	[Fact]
-	public void BadBeAroundWithBecause() { RunCompareFailTest(() => 5.Should().BeAround(2, 2, "custom because"), "custom because"); }
+	public void BadBeAroundWithBecause()
+	{
+		RunCompareFailTest(() => 5.Should().BeAround(2, 2, "custom because"), "custom because");
+	}
 
 	[Fact]
 	public void GoodBeAround()

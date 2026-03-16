@@ -8,13 +8,16 @@ public class NullableDateTimeHaveMinuteTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().HaveMinute(31),
-							"2024-06-15 10:30:45 should have minute 31"
-						);
+			() => ((DateTime?)date).Should().HaveMinute(31),
+			"2024-06-15 10:30:45 should have minute 31"
+		);
 	}
 
 	[Fact]
-	public void BadHaveMinuteNullValue() { RunCompareFailTest(() => ((DateTime?)null).Should().HaveMinute(31), "null should have minute 31"); }
+	public void BadHaveMinuteNullValue()
+	{
+		RunCompareFailTest(() => ((DateTime?)null).Should().HaveMinute(31), "null should have minute 31");
+	}
 
 	[Fact]
 	public void BadHaveMinuteWithBecause()
@@ -30,9 +33,9 @@ public class NullableDateTimeHaveMinuteTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().Not.HaveMinute(30),
-							"2024-06-15 10:30:45 should not have minute 30"
-						);
+			() => ((DateTime?)date).Should().Not.HaveMinute(30),
+			"2024-06-15 10:30:45 should not have minute 30"
+		);
 	}
 
 	[Fact]
@@ -41,9 +44,9 @@ public class NullableDateTimeHaveMinuteTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().Not.HaveMinute(30, "custom because"),
-							"custom because"
-						);
+			() => ((DateTime?)date).Should().Not.HaveMinute(30, "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]
@@ -63,5 +66,8 @@ public class NullableDateTimeHaveMinuteTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotHaveMinuteWhenNull() { ((DateTime?)null).Should().Not.HaveMinute(30); }
+	public void GoodNotHaveMinuteWhenNull()
+	{
+		((DateTime?)null).Should().Not.HaveMinute(30);
+	}
 }

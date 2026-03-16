@@ -8,13 +8,16 @@ public class NullableDateTimeHaveSecondTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().HaveSecond(46),
-							"2024-06-15 10:30:45 should have second 46"
-						);
+			() => ((DateTime?)date).Should().HaveSecond(46),
+			"2024-06-15 10:30:45 should have second 46"
+		);
 	}
 
 	[Fact]
-	public void BadHaveSecondNullValue() { RunCompareFailTest(() => ((DateTime?)null).Should().HaveSecond(46), "null should have second 46"); }
+	public void BadHaveSecondNullValue()
+	{
+		RunCompareFailTest(() => ((DateTime?)null).Should().HaveSecond(46), "null should have second 46");
+	}
 
 	[Fact]
 	public void BadHaveSecondWithBecause()
@@ -30,9 +33,9 @@ public class NullableDateTimeHaveSecondTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().Not.HaveSecond(45),
-							"2024-06-15 10:30:45 should not have second 45"
-						);
+			() => ((DateTime?)date).Should().Not.HaveSecond(45),
+			"2024-06-15 10:30:45 should not have second 45"
+		);
 	}
 
 	[Fact]
@@ -41,9 +44,9 @@ public class NullableDateTimeHaveSecondTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().Not.HaveSecond(45, "custom because"),
-							"custom because"
-						);
+			() => ((DateTime?)date).Should().Not.HaveSecond(45, "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]
@@ -63,5 +66,8 @@ public class NullableDateTimeHaveSecondTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotHaveSecondWhenNull() { ((DateTime?)null).Should().Not.HaveSecond(45); }
+	public void GoodNotHaveSecondWhenNull()
+	{
+		((DateTime?)null).Should().Not.HaveSecond(45);
+	}
 }

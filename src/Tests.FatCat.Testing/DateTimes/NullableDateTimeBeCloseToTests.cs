@@ -9,9 +9,9 @@ public class NullableDateTimeBeCloseToTests : BaseTest
 		var farDate = new DateTime(2024, 6, 15, 10, 30, 42);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().BeCloseTo(farDate, TimeSpan.FromSeconds(2)),
-							"2024-06-15 10:30:45 should be within 00:00:02 of 2024-06-15 10:30:42"
-						);
+			() => ((DateTime?)date).Should().BeCloseTo(farDate, TimeSpan.FromSeconds(2)),
+			"2024-06-15 10:30:45 should be within 00:00:02 of 2024-06-15 10:30:42"
+		);
 	}
 
 	[Fact]
@@ -20,9 +20,9 @@ public class NullableDateTimeBeCloseToTests : BaseTest
 		var farDate = new DateTime(2024, 6, 15, 10, 30, 42);
 
 		RunCompareFailTest(
-							() => ((DateTime?)null).Should().BeCloseTo(farDate, TimeSpan.FromSeconds(2)),
-							"null should be within 00:00:02 of 2024-06-15 10:30:42"
-						);
+			() => ((DateTime?)null).Should().BeCloseTo(farDate, TimeSpan.FromSeconds(2)),
+			"null should be within 00:00:02 of 2024-06-15 10:30:42"
+		);
 	}
 
 	[Fact]
@@ -32,9 +32,9 @@ public class NullableDateTimeBeCloseToTests : BaseTest
 		var farDate = new DateTime(2024, 6, 15, 10, 30, 42);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().BeCloseTo(farDate, TimeSpan.FromSeconds(2), "custom because"),
-							"custom because"
-						);
+			() => ((DateTime?)date).Should().BeCloseTo(farDate, TimeSpan.FromSeconds(2), "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]
@@ -44,9 +44,9 @@ public class NullableDateTimeBeCloseToTests : BaseTest
 		var closeDate = new DateTime(2024, 6, 15, 10, 30, 44);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().Not.BeCloseTo(closeDate, TimeSpan.FromSeconds(2)),
-							"2024-06-15 10:30:45 should not be within 00:00:02 of 2024-06-15 10:30:44"
-						);
+			() => ((DateTime?)date).Should().Not.BeCloseTo(closeDate, TimeSpan.FromSeconds(2)),
+			"2024-06-15 10:30:45 should not be within 00:00:02 of 2024-06-15 10:30:44"
+		);
 	}
 
 	[Fact]
@@ -56,9 +56,9 @@ public class NullableDateTimeBeCloseToTests : BaseTest
 		var closeDate = new DateTime(2024, 6, 15, 10, 30, 44);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().Not.BeCloseTo(closeDate, TimeSpan.FromSeconds(2), "custom because"),
-							"custom because"
-						);
+			() => ((DateTime?)date).Should().Not.BeCloseTo(closeDate, TimeSpan.FromSeconds(2), "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]
