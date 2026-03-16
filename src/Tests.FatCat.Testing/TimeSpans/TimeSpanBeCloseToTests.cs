@@ -16,9 +16,9 @@ public class TimeSpanBeCloseToTests : BaseTest
 		var span = TimeSpan.FromHours(1);
 
 		RunCompareFailTest(
-							() => span.Should().BeCloseTo(TimeSpan.FromHours(3), TimeSpan.FromMinutes(30)),
-							"01:00:00 should be within 00:30:00 of 03:00:00"
-						);
+			() => span.Should().BeCloseTo(TimeSpan.FromHours(3), TimeSpan.FromMinutes(30)),
+			"01:00:00 should be within 00:30:00 of 03:00:00"
+		);
 	}
 
 	[Fact]
@@ -27,9 +27,9 @@ public class TimeSpanBeCloseToTests : BaseTest
 		var span = TimeSpan.FromHours(1);
 
 		RunCompareFailTest(
-							() => span.Should().BeCloseTo(TimeSpan.FromHours(3), TimeSpan.FromMinutes(30), "custom because"),
-							"custom because"
-						);
+			() => span.Should().BeCloseTo(TimeSpan.FromHours(3), TimeSpan.FromMinutes(30), "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]
@@ -38,9 +38,9 @@ public class TimeSpanBeCloseToTests : BaseTest
 		var span = TimeSpan.FromHours(1);
 
 		RunCompareFailTest(() =>
-								span.Should()
-									.Not.BeCloseTo(TimeSpan.FromHours(1).Add(TimeSpan.FromMinutes(15)), TimeSpan.FromMinutes(30))
-						);
+			span.Should()
+				.Not.BeCloseTo(TimeSpan.FromHours(1).Add(TimeSpan.FromMinutes(15)), TimeSpan.FromMinutes(30))
+		);
 	}
 
 	[Fact]
@@ -49,11 +49,11 @@ public class TimeSpanBeCloseToTests : BaseTest
 		var span = TimeSpan.FromHours(1);
 
 		RunCompareFailTest(
-							() =>
-								span.Should()
-									.Not.BeCloseTo(TimeSpan.FromHours(1).Add(TimeSpan.FromMinutes(15)), TimeSpan.FromMinutes(30)),
-							"01:00:00 should not be within 00:30:00 of 01:15:00"
-						);
+			() =>
+				span.Should()
+					.Not.BeCloseTo(TimeSpan.FromHours(1).Add(TimeSpan.FromMinutes(15)), TimeSpan.FromMinutes(30)),
+			"01:00:00 should not be within 00:30:00 of 01:15:00"
+		);
 	}
 
 	[Fact]
@@ -62,15 +62,15 @@ public class TimeSpanBeCloseToTests : BaseTest
 		var span = TimeSpan.FromHours(1);
 
 		RunCompareFailTest(
-							() =>
-								span.Should()
-									.Not.BeCloseTo(
-													TimeSpan.FromHours(1).Add(TimeSpan.FromMinutes(15)),
-													TimeSpan.FromMinutes(30),
-													"custom because"
-												),
-							"custom because"
-						);
+			() =>
+				span.Should()
+					.Not.BeCloseTo(
+						TimeSpan.FromHours(1).Add(TimeSpan.FromMinutes(15)),
+						TimeSpan.FromMinutes(30),
+						"custom because"
+					),
+			"custom because"
+		);
 	}
 
 	[Fact]

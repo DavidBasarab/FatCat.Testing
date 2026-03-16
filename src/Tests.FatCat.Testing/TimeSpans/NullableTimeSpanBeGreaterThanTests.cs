@@ -8,18 +8,18 @@ public class NullableTimeSpanBeGreaterThanTests : BaseTest
 		var span = TimeSpan.FromHours(1);
 
 		RunCompareFailTest(
-							() => ((TimeSpan?)span).Should().BeGreaterThan(TimeSpan.FromHours(2)),
-							"01:00:00 should be greater than 02:00:00"
-						);
+			() => ((TimeSpan?)span).Should().BeGreaterThan(TimeSpan.FromHours(2)),
+			"01:00:00 should be greater than 02:00:00"
+		);
 	}
 
 	[Fact]
 	public void BadBeGreaterThanNullValue()
 	{
 		RunCompareFailTest(
-							() => ((TimeSpan?)null).Should().BeGreaterThan(TimeSpan.FromHours(2)),
-							"null should be greater than 02:00:00"
-						);
+			() => ((TimeSpan?)null).Should().BeGreaterThan(TimeSpan.FromHours(2)),
+			"null should be greater than 02:00:00"
+		);
 	}
 
 	[Fact]
@@ -28,9 +28,9 @@ public class NullableTimeSpanBeGreaterThanTests : BaseTest
 		var span = TimeSpan.FromHours(1);
 
 		RunCompareFailTest(
-							() => ((TimeSpan?)span).Should().BeGreaterThan(TimeSpan.FromHours(2), "custom because"),
-							"custom because"
-						);
+			() => ((TimeSpan?)span).Should().BeGreaterThan(TimeSpan.FromHours(2), "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]
@@ -39,9 +39,9 @@ public class NullableTimeSpanBeGreaterThanTests : BaseTest
 		var span = TimeSpan.FromHours(2);
 
 		RunCompareFailTest(
-							() => ((TimeSpan?)span).Should().Not.BeGreaterThan(TimeSpan.FromHours(1)),
-							"02:00:00 should not be greater than 01:00:00"
-						);
+			() => ((TimeSpan?)span).Should().Not.BeGreaterThan(TimeSpan.FromHours(1)),
+			"02:00:00 should not be greater than 01:00:00"
+		);
 	}
 
 	[Fact]
@@ -50,9 +50,9 @@ public class NullableTimeSpanBeGreaterThanTests : BaseTest
 		var span = TimeSpan.FromHours(2);
 
 		RunCompareFailTest(
-							() => ((TimeSpan?)span).Should().Not.BeGreaterThan(TimeSpan.FromHours(1), "custom because"),
-							"custom because"
-						);
+			() => ((TimeSpan?)span).Should().Not.BeGreaterThan(TimeSpan.FromHours(1), "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]
@@ -72,5 +72,8 @@ public class NullableTimeSpanBeGreaterThanTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotBeGreaterThanWhenNull() { ((TimeSpan?)null).Should().Not.BeGreaterThan(TimeSpan.FromHours(1)); }
+	public void GoodNotBeGreaterThanWhenNull()
+	{
+		((TimeSpan?)null).Should().Not.BeGreaterThan(TimeSpan.FromHours(1));
+	}
 }

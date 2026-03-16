@@ -8,13 +8,16 @@ public class NullableDateTimeHaveYearTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().HaveYear(2025),
-							"2024-06-15 10:30:45 should have year 2025"
-						);
+			() => ((DateTime?)date).Should().HaveYear(2025),
+			"2024-06-15 10:30:45 should have year 2025"
+		);
 	}
 
 	[Fact]
-	public void BadHaveYearNullValue() { RunCompareFailTest(() => ((DateTime?)null).Should().HaveYear(2025), "null should have year 2025"); }
+	public void BadHaveYearNullValue()
+	{
+		RunCompareFailTest(() => ((DateTime?)null).Should().HaveYear(2025), "null should have year 2025");
+	}
 
 	[Fact]
 	public void BadHaveYearWithBecause()
@@ -30,9 +33,9 @@ public class NullableDateTimeHaveYearTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().Not.HaveYear(2024),
-							"2024-06-15 10:30:45 should not have year 2024"
-						);
+			() => ((DateTime?)date).Should().Not.HaveYear(2024),
+			"2024-06-15 10:30:45 should not have year 2024"
+		);
 	}
 
 	[Fact]
@@ -41,9 +44,9 @@ public class NullableDateTimeHaveYearTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().Not.HaveYear(2024, "custom because"),
-							"custom because"
-						);
+			() => ((DateTime?)date).Should().Not.HaveYear(2024, "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]
@@ -63,5 +66,8 @@ public class NullableDateTimeHaveYearTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotHaveYearWhenNull() { ((DateTime?)null).Should().Not.HaveYear(2024); }
+	public void GoodNotHaveYearWhenNull()
+	{
+		((DateTime?)null).Should().Not.HaveYear(2024);
+	}
 }

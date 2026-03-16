@@ -11,7 +11,10 @@ public class NullableTimeSpanHaveSecondsTests : BaseTest
 	}
 
 	[Fact]
-	public void BadHaveSecondsNullValue() { RunCompareFailTest(() => ((TimeSpan?)null).Should().HaveSeconds(30), "null should have seconds 30"); }
+	public void BadHaveSecondsNullValue()
+	{
+		RunCompareFailTest(() => ((TimeSpan?)null).Should().HaveSeconds(30), "null should have seconds 30");
+	}
 
 	[Fact]
 	public void BadHaveSecondsWithBecause()
@@ -27,9 +30,9 @@ public class NullableTimeSpanHaveSecondsTests : BaseTest
 		var span = TimeSpan.FromSeconds(45);
 
 		RunCompareFailTest(
-							() => ((TimeSpan?)span).Should().Not.HaveSeconds(45),
-							"00:00:45 should not have seconds 45"
-						);
+			() => ((TimeSpan?)span).Should().Not.HaveSeconds(45),
+			"00:00:45 should not have seconds 45"
+		);
 	}
 
 	[Fact]
@@ -38,9 +41,9 @@ public class NullableTimeSpanHaveSecondsTests : BaseTest
 		var span = TimeSpan.FromSeconds(45);
 
 		RunCompareFailTest(
-							() => ((TimeSpan?)span).Should().Not.HaveSeconds(45, "custom because"),
-							"custom because"
-						);
+			() => ((TimeSpan?)span).Should().Not.HaveSeconds(45, "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]
@@ -60,5 +63,8 @@ public class NullableTimeSpanHaveSecondsTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotHaveSecondsWhenNull() { ((TimeSpan?)null).Should().Not.HaveSeconds(45); }
+	public void GoodNotHaveSecondsWhenNull()
+	{
+		((TimeSpan?)null).Should().Not.HaveSeconds(45);
+	}
 }
