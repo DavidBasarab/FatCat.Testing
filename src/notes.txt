@@ -1,0 +1,24 @@
+
+
+Phase 3 — Collections
+Before user objects, because they're still BCL and your numeric/string assertions feed directly into them:
+
+ — the big one
+IList<T> / List<T>
+IDictionary<TKey, TValue>
+array (has some unique assertions)
+
+
+Phase 4 — Reference Types & User Objects
+Once collections are solid:
+
+object — the base assertions (BeNull, BeSameAs, BeOfType, BeAssignableTo, BeEquivalentTo)
+Exception — WithMessage(), WithInnerException<T>(), etc.
+User-defined objects — BeEquivalentTo() with deep graph comparison (this is the hardest one by far)
+
+
+Phase 5 — Advanced / Async
+
+Action / Func<T> — Throw<T>(), NotThrow(), CompleteWithin()
+Task / Task<T> — async throw/completion assertions
+AssertionScope — batching multiple failures

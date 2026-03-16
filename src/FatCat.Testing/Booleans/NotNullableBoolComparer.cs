@@ -7,40 +7,28 @@ public class NotNullableBoolComparer(bool? subject) : NotComparerBase<bool?, Not
 {
 	public NotNullableBoolComparer Be(bool expected, string because = null)
 	{
-		if (Subject.HasValue && Subject.Value == expected)
-		{
-			CompareException.New(because ?? $"{expected} should not be {Subject.Value}");
-		}
+		if (Subject.HasValue && Subject.Value == expected) { CompareException.New(because ?? $"{expected} should not be {Subject.Value}"); }
 
 		return this;
 	}
 
 	public NotNullableBoolComparer BeFalse(string because = null)
 	{
-		if (Subject.HasValue && !Subject.Value)
-		{
-			CompareException.New(because ?? $"{Subject.Value} should not be False");
-		}
+		if (Subject.HasValue && !Subject.Value) { CompareException.New(because ?? $"{Subject.Value} should not be False"); }
 
 		return this;
 	}
 
 	public NotNullableBoolComparer BeTrue(string because = null)
 	{
-		if (Subject.HasValue && Subject.Value)
-		{
-			CompareException.New(because ?? $"{Subject.Value} should not be True");
-		}
+		if (Subject.HasValue && Subject.Value) { CompareException.New(because ?? $"{Subject.Value} should not be True"); }
 
 		return this;
 	}
 
 	public NotNullableBoolComparer HaveValue(string because = null)
 	{
-		if (Subject.HasValue)
-		{
-			CompareException.New(because ?? $"{Subject.Value} should not have a value");
-		}
+		if (Subject.HasValue) { CompareException.New(because ?? $"{Subject.Value} should not have a value"); }
 
 		return this;
 	}

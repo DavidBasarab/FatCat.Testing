@@ -1,42 +1,104 @@
 # Task
 
-Add `DateTime` methods
+Add `IEnumerable<T>` methods
 
 ## Feature Context
 
-This will be a replacement for FluentAssertions.  The syntax will be slightly different and the intention is to use it with doing unit tests in C#.  This feature is adding support for `DateTime`.
+This will be a replacement for FluentAssertions.  The syntax will be slightly different and the intention is to use it with doing unit tests in C#.  This feature is adding support for `IEnumerable<T>`.
 
 ## Tasks
 
 
-- [ ]  Be(DateTime expected)
-- [ ]  NotBe(DateTime expected)
-- [ ]  BeAfter(DateTime expected)
-- [ ]  BeOnOrAfter(DateTime expected)
-- [ ]  BeBefore(DateTime expected)
-- [ ]  BeOnOrBefore(DateTime expected)
-- [ ]  BeCloseTo(DateTime expected, TimeSpan precision) — within a time window
-- [ ]  NotBeCloseTo(DateTime expected, TimeSpan precision)
-- [ ]  HaveYear(int expected)
-- [ ]  NotHaveYear(int expected)
-- [ ]  HaveMonth(int expected)
-- [ ]  NotHaveMonth(int expected)
-- [ ]  HaveDay(int expected)
-- [ ]  NotHaveDay(int expected)
-- [ ]  HaveHour(int expected)
-- [ ]  NotHaveHour(int expected)
-- [ ]  HaveMinute(int expected)
-- [ ]  NotHaveMinute(int expected)
-- [ ]  HaveSecond(int expected)
-- [ ]  NotHaveSecond(int expected)
-- [ ]  HaveMillisecond(int expected)
-- [ ]  NotHaveMillisecond(int expected)
-- [ ]  BeUtc() — DateTimeKind.Utc
-- [ ]  BeLocal() — DateTimeKind.Local
-- [ ]  HaveKind(DateTimeKind expected)
-- [ ]  HaveOffset(TimeSpan expected)
-- [ ]  NotHaveOffset(TimeSpan expected)
-- [ ]  Make all char assertions work with nullable
+- [ ]  Empty / Null
+
+BeEmpty()
+NotBeEmpty()
+BeNullOrEmpty()
+NotBeNullOrEmpty()
+
+Count
+
+HaveCount(int expected)
+NotHaveCount(int expected)
+HaveCountGreaterThan(int expected)
+HaveCountGreaterThanOrEqualTo(int expected)
+HaveCountLessThan(int expected)
+HaveCountLessThanOrEqualTo(int expected)
+HaveCount(Expression<Func<int, bool>> countPredicate) — e.g. c => c > 3
+HaveSameCount(IEnumerable<T> expected)
+NotHaveSameCount(IEnumerable<T> expected)
+ContainSingle() — exactly one element
+ContainSingle(Expression<Func<T, bool>> predicate) — exactly one matching element
+
+Equality
+
+Equal(IEnumerable<T> expected) — order sensitive, uses Equals()
+Equal(params T[] expected) — params overload
+Equal(IEnumerable<T> expected, Func<T,T,bool> comparer) — custom equality
+NotEqual(IEnumerable<T> expected)
+BeEquivalentTo(IEnumerable<T> expected) — order insensitive, deep comparison
+NotBeEquivalentTo(IEnumerable<T> expected)
+
+Contains
+
+Contain(T expected)
+Contain(Expression<Func<T, bool>> predicate)
+Contain(IEnumerable<T> expected) — contains all items (subset)
+NotContain(T expected)
+NotContain(Expression<Func<T, bool>> predicate)
+NotContain(IEnumerable<T> expected)
+ContainEquivalentOf(T expected) — deep equality match
+NotContainEquivalentOf(T expected)
+ContainItemsAssignableTo<TExpected>() — all items assignable to type
+OnlyContain(Expression<Func<T, bool>> predicate) — all items match predicate
+
+Ordering
+
+BeInAscendingOrder()
+BeInAscendingOrder(IComparer<T> comparer)
+BeInAscendingOrder(Expression<Func<T, object>> propertyExpression)
+BeInAscendingOrder(Expression<Func<T, object>> propertyExpression, IComparer<T> comparer)
+BeInDescendingOrder()
+BeInDescendingOrder(IComparer<T> comparer)
+BeInDescendingOrder(Expression<Func<T, object>> propertyExpression)
+BeInDescendingOrder(Expression<Func<T, object>> propertyExpression, IComparer<T> comparer)
+NotBeInAscendingOrder()
+NotBeInDescendingOrder()
+ContainInOrder(IEnumerable<T> expected) — items appear in order (not necessarily consecutive)
+ContainInConsecutiveOrder(IEnumerable<T> expected) — items appear consecutively
+NotContainInConsecutiveOrder(IEnumerable<T> expected)
+
+Uniqueness
+
+OnlyHaveUniqueItems()
+OnlyHaveUniqueItems(Expression<Func<T, object>> propertyExpression)
+
+Type Checking
+
+AllBeAssignableTo<TExpected>()
+AllBeAssignableTo(Type expected)
+AllBeOfType<TExpected>()
+AllBeOfType(Type expected)
+ContainItemsAssignableTo<TExpected>()
+
+Null Elements
+
+NotContainNulls()
+NotContainNulls(Expression<Func<T, object>> propertyExpression)
+
+Predicates / Inspection
+
+AllSatisfy(Action<T> inspector) — every element passes nested assertions
+SatisfyRespectively(params Action<T>[] inspectors) — one inspector per element in order
+Satisfy(Expression<Func<IEnumerable<T>, bool>> predicate)
+
+Start / End
+
+StartWith(IEnumerable<T> expected)
+StartWith(IEnumerable<T> expected, Func<T,T,bool> comparer)
+EndWith(IEnumerable<T> expected)
+EndWith(IEnumerable<T> expected, Func<T,T,bool> comparer)
+- [ ]  Make all enum assertions work with nullable
 
 ## Required Steps
 
