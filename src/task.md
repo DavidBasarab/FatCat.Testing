@@ -1,30 +1,41 @@
 # Task
 
-Add char methods
+Add `DateTime` methods
 
 ## Feature Context
 
-This will be a replacement for FluentAssertions.  The syntax will be slightly different and the intention is to use it with doing unit tests in C#.  This feature is adding support for car.
+This will be a replacement for FluentAssertions.  The syntax will be slightly different and the intention is to use it with doing unit tests in C#.  This feature is adding support for `DateTime`.
 
 ## Tasks
 
 
-- [ ]  item.Should().Be(char expected)
-- [ ]  item.Should().Not.Be(char expected)
-- [ ]  item.Should().BeUpperCased() — char.IsUpper()
-- [ ]  item.Should().BeLowerCased() — char.IsLower()
-- [ ]  item.Should().BeLetter() — char.IsLetter()
-- [ ]  item.Should().BeDigit() — char.IsDigit()
-- [ ]  item.Should().BeLetterOrDigit() — char.IsLetterOrDigit()
-- [ ]  item.Should().BeWhiteSpace() — char.IsWhiteSpace()
-- [ ]  item.Should().BeControl() — char.IsControl()
-- [ ]  item.Should().Not.BeUpperCased() — char.IsUpper()
-- [ ]  item.Should().Not.BeLowerCased() — char.IsLower()
-- [ ]  item.Should().Not.BeLetter() — char.IsLetter()
-- [ ]  item.Should().Not.BeDigit() — char.IsDigit()
-- [ ]  item.Should().Not.BeLetterOrDigit() — char.IsLetterOrDigit()
-- [ ]  item.Should().Not.BeWhiteSpace() — char.IsWhiteSpace()
-- [ ]  item.Should().Not.BeControl() — char.IsControl()
+- [ ]  Be(DateTime expected)
+- [ ]  NotBe(DateTime expected)
+- [ ]  BeAfter(DateTime expected)
+- [ ]  BeOnOrAfter(DateTime expected)
+- [ ]  BeBefore(DateTime expected)
+- [ ]  BeOnOrBefore(DateTime expected)
+- [ ]  BeCloseTo(DateTime expected, TimeSpan precision) — within a time window
+- [ ]  NotBeCloseTo(DateTime expected, TimeSpan precision)
+- [ ]  HaveYear(int expected)
+- [ ]  NotHaveYear(int expected)
+- [ ]  HaveMonth(int expected)
+- [ ]  NotHaveMonth(int expected)
+- [ ]  HaveDay(int expected)
+- [ ]  NotHaveDay(int expected)
+- [ ]  HaveHour(int expected)
+- [ ]  NotHaveHour(int expected)
+- [ ]  HaveMinute(int expected)
+- [ ]  NotHaveMinute(int expected)
+- [ ]  HaveSecond(int expected)
+- [ ]  NotHaveSecond(int expected)
+- [ ]  HaveMillisecond(int expected)
+- [ ]  NotHaveMillisecond(int expected)
+- [ ]  BeUtc() — DateTimeKind.Utc
+- [ ]  BeLocal() — DateTimeKind.Local
+- [ ]  HaveKind(DateTimeKind expected)
+- [ ]  HaveOffset(TimeSpan expected)
+- [ ]  NotHaveOffset(TimeSpan expected)
 - [ ]  Make all char assertions work with nullable
 
 ## Required Steps
