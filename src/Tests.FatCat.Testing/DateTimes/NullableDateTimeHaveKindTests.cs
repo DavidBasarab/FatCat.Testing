@@ -8,18 +8,18 @@ public class NullableDateTimeHaveKindTests : BaseTest
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
 		RunCompareFailTest(
-			() => ((DateTime?)utcDate).Should().HaveKind(DateTimeKind.Local),
-			"2024-06-15 10:30:45 should have kind Local"
-		);
+							() => ((DateTime?)utcDate).Should().HaveKind(DateTimeKind.Local),
+							"2024-06-15 10:30:45 should have kind Local"
+						);
 	}
 
 	[Fact]
 	public void BadHaveKindNullValue()
 	{
 		RunCompareFailTest(
-			() => ((DateTime?)null).Should().HaveKind(DateTimeKind.Local),
-			"null should have kind Local"
-		);
+							() => ((DateTime?)null).Should().HaveKind(DateTimeKind.Local),
+							"null should have kind Local"
+						);
 	}
 
 	[Fact]
@@ -28,9 +28,9 @@ public class NullableDateTimeHaveKindTests : BaseTest
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
 		RunCompareFailTest(
-			() => ((DateTime?)utcDate).Should().HaveKind(DateTimeKind.Local, "custom because"),
-			"custom because"
-		);
+							() => ((DateTime?)utcDate).Should().HaveKind(DateTimeKind.Local, "custom because"),
+							"custom because"
+						);
 	}
 
 	[Fact]
@@ -39,9 +39,9 @@ public class NullableDateTimeHaveKindTests : BaseTest
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
 		RunCompareFailTest(
-			() => ((DateTime?)utcDate).Should().Not.HaveKind(DateTimeKind.Utc),
-			"2024-06-15 10:30:45 should not have kind Utc"
-		);
+							() => ((DateTime?)utcDate).Should().Not.HaveKind(DateTimeKind.Utc),
+							"2024-06-15 10:30:45 should not have kind Utc"
+						);
 	}
 
 	[Fact]
@@ -50,9 +50,9 @@ public class NullableDateTimeHaveKindTests : BaseTest
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
 		RunCompareFailTest(
-			() => ((DateTime?)utcDate).Should().Not.HaveKind(DateTimeKind.Utc, "custom because"),
-			"custom because"
-		);
+							() => ((DateTime?)utcDate).Should().Not.HaveKind(DateTimeKind.Utc, "custom because"),
+							"custom because"
+						);
 	}
 
 	[Fact]
@@ -72,8 +72,5 @@ public class NullableDateTimeHaveKindTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotHaveKindWhenNull()
-	{
-		((DateTime?)null).Should().Not.HaveKind(DateTimeKind.Utc);
-	}
+	public void GoodNotHaveKindWhenNull() { ((DateTime?)null).Should().Not.HaveKind(DateTimeKind.Utc); }
 }

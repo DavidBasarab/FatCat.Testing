@@ -11,10 +11,7 @@ public class NullableDateTimeBeUtcTests : BaseTest
 	}
 
 	[Fact]
-	public void BadBeUtcNullValue()
-	{
-		RunCompareFailTest(() => ((DateTime?)null).Should().BeUtc(), "null should be UTC");
-	}
+	public void BadBeUtcNullValue() { RunCompareFailTest(() => ((DateTime?)null).Should().BeUtc(), "null should be UTC"); }
 
 	[Fact]
 	public void BadBeUtcWithBecause()
@@ -30,9 +27,9 @@ public class NullableDateTimeBeUtcTests : BaseTest
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
 		RunCompareFailTest(
-			() => ((DateTime?)utcDate).Should().Not.BeUtc(),
-			"2024-06-15 10:30:45 should not be UTC"
-		);
+							() => ((DateTime?)utcDate).Should().Not.BeUtc(),
+							"2024-06-15 10:30:45 should not be UTC"
+						);
 	}
 
 	[Fact]
@@ -60,8 +57,5 @@ public class NullableDateTimeBeUtcTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotBeUtcWhenNull()
-	{
-		((DateTime?)null).Should().Not.BeUtc();
-	}
+	public void GoodNotBeUtcWhenNull() { ((DateTime?)null).Should().Not.BeUtc(); }
 }

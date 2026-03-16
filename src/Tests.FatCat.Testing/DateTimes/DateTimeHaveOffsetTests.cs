@@ -16,9 +16,9 @@ public class DateTimeHaveOffsetTests : BaseTest
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
 		RunCompareFailTest(
-			() => utcDate.Should().HaveOffset(TimeSpan.FromHours(5)),
-			"2024-06-15 10:30:45 should have offset 05:00:00"
-		);
+							() => utcDate.Should().HaveOffset(TimeSpan.FromHours(5)),
+							"2024-06-15 10:30:45 should have offset 05:00:00"
+						);
 	}
 
 	[Fact]
@@ -27,9 +27,9 @@ public class DateTimeHaveOffsetTests : BaseTest
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
 		RunCompareFailTest(
-			() => utcDate.Should().HaveOffset(TimeSpan.FromHours(5), "custom because"),
-			"custom because"
-		);
+							() => utcDate.Should().HaveOffset(TimeSpan.FromHours(5), "custom because"),
+							"custom because"
+						);
 	}
 
 	[Fact]
@@ -46,9 +46,9 @@ public class DateTimeHaveOffsetTests : BaseTest
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
 		RunCompareFailTest(
-			() => utcDate.Should().Not.HaveOffset(TimeSpan.Zero),
-			"2024-06-15 10:30:45 should not have offset 00:00:00"
-		);
+							() => utcDate.Should().Not.HaveOffset(TimeSpan.Zero),
+							"2024-06-15 10:30:45 should not have offset 00:00:00"
+						);
 	}
 
 	[Fact]
@@ -57,9 +57,9 @@ public class DateTimeHaveOffsetTests : BaseTest
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
 		RunCompareFailTest(
-			() => utcDate.Should().Not.HaveOffset(TimeSpan.Zero, "custom because"),
-			"custom because"
-		);
+							() => utcDate.Should().Not.HaveOffset(TimeSpan.Zero, "custom because"),
+							"custom because"
+						);
 	}
 
 	[Fact]

@@ -19,22 +19,13 @@ public class NullableTimeSpanBeNullTests : BaseTest
 	}
 
 	[Fact]
-	public void BadHaveValue()
-	{
-		RunCompareFailTest(() => ((TimeSpan?)null).Should().HaveValue(), "value should not be null");
-	}
+	public void BadHaveValue() { RunCompareFailTest(() => ((TimeSpan?)null).Should().HaveValue(), "value should not be null"); }
 
 	[Fact]
-	public void BadHaveValueWithBecause()
-	{
-		RunCompareFailTest(() => ((TimeSpan?)null).Should().HaveValue("custom because"), "custom because");
-	}
+	public void BadHaveValueWithBecause() { RunCompareFailTest(() => ((TimeSpan?)null).Should().HaveValue("custom because"), "custom because"); }
 
 	[Fact]
-	public void GoodBeNull()
-	{
-		((TimeSpan?)null).Should().BeNull();
-	}
+	public void GoodBeNull() { ((TimeSpan?)null).Should().BeNull(); }
 
 	[Fact]
 	public void GoodHaveValue()

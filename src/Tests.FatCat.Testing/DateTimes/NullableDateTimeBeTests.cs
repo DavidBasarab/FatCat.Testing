@@ -9,9 +9,9 @@ public class NullableDateTimeBeTests : BaseTest
 		var otherDate = new DateTime(2024, 6, 15, 10, 30, 46);
 
 		RunCompareFailTest(
-			() => ((DateTime?)date).Should().Be(otherDate),
-			"2024-06-15 10:30:45 should be 2024-06-15 10:30:46"
-		);
+							() => ((DateTime?)date).Should().Be(otherDate),
+							"2024-06-15 10:30:45 should be 2024-06-15 10:30:46"
+						);
 	}
 
 	[Fact]
@@ -37,9 +37,9 @@ public class NullableDateTimeBeTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 
 		RunCompareFailTest(
-			() => ((DateTime?)date).Should().Not.Be(date),
-			"2024-06-15 10:30:45 should not be 2024-06-15 10:30:45"
-		);
+							() => ((DateTime?)date).Should().Not.Be(date),
+							"2024-06-15 10:30:45 should not be 2024-06-15 10:30:45"
+						);
 	}
 
 	[Fact]
