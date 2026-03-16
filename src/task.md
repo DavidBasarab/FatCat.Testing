@@ -1,14 +1,42 @@
 # Task
 
-Make all string assertions work with nullable
+Add `DateTime` methods
 
 ## Feature Context
 
-This will be a replacement for FluentAssertions.  The syntax will be slightly different and the intention is to use it with doing unit tests in C#.  This feature is adding support for strings.
+This will be a replacement for FluentAssertions.  The syntax will be slightly different and the intention is to use it with doing unit tests in C#.  This feature is adding support for `DateTime`.
 
 ## Tasks
 
-- [ ]  Make all string assertions work with nullable
+
+- [ ]  Be(DateTime expected)
+- [ ]  NotBe(DateTime expected)
+- [ ]  BeAfter(DateTime expected)
+- [ ]  BeOnOrAfter(DateTime expected)
+- [ ]  BeBefore(DateTime expected)
+- [ ]  BeOnOrBefore(DateTime expected)
+- [ ]  BeCloseTo(DateTime expected, TimeSpan precision) — within a time window
+- [ ]  NotBeCloseTo(DateTime expected, TimeSpan precision)
+- [ ]  HaveYear(int expected)
+- [ ]  NotHaveYear(int expected)
+- [ ]  HaveMonth(int expected)
+- [ ]  NotHaveMonth(int expected)
+- [ ]  HaveDay(int expected)
+- [ ]  NotHaveDay(int expected)
+- [ ]  HaveHour(int expected)
+- [ ]  NotHaveHour(int expected)
+- [ ]  HaveMinute(int expected)
+- [ ]  NotHaveMinute(int expected)
+- [ ]  HaveSecond(int expected)
+- [ ]  NotHaveSecond(int expected)
+- [ ]  HaveMillisecond(int expected)
+- [ ]  NotHaveMillisecond(int expected)
+- [ ]  BeUtc() — DateTimeKind.Utc
+- [ ]  BeLocal() — DateTimeKind.Local
+- [ ]  HaveKind(DateTimeKind expected)
+- [ ]  HaveOffset(TimeSpan expected)
+- [ ]  NotHaveOffset(TimeSpan expected)
+- [ ]  Make all char assertions work with nullable
 
 ## Required Steps
 
@@ -26,9 +54,6 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 - [ ] Report results before finishing
 
 ## References 
-
-- C:\Code\FatCat.Testing\src\Tests.FatCat.Testing\Strings\StringComparerTests.cs
-- C:\Code\FatCat.Testing\src\Tests.FatCat.Testing\IntComparerTests.cs
 
 
 ## Notes
