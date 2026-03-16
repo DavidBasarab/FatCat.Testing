@@ -1,14 +1,31 @@
 # Task
 
-Make all string assertions work with nullable
+Add char methods
 
 ## Feature Context
 
-This will be a replacement for FluentAssertions.  The syntax will be slightly different and the intention is to use it with doing unit tests in C#.  This feature is adding support for strings.
+This will be a replacement for FluentAssertions.  The syntax will be slightly different and the intention is to use it with doing unit tests in C#.  This feature is adding support for car.
 
 ## Tasks
 
-- [ ]  Make all string assertions work with nullable
+
+- [ ]  item.Should().Be(char expected)
+- [ ]  item.Should().Not.Be(char expected)
+- [ ]  item.Should().BeUpperCased() — char.IsUpper()
+- [ ]  item.Should().BeLowerCased() — char.IsLower()
+- [ ]  item.Should().BeLetter() — char.IsLetter()
+- [ ]  item.Should().BeDigit() — char.IsDigit()
+- [ ]  item.Should().BeLetterOrDigit() — char.IsLetterOrDigit()
+- [ ]  item.Should().BeWhiteSpace() — char.IsWhiteSpace()
+- [ ]  item.Should().BeControl() — char.IsControl()
+- [ ]  item.Should().Not.BeUpperCased() — char.IsUpper()
+- [ ]  item.Should().Not.BeLowerCased() — char.IsLower()
+- [ ]  item.Should().Not.BeLetter() — char.IsLetter()
+- [ ]  item.Should().Not.BeDigit() — char.IsDigit()
+- [ ]  item.Should().Not.BeLetterOrDigit() — char.IsLetterOrDigit()
+- [ ]  item.Should().Not.BeWhiteSpace() — char.IsWhiteSpace()
+- [ ]  item.Should().Not.BeControl() — char.IsControl()
+- [ ]  Make all char assertions work with nullable
 
 ## Required Steps
 
@@ -26,9 +43,6 @@ This will be a replacement for FluentAssertions.  The syntax will be slightly di
 - [ ] Report results before finishing
 
 ## References 
-
-- C:\Code\FatCat.Testing\src\Tests.FatCat.Testing\Strings\StringComparerTests.cs
-- C:\Code\FatCat.Testing\src\Tests.FatCat.Testing\IntComparerTests.cs
 
 
 ## Notes

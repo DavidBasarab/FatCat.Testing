@@ -1,5 +1,6 @@
 #nullable enable
 
+using FatCat.Testing.Booleans;
 using FatCat.Testing.Numbers;
 using FatCat.Testing.Strings;
 
@@ -7,6 +8,16 @@ namespace FatCat.Testing;
 
 public static class ShouldExtensions
 {
+	public static BoolComparer Should(this bool subject)
+	{
+		return new BoolComparer(subject);
+	}
+
+	public static NullableBoolComparer Should(this bool? subject)
+	{
+		return new NullableBoolComparer(subject);
+	}
+
 	public static NumericComparer<byte> Should(this byte subject)
 	{
 		return new NumericComparer<byte>(subject);
