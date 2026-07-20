@@ -100,3 +100,85 @@ The positive assertions map one-to-one; the negations follow the uniform `NotXxx
 `Equal` is order-sensitive; collection `BeEquivalentTo` is order-insensitive (multiset). `ContainEquivalentOf`
 and collection `BeEquivalentTo` compare elements through the same structural-equivalency engine used by object
 `BeEquivalentTo`, so structurally-equal-but-not-reference-equal elements match.
+
+## G5 — Writing custom assertions
+
+Both source repos define their own assertions on top of FluentAssertions — roughly 410 call sites go through
+project-defined assertions such as `WebResultAssertions`. Those custom assertions derive from
+FluentAssertions' `ReferenceTypeAssertions<TSubject, TAssertions>`, return `AndConstraint<T>`, and
+**delegate to inner `.Should()` calls** — they do not use `Execute.Assertion` / `AssertionChain`. That last
+point is what makes the port possible: the minimum viable extension point is a base to derive from plus a
+failure primitive, both of which FatCat already ships.
+
+### The supported extension point
+
+Derive from `FatCat.Testing.Comparers.ComparerBase<TSubject, TComparer>` — the same base every built-in
+comparer uses. It is the documented, supported way to author a custom assertion. There is no separate
+"custom assertion" base to learn.
+
+- **Base:** `ComparerBase<TSubject, TComparer>`, generic over the subject type and the concrete comparer, so
+  chained assertion methods return your derived type rather than the base.
+- **Subject:** forward it through the primary constructor to the base. `Subject` is `protected` and is
+  readable from a derived comparer in a **consumer assembly** — no accessor widening is required.
+- **Failure primitive:** `FatCat.Testing.Exceptions.CompareException.New(message)`. This is the one exception
+  the library throws for a failed assertion; call it directly, or delegate to an inner `.Should()` call and
+  let the built-in comparer throw it for you.
+- **Chaining:** each assertion method returns `this` (typed as your comparer), so calls chain — this is the
+  FatCat replacement for returning `AndConstraint<T>`.
+- **The `because` override:** every assertion method takes a trailing `string because = null` and uses
+  `because ?? "<generated message>"`, so a caller-supplied reason always wins.
+
+An entry point is an extension method returning your comparer, mirroring the built-in `Should()` overloads:
+
+```csharp
+public static class ResultShouldExtensions
+{
+	public static WebResultComparer Should(this WebResult subject)
+	{
+		return new WebResultComparer(subject);
+	}
+}
+
+public class WebResultComparer(WebResult subject) : ComparerBase<WebResult, WebResultComparer>(subject)
+{
+	public WebResultComparer BeOk(string because = null)
+	{
+		Subject.StatusCode.Should().Be(200, because ?? $"Expected OK but web result was {Subject.StatusCode}");
+
+		return this;
+	}
+
+	public WebResultComparer BeNotFound(string because = null)
+	{
+		Subject.StatusCode.Should().Be(404, because ?? $"Expected Not Found but web result was {Subject.StatusCode}");
+
+		return this;
+	}
+}
+```
+
+`webResult.Should().BeOk()` now reads and behaves exactly like the FluentAssertions original. A worked,
+tested version of this example (plus a minimal proving comparer) lives in the test project under
+`Tests.FatCat.Testing/CustomAssertions/`, proving a comparer derived in a **separate assembly** can read
+`Subject`, fail through `CompareException.New`, and chain.
+
+### The `AndConstraint<T>` → return-`this` mapping
+
+| FluentAssertions | FatCat.Testing |
+|---|---|
+| `ReferenceTypeAssertions<TSubject, TAssertions>` | `ComparerBase<TSubject, TComparer>` |
+| `new AndConstraint<TAssertions>(this)` returned from each method | `return this;` (typed as your comparer) |
+| `Execute.Assertion.ForCondition(...).FailWith(...)` | delegate to an inner `.Should()`, or `CompareException.New(because ?? "...")` |
+| `subject.Should()` entry point | an extension method returning your comparer |
+
+The negated-comparer convention the built-ins follow (a `Not` property returning a matching
+`Not<Type>Comparer`) is **optional** for consumer comparers — add one only if your assertion genuinely needs
+a negated form.
+
+### No FatCat equivalent — known unsupported
+
+`Execute.Assertion`, `AssertionChain`, and the `[CustomAssertion]` stack-trace attribute have **no** FatCat
+equivalent and are not part of this extension point. Because the consumers' custom assertions delegate to
+inner `.Should()` calls rather than driving the assertion pipeline directly, none of them are needed for the
+port. If a future assertion truly required that machinery it would be new, out-of-scope work — for now these
+primitives belong on the known-unsupported list.

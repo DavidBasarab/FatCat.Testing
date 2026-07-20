@@ -158,6 +158,34 @@ account for:
 
 The full mapping and migration plan lives in [tasks/gaps.md](tasks/gaps.md).
 
+## Writing Custom Assertions
+
+Write your own comparer by deriving from `ComparerBase<TSubject, TComparer>` — the same base the built-in
+comparers use. Forward the subject through the primary constructor, add assertion methods that delegate to an
+inner `.Should()` call or throw via `CompareException.New(because ?? "...")`, and return `this` so calls
+chain. Expose it with a `Should()` extension method returning your comparer:
+
+```csharp
+public static WebResultComparer Should(this WebResult subject)
+{
+	return new WebResultComparer(subject);
+}
+
+public class WebResultComparer(WebResult subject) : ComparerBase<WebResult, WebResultComparer>(subject)
+{
+	public WebResultComparer BeOk(string because = null)
+	{
+		Subject.StatusCode.Should().Be(200, because ?? $"Expected OK but web result was {Subject.StatusCode}");
+
+		return this;
+	}
+}
+```
+
+A matching `Not` property is optional — add one only when your assertion needs a negated form. See
+[MIGRATION.md](MIGRATION.md) for the full mapping from FluentAssertions custom assertions
+(`ReferenceTypeAssertions` / `AndConstraint<T>`) onto this shape.
+
 ## Building
 
 The solution is `Fatcat.Testing.sln`.
