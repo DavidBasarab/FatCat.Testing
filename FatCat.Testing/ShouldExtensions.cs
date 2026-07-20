@@ -2,6 +2,7 @@
 
 using FatCat.Testing.Booleans;
 using FatCat.Testing.Characters;
+using FatCat.Testing.Collections;
 using FatCat.Testing.DateTimes;
 using FatCat.Testing.Doubles;
 using FatCat.Testing.Enums;
@@ -156,5 +157,10 @@ public static class ShouldExtensions
 	public static ObjectComparer Should(this object subject)
 	{
 		return new ObjectComparer(subject);
+	}
+
+	public static CollectionComparer<T> Should<T>(this IEnumerable<T> subject)
+	{
+		return new CollectionComparer<T>(subject);
 	}
 }
