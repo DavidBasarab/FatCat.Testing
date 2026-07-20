@@ -35,6 +35,10 @@ supports for a new subject type map one-to-one.
 | `.Should().BeEquivalentTo(x)` (collection, order-insensitive) | `.Should().BeEquivalentTo(x)` | — | G4 |
 | `.Should().OnlyHaveUniqueItems()` | `.Should().OnlyHaveUniqueItems()` | 2 | G4 |
 | `.Should().BeInDescendingOrder()` | `.Should().BeInDescendingOrder()` | 1 | G4 |
+| `action.Should().Throw<T>()` | `action.Should().Throw<T>()` | 8 | G6 |
+| `func.Should().ThrowAsync<T>()` | `func.Should().Throw<T>()` (on a `Func<Task>`) | — | G6 |
+| `action.Should().NotThrow()` | `action.Should().Not.Throw()` | — | G6 |
+| `action.Should().Throw<T>().WithMessage(m)` | `action.Should().Throw<T>().WithMessage(m)` | — | G6 |
 
 **Each gap task appends its rows here as it lands.** The table above covers only what the current call-site
 inventory proves is in use; it is not the complete negation surface.
@@ -182,3 +186,59 @@ equivalent and are not part of this extension point. Because the consumers' cust
 inner `.Should()` calls rather than driving the assertion pipeline directly, none of them are needed for the
 port. If a future assertion truly required that machinery it would be new, out-of-scope work — for now these
 primitives belong on the known-unsupported list.
+
+## G6 — exception assertions
+
+Delegates gain a `.Should()` that runs the delegate and asserts on what it threw. The fluent surface stays
+**synchronous** — the comparer runs the delegate and observes the outcome; `.Should()` never becomes async
+(`async.md`). Two entry points cover the sync and async delegate shapes:
+
+- `ShouldExtensions.Should(this Action)` → `ActionComparer` — for synchronous throwing code.
+- `ShouldExtensions.Should(this Func<Task>)` → `AsyncActionComparer` — for asynchronous throwing code. The
+  comparer observes the returned `Task` with a single, isolated `Subject().GetAwaiter().GetResult()` (the one
+  permitted blocking call under `async.md`), so the assertion API itself is not async.
+
+`Action` and `Func<Task>` are more specific than `object`, so a delegate value binds to these overloads and
+never falls through to `Should(this object)`; neither is an `IEnumerable<T>` nor an enum, so there is no
+collision with the collection or enum overloads (pinned by `DelegateShouldOverloadTests`).
+
+| Assertion | Passes when | Notes |
+|---|---|---|
+| `Throw<TException>(because)` | running the delegate throws a `TException` (or derived) | retains the caught exception so `WithMessage` can chain; returns the comparer |
+| `WithMessage(expected, because)` | the retained exception's `Message` **equals** `expected` | chains after `Throw<T>()`; exact match, not wildcard |
+| `Not.Throw(because)` | running the delegate throws nothing | the FatCat form of FluentAssertions `NotThrow()` |
+| `Not.Throw<TException>(because)` | running the delegate does not throw a `TException` | throwing nothing, or throwing an unrelated type, both pass |
+
+### Negation — `Not.Throw()`, not a `NotThrow` method (ADR-003)
+
+FluentAssertions' `NotThrow()` maps to `.Should().Not.Throw()`. Per ADR-003 (`.Not.` is the only negation
+shape — do not add a negated *method*), the library exposes negation through the `Not` property rather than a
+`NotThrow` method on the positive comparer. The phase-spec deliverable table listed a positive-comparer
+`NotThrow`; it is realised here as `Not.Throw()` to honour ADR-003, which is binding on every phase.
+
+| FluentAssertions | FatCat.Testing |
+|---|---|
+| `action.Should().Throw<T>()` | `action.Should().Throw<T>()` |
+| `func.Should().ThrowAsync<T>()` | `func.Should().Throw<T>()` (`func` is a `Func<Task>`) |
+| `action.Should().NotThrow()` | `action.Should().Not.Throw()` |
+| `action.Should().Throw<T>().WithMessage(m)` | `action.Should().Throw<T>().WithMessage(m)` |
+
+### Failure messages
+
+Exception types render by their bare CLR `Name` and are pinned by tests:
+
+- `Throw<T>` — `Expected InvalidOperationException but no exception was thrown` / `Expected InvalidOperationException but ArgumentException was thrown`.
+- `Not.Throw()` — `Expected no exception but InvalidOperationException was thrown`.
+- `Not.Throw<T>()` — `Expected no InvalidOperationException but InvalidOperationException was thrown`.
+- `WithMessage` — `Expected exception message "boom" but found "bang"` (the message strings are rendered through `ValueFormatter.Format`, so they are quoted).
+
+### No FatCat equivalent — known unsupported (deferred, §6.3)
+
+The minimal surface intentionally omits the richer FluentAssertions exception assertions. These have **no**
+FatCat equivalent yet and are on the known-unsupported list (Phase 07 finalises it):
+
+- `ThrowExactly<T>()` — exact-type (non-derived) match.
+- `WithInnerException<T>()` / `WithInnerExceptionExactly<T>()`.
+- `Where(predicate)` — predicate over the caught exception.
+- `WithParameterName(name)` — `ArgumentException.ParamName` assertion.
+- `NotThrowAfter(...)` and other async-completion / timing helpers.
