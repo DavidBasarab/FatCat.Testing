@@ -8,6 +8,7 @@ using FatCat.Testing.Enums;
 using FatCat.Testing.Floats;
 using FatCat.Testing.Guids;
 using FatCat.Testing.Numbers;
+using FatCat.Testing.Objects;
 using FatCat.Testing.Strings;
 using FatCat.Testing.TimeSpans;
 
@@ -150,5 +151,10 @@ public static class ShouldExtensions
 		where T : struct, Enum
 	{
 		return new NullableEnumComparer<T>(subject);
+	}
+
+	public static ObjectComparer Should(this object subject)
+	{
+		return new ObjectComparer(subject);
 	}
 }
