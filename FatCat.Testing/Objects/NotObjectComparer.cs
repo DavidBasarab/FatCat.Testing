@@ -1,4 +1,5 @@
 using FatCat.Testing.Comparers;
+using FatCat.Testing.Equivalency;
 using FatCat.Testing.Exceptions;
 using FatCat.Testing.Formatting;
 
@@ -12,6 +13,20 @@ public class NotObjectComparer(object subject) : NotComparerBase<object, NotObje
 		{
 			CompareException.New(
 				because ?? $"{ValueFormatter.Format(Subject)} should not be {ValueFormatter.Format(expected)}"
+			);
+		}
+
+		return this;
+	}
+
+	public NotObjectComparer BeEquivalentTo(object expected, string because = null)
+	{
+		var result = new StructuralEquivalency().Compare(Subject, expected);
+
+		if (result.IsEquivalent)
+		{
+			CompareException.New(
+				because ?? $"{ValueFormatter.Format(Subject)} should not be equivalent to {ValueFormatter.Format(expected)}"
 			);
 		}
 

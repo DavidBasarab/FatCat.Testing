@@ -26,4 +26,22 @@ public class ObjectMigrationTests : BaseTest
 
 		subject.Should().Be(5);
 	}
+
+	[Fact]
+	public void BeEquivalentToRewrite()
+	{
+		var subject = new SampleObject();
+		var expected = new SampleObject();
+
+		subject.Should().BeEquivalentTo(expected);
+	}
+
+	[Fact]
+	public void NotBeEquivalentToRewrite()
+	{
+		var subject = new SampleObject { Name = "First" };
+		var expected = new SampleObject { Name = "Second" };
+
+		subject.Should().Not.BeEquivalentTo(expected);
+	}
 }

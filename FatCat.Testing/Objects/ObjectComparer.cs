@@ -1,4 +1,5 @@
 using FatCat.Testing.Comparers;
+using FatCat.Testing.Equivalency;
 using FatCat.Testing.Exceptions;
 using FatCat.Testing.Formatting;
 
@@ -13,6 +14,18 @@ public class ObjectComparer(object subject) : ComparerBase<object, ObjectCompare
 		if (!Equals(Subject, expected))
 		{
 			CompareException.New(because ?? $"{ValueFormatter.Format(Subject)} should be {ValueFormatter.Format(expected)}");
+		}
+
+		return this;
+	}
+
+	public ObjectComparer BeEquivalentTo(object expected, string because = null)
+	{
+		var result = new StructuralEquivalency().Compare(Subject, expected);
+
+		if (!result.IsEquivalent)
+		{
+			CompareException.New(because ?? result.Difference);
 		}
 
 		return this;
