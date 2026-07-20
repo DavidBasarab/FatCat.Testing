@@ -1,4 +1,5 @@
 using FatCat.Testing.Exceptions;
+using FatCat.Testing.Formatting;
 
 namespace FatCat.Testing.Comparers;
 
@@ -67,8 +68,6 @@ public abstract class ComparerBase<TSubject, TComparer>(TSubject subject)
 
 	private string FormatSubject()
 	{
-		var boxed = (object)Subject;
-
-		return boxed == null ? "null" : $"{boxed}";
+		return ValueFormatter.Format(Subject);
 	}
 }
