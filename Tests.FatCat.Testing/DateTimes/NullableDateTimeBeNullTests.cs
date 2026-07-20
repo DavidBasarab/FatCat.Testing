@@ -19,13 +19,22 @@ public class NullableDateTimeBeNullTests : BaseTest
 	}
 
 	[Fact]
-	public void BadHaveValue() { RunCompareFailTest(() => ((DateTime?)null).Should().HaveValue(), "value should not be null"); }
+	public void BadHaveValue()
+	{
+		RunCompareFailTest(() => ((DateTime?)null).Should().HaveValue(), "value should not be null");
+	}
 
 	[Fact]
-	public void BadHaveValueWithBecause() { RunCompareFailTest(() => ((DateTime?)null).Should().HaveValue("custom because"), "custom because"); }
+	public void BadHaveValueWithBecause()
+	{
+		RunCompareFailTest(() => ((DateTime?)null).Should().HaveValue("custom because"), "custom because");
+	}
 
 	[Fact]
-	public void GoodBeNull() { ((DateTime?)null).Should().BeNull(); }
+	public void GoodBeNull()
+	{
+		((DateTime?)null).Should().BeNull();
+	}
 
 	[Fact]
 	public void GoodHaveValue()

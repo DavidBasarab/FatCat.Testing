@@ -8,18 +8,18 @@ public class NullableTimeSpanBeLessThanTests : BaseTest
 		var span = TimeSpan.FromHours(2);
 
 		RunCompareFailTest(
-							() => ((TimeSpan?)span).Should().BeLessThan(TimeSpan.FromHours(1)),
-							"02:00:00 should be less than 01:00:00"
-						);
+			() => ((TimeSpan?)span).Should().BeLessThan(TimeSpan.FromHours(1)),
+			"02:00:00 should be less than 01:00:00"
+		);
 	}
 
 	[Fact]
 	public void BadBeLessThanNullValue()
 	{
 		RunCompareFailTest(
-							() => ((TimeSpan?)null).Should().BeLessThan(TimeSpan.FromHours(1)),
-							"null should be less than 01:00:00"
-						);
+			() => ((TimeSpan?)null).Should().BeLessThan(TimeSpan.FromHours(1)),
+			"null should be less than 01:00:00"
+		);
 	}
 
 	[Fact]
@@ -28,9 +28,9 @@ public class NullableTimeSpanBeLessThanTests : BaseTest
 		var span = TimeSpan.FromHours(2);
 
 		RunCompareFailTest(
-							() => ((TimeSpan?)span).Should().BeLessThan(TimeSpan.FromHours(1), "custom because"),
-							"custom because"
-						);
+			() => ((TimeSpan?)span).Should().BeLessThan(TimeSpan.FromHours(1), "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]
@@ -39,9 +39,9 @@ public class NullableTimeSpanBeLessThanTests : BaseTest
 		var span = TimeSpan.FromHours(1);
 
 		RunCompareFailTest(
-							() => ((TimeSpan?)span).Should().Not.BeLessThan(TimeSpan.FromHours(2)),
-							"01:00:00 should not be less than 02:00:00"
-						);
+			() => ((TimeSpan?)span).Should().Not.BeLessThan(TimeSpan.FromHours(2)),
+			"01:00:00 should not be less than 02:00:00"
+		);
 	}
 
 	[Fact]
@@ -50,9 +50,9 @@ public class NullableTimeSpanBeLessThanTests : BaseTest
 		var span = TimeSpan.FromHours(1);
 
 		RunCompareFailTest(
-							() => ((TimeSpan?)span).Should().Not.BeLessThan(TimeSpan.FromHours(2), "custom because"),
-							"custom because"
-						);
+			() => ((TimeSpan?)span).Should().Not.BeLessThan(TimeSpan.FromHours(2), "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]
@@ -72,5 +72,8 @@ public class NullableTimeSpanBeLessThanTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotBeLessThanWhenNull() { ((TimeSpan?)null).Should().Not.BeLessThan(TimeSpan.FromHours(1)); }
+	public void GoodNotBeLessThanWhenNull()
+	{
+		((TimeSpan?)null).Should().Not.BeLessThan(TimeSpan.FromHours(1));
+	}
 }

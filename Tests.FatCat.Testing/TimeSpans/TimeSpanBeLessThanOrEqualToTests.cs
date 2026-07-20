@@ -16,9 +16,9 @@ public class TimeSpanBeLessThanOrEqualToTests : BaseTest
 		var span = TimeSpan.FromHours(2);
 
 		RunCompareFailTest(
-							() => span.Should().BeLessThanOrEqualTo(TimeSpan.FromHours(1)),
-							"02:00:00 should be less than or equal to 01:00:00"
-						);
+			() => span.Should().BeLessThanOrEqualTo(TimeSpan.FromHours(1)),
+			"02:00:00 should be less than or equal to 01:00:00"
+		);
 	}
 
 	[Fact]
@@ -26,10 +26,7 @@ public class TimeSpanBeLessThanOrEqualToTests : BaseTest
 	{
 		var span = TimeSpan.FromHours(2);
 
-		RunCompareFailTest(
-							() => span.Should().BeLessThanOrEqualTo(TimeSpan.FromHours(1), "custom because"),
-							"custom because"
-						);
+		RunCompareFailTest(() => span.Should().BeLessThanOrEqualTo(TimeSpan.FromHours(1), "custom because"), "custom because");
 	}
 
 	[Fact]
@@ -46,9 +43,9 @@ public class TimeSpanBeLessThanOrEqualToTests : BaseTest
 		var span = TimeSpan.FromHours(1);
 
 		RunCompareFailTest(
-							() => span.Should().Not.BeLessThanOrEqualTo(TimeSpan.FromHours(2)),
-							"01:00:00 should not be less than or equal to 02:00:00"
-						);
+			() => span.Should().Not.BeLessThanOrEqualTo(TimeSpan.FromHours(2)),
+			"01:00:00 should not be less than or equal to 02:00:00"
+		);
 	}
 
 	[Fact]
@@ -57,9 +54,9 @@ public class TimeSpanBeLessThanOrEqualToTests : BaseTest
 		var span = TimeSpan.FromHours(1);
 
 		RunCompareFailTest(
-							() => span.Should().Not.BeLessThanOrEqualTo(TimeSpan.FromHours(2), "custom because"),
-							"custom because"
-						);
+			() => span.Should().Not.BeLessThanOrEqualTo(TimeSpan.FromHours(2), "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]

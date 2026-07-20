@@ -10,7 +10,7 @@ CSharpier owns **all** C# layout — braces, spacing, new lines, wrapping, singl
 - CSharpier collapses a short braced body onto one line (`public void GoodBe() { true.Should().Be(true); }`). That is the correct output — do not expand it manually, and do not read it as permission to drop the braces.
 
 ## Running the Toolchain
-Run these from the `src/` directory (where `Fatcat.Testing.sln` lives):
+Run these from the repository root (where `Fatcat.Testing.sln` lives):
 
 ```bash
 dotnet build Fatcat.Testing.sln

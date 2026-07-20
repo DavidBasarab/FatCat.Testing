@@ -9,12 +9,12 @@ Review code in a requested scope against the FatCat.Testing coding standards and
 
 ## Step 1 — Resolve the scope
 
-Map the user's phrasing to a concrete set of files to review. Run all `git` commands from the repo root (`C:/Code/FatCat.Testing`). Note that the solution and all source live under `src/`.
+Map the user's phrasing to a concrete set of files to review. Run all `git` commands from the repo root (`C:/Code/FatCat.Testing`). The solution and all source live at the repo root.
 
 | User says | Scope |
 |---|---|
 | "review all uncommitted changes" / "review my changes" | Staged + unstaged + untracked files: `git status --porcelain` (each entry is in scope). Review the **current working-tree content** of each file. |
-| "review the library" / "review the tests" | All source files under `src/FatCat.Testing/` or `src/Tests.FatCat.Testing/` respectively. |
+| "review the library" / "review the tests" | All source files under `FatCat.Testing/` or `Tests.FatCat.Testing/` respectively. |
 | "review this directory" / "review `<path>`" | All source files under the given directory (or the current working directory if none named). |
 | "review the last commit" | Files changed in `HEAD`: `git show --stat --name-only HEAD`. Review the **content as of that commit** via `git show HEAD:<path>`. |
 | "review commit `<hash>`" | Files changed in `<hash>`: `git show --stat --name-only <hash>`. Review content via `git show <hash>:<path>`. |
@@ -27,7 +27,7 @@ Rules:
 
 ## Step 2 — Load the relevant rules
 
-Read only the rule files for the languages present in the scope. The rules live in `C:/Code/FatCat.Testing/src/.claude/rules/`.
+Read only the rule files for the languages present in the scope. The rules live in `C:/Code/FatCat.Testing/.claude/rules/`.
 
 - **C# (`*.cs`)** — read all of: `csharp/naming-and-structure.md`, `csharp/types.md`, `csharp/toolchain.md`, `csharp/async.md`, `csharp/errors.md`, `csharp/testing.md`, `csharp/not-allowed.md`.
 - **PowerShell (`*.ps1`)** — read `powershell/powershell.md`.

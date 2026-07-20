@@ -1,27 +1,20 @@
 # Work Item
 
-<!-- Short kebab-case identifier; becomes the plan folder name -->
+tier1_gaps
 
 # Specification
 
-<!-- What the product manager / stakeholder asked for, in their words.
-     Screens, behaviors, edge cases. This is the source of truth. -->
+Read the gaps document.  Create a phased plan for tier1 items.
 
-## Acceptance Criteria
-
-<!-- Testable statements of done. Given/When/Then where it helps.
-     The E2E walk at the end of the plan must prove these. -->
-
-- [ ]
 
 ## Out of Scope / Non-Goals
 
-<!-- Explicitly what NOT to build. Prevents gold-plating and scope drift. -->
+Any item not in the tier 1 block
 
 
 ## Feature Context
 
-<!-- Links to wireframes, workflow docs, prior art -->
+C:\Code\FatCat.Testing\tasks\gaps.md
 
 # Planning Instructions
 
@@ -84,7 +77,7 @@ Before finishing, produce a structured report:
 # References
 
 - Read the `README.md` for an overview of the application
+- C:\Code\FatCat.Testing\tasks\gaps.md 
 
 # Notes
 
-- Use components as needed to simplify changes and for look and feel.
