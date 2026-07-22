@@ -67,14 +67,14 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().BeNull()` *(objects)* | `.Should().BeNull()` | ⬜ pending (phase 06) | — |
 | `.Should().NotBeNull()` *(objects)* | `.Should().Not.BeNull()` | ⬜ pending (phase 06) | — |
 | `.Should().BeEmpty()` *(string & Guid)* | `.Should().BeEmpty()` | ✅ supported | `StringBeEmptyTests`, `GuidBeEmptyTests` |
-| `.Should().BeEmpty()` *(collections)* | `.Should().BeEmpty()` | ⬜ pending (phase 04) | — |
-| `.Should().NotBeEmpty()` *(collections)* | `.Should().Not.BeEmpty()` | ⬜ pending (phase 04) | — |
+| `.Should().BeEmpty()` *(collections)* | `.Should().BeEmpty()` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionBeEmptyTests` |
+| `.Should().NotBeEmpty()` *(collections)* | `.Should().Not.BeEmpty()` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionNotBeEmptyTests` |
 | `.Should().BeNullOrEmpty()` | `.Should().BeNullOrEmpty()` | ✅ supported | `StringBeNullOrEmptyTests` |
 | `.Should().NotBeNullOrEmpty()` | `.Should().Not.BeNullOrEmpty()` | ✅ supported | `StringBeNullOrEmptyTests` |
 | `.Should().NotBeNullOrWhiteSpace()` | `.Should().Not.BeNullOrWhiteSpace()` | ✅ supported | `StringBeNullOrWhiteSpaceTests` |
 | `.Should().Contain(x)` *(string)* | `.Should().Contain(x)` | ✅ supported | `StringContainTests` |
-| `.Should().Contain(x)` *(collections)* | `.Should().Contain(x)` | ⬜ pending (phase 04) | — |
-| `.Should().NotContain(x)` *(collections)* | `.Should().Not.Contain(x)` | ⬜ pending (phase 04) | — |
+| `.Should().Contain(x)` *(collections)* | `.Should().Contain(x)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainTests` |
+| `.Should().NotContain(x)` *(collections)* | `.Should().Not.Contain(x)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainTests` |
 | `.Should().EndWith(x)` | `.Should().EndWith(x)` | ✅ supported | `StringEndWithTests` |
 | `.Should().BeEquivalentTo(x)` *(string)* | `.Should().BeEquivalentTo(x)` | ✅ supported | `StringBeEquivalentToTests` |
 | `.Should().BeEquivalentTo(x)` *(object graphs)* | `.Should().BeEquivalentTo(x)` | ⬜ pending (phase 07) | — |
@@ -87,8 +87,8 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().BeOfType<T>()` | `.Should().BeOfType(typeof(T))` | ✅ supported | `ComparerBaseTests` |
 | `.Should().BeOneOf(...)` | `.Should().BeOneOf(...)` | ✅ supported | `ComparerBaseTests` |
 | `.Should().BeSameAs(x)` / `.Should().NotBeSameAs(x)` | `.Should().BeSameAs(x)` / `.Should().Not.BeSameAs(x)` | ⬜ pending (phase 06) | — |
-| `.Should().HaveCount(n)` | `.Should().HaveCount(n)` | ⬜ pending (phase 04) | — |
-| `.Should().ContainSingle()` | `.Should().ContainSingle()` | ⬜ pending (phase 04) | — |
+| `.Should().HaveCount(n)` | `.Should().HaveCount(n)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionHaveCountTests` |
+| `.Should().ContainSingle()` | `.Should().ContainSingle()` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainSingleTests` |
 | `.Should().ContainEquivalentOf(x)` | `.Should().ContainEquivalentOf(x)` | ⬜ pending (phase 08) | — |
 | `.Should().NotContainEquivalentOf(x)` | `.Should().Not.ContainEquivalentOf(x)` | ⬜ pending (phase 08) | — |
 | `.Should().OnlyContain(pred)` | `.Should().OnlyContain(pred)` | ⬜ pending (phase 05) | — |
@@ -122,7 +122,7 @@ Which subject types have a `.Should()` entry point today.
 | `string` | ✅ | |
 | `TimeSpan`, `TimeSpan?` | ✅ | |
 | `object` / reference types | ⬜ pending (phase 06) | Blocks object `Be`, `BeNull`, `BeSameAs`, `BeEquivalentTo`. |
-| Collections (`IEnumerable<T>`) | ⬜ pending (phase 04) | Blocks `Contain`, `HaveCount`, `BeEmpty`, and the collection family. |
+| Collections (`IEnumerable<T>`, `List<T>`, `T[]`) | ✅ | Core methods (`Contain`, `BeEmpty`, `HaveCount`, `ContainSingle`) ship; `ContainEquivalentOf` pending phase 08. |
 | `Action` | ✅ | Exception assertions — `Throw<T>`, `NotThrow`. |
 | `Func<Task>` | ✅ | Async exception assertions — `ThrowAsync<T>`, `NotThrowAsync`. |
 

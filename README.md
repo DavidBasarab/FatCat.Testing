@@ -99,7 +99,20 @@ the nullable value type (`bool?`, `Guid?`, and so on).
 
 ### Collections
 
-_Ships in phase 04 — see `tasks/todo/final_gaps/04-collection-entry-points-and-core.md`._
+Entry points exist for `IEnumerable<T>`, `List<T>`, and `T[]`. Elements are matched by **element equality**
+(`Equals`, via `EqualityComparer<T>.Default`); structural comparison — `ContainEquivalentOf` — arrives in
+phase 08. A lazy `IEnumerable<T>` is **snapshotted once** when `.Should()` is called, so a side-effecting
+query is enumerated a single time and every chained assertion reads that snapshot.
+
+| Assertion | What it asserts |
+|---|---|
+| `Contain(expected)` | The collection contains an element equal to `expected`. |
+| `BeEmpty()` | The collection has no elements. |
+| `HaveCount(count)` | The collection has exactly `count` elements. |
+| `ContainSingle()` | The collection has exactly one element. |
+
+Negated forms are reached through `Not`: `Not.Contain(x)`, `Not.BeEmpty()` (assert the collection is not
+empty), and `Not.HaveCount(n)`.
 
 ### DateTimes
 
