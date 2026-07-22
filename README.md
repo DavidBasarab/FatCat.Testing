@@ -266,7 +266,64 @@ _Ships in phase 10 — see `tasks/todo/final_gaps/10-extension-point.md`._
 
 ## Value Formatting
 
-_Ships in phase 02 — see `tasks/todo/final_gaps/02-value-formatting-engine.md`._
+When an assertion fails, FatCat.Testing renders the subject into the failure message with
+`FatCat.Testing.Formatting.ValueFormatter.Format`. `ToString()` alone is not enough: a `List<string>`
+renders as ``System.Collections.Generic.List`1[System.String]`` and a plain DTO renders as its type name.
+`ValueFormatter` turns both into something a reader can act on.
+
+`ValueFormatter.Format` is **public and supported**. Custom comparers (see `## Custom Comparers`) call it so
+their failure messages render subjects exactly the way the built-in comparers do.
+
+### Rendering rules
+
+Position matters — a string at the top level renders differently from a string nested inside a collection or
+an object dump (see the top-level-bare / nested-quoted rule below).
+
+| Value | Top level | Nested (inside a collection or object dump) |
+|---|---|---|
+| `null` | `null` | `null` |
+| `string` | the string, bare | `"the string"` |
+| `char` | the char, bare | `'c'` |
+| `IEnumerable` (not `string`) | `[a, b, c]` | `[a, b, c]` |
+| anything overriding `ToString()` | `ToString()` | `ToString()` |
+| any other object | `TypeName { Member = value, ... }` | same |
+
+Because `Guid`, `DateTime`, `TimeSpan`, and every enum override `ToString()`, they render exactly as they
+always have.
+
+### Top-level bare, nested quoted
+
+A string passed straight to `Format` renders without quotes; a string found inside a collection or an object
+dump renders quoted, so `[a, b]` is never ambiguous against a collection of some other type:
+
+```csharp
+ValueFormatter.Format("hello");                       // hello
+ValueFormatter.Format(new[] { "a", "b" });            // ["a", "b"]
+ValueFormatter.Format(new Person { Name = "Bob" });   // Person { Name = "Bob" }
+```
+
+### Collections
+
+An empty collection renders `[]`. At most **32** elements are shown; the rest are summarised as the count of
+the remainder:
+
+```csharp
+ValueFormatter.Format(Enumerable.Range(1, 40));       // [1, 2, ... 32, …and 8 more]
+```
+
+### Object dumps
+
+A plain object that does not override `ToString()` renders its public, readable, instance properties in
+declaration order (no fields, no static members, no indexers). A type with no such properties renders
+`TypeName { }`.
+
+- **Depth cap.** Nesting deeper than **5** levels renders `{ … }`.
+- **Cycle detection.** A reference already on the current path renders `{ cyclic reference to TypeName }`, so
+  a graph that references itself formats and returns instead of overflowing the stack. Detection is by
+  reference identity, never `Equals` — the object being formatted is frequently one whose `Equals` is the
+  thing under test.
+- **A property getter that throws** renders `Member = <threw TypeName>` rather than failing the assertion for
+  the wrong reason.
 
 ## Coming From FluentAssertions
 

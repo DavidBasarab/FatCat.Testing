@@ -1,4 +1,5 @@
 using FatCat.Testing.Exceptions;
+using FatCat.Testing.Formatting;
 
 namespace FatCat.Testing.Comparers;
 
@@ -45,10 +46,5 @@ public abstract class NotComparerBase<TSubject, TComparer>(TSubject subject)
 
 	public TComparer BeOneOf(params TSubject[] values) { return BeOneOf((IEnumerable<TSubject>)values); }
 
-	private string FormatSubject()
-	{
-		var boxed = (object)Subject;
-
-		return boxed == null ? "null" : $"{boxed}";
-	}
+	private string FormatSubject() { return ValueFormatter.Format(Subject); }
 }
