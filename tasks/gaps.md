@@ -8,6 +8,12 @@ consuming repos are pinned at 7.0.0.
 
 Each gap below has an ID (`G1`…`G14`). Create one phased plan per gap.
 
+**Re-audited 2026-07-22.** Both codebases were re-scanned from scratch. Every structural finding below
+still holds — no new FluentAssertions construct appeared, and nothing previously listed as unused has
+started being used (`AssertionScope` 0, `ExecutionTime` 0, equivalency option methods 0). The only change
+is volume: Fog grew from 2,068 to 2,289 call sites while Toolkit held at 291. Counts throughout have been
+refreshed to match.
+
 ---
 
 ## 1. What Exists Today
@@ -39,44 +45,50 @@ generic `Should<T>` constrained `where T : struct, Enum`.
 
 ## 2. What The Consumers Actually Use
 
-Combined: **~2,360 `.Should()` call sites** (Fog 2,068 / Toolkit 291) across 7 test projects plus two
-production projects that ship test helpers.
+Combined: **2,580 `.Should()` call sites** (Fog 2,289 / Toolkit 291) across 7 test projects plus two
+production projects that ship test helpers. *(Recounted 2026-07-22, excluding `bin/` and `obj/`. Toolkit is
+unchanged from the original count; Fog has grown ~11% — Brume 986, DocLokrSite 841, EndToEndTests 244,
+Common 127, Haze 65, DocLokr 26.)*
 
 Ranked by combined call count, mapped against what FatCat.Testing supports today:
 
 | FluentAssertions method | Fog | Toolkit | Total | FatCat status |
 |---|---|---|---|---|
-| `Be` | 645 | 67 | **712** | Value types ✅ · **objects ❌** |
-| `BeEquivalentTo` | 185 | 48 | **233** | Strings only · **object graphs ❌** |
-| `BeTrue` / `BeFalse` | 239 | 66 | **305** | ✅ |
-| `NotBeNull` | 159 | 57 | **216** | **❌** (no object `Should()`, and no `NotXxx` shape) |
-| `Contain` | 169 | 1 | **170** | Strings ✅ · **collections ❌** |
-| `BeOk`/`BePost`/`BeGet`/`BeNotFound`/`BeSuccessful`/`BeBadRequest`/`BeUnauthorized`/`BeDelete`/`BeUnsuccessful`/`HaveStatusCode` | ~406 | ~4 | **~410** | **Custom project assertions — need an extension point ❌** |
-| `BeNull` | 107 | 4 | **111** | Nullable value types & string ✅ · **objects ❌** |
-| `BeEmpty` | 35 | 11 | **46** | Strings & Guid ✅ · **collections ❌** |
-| `BeCloseTo` | 18 | 0 | **18** | ✅ |
+| `Be` | 708 | 67 | **775** | Value types ✅ · **objects ❌** |
+| `BeOk`/`BeNotFound`/`BeGet`/`BeSuccessful`/`BePost`/`BeBadRequest`/`BeUnauthorized`/`BeDelete`/`BeUnsuccessful` | 367 | 0 | **367** | **Custom project assertions — need an extension point ❌** |
+| `BeTrue` / `BeFalse` | 251 | 66 | **317** | ✅ |
+| `NotBeNull` | 204 | 57 | **261** | **❌** (no object `Should()`, and no `NotXxx` shape) |
+| `BeEquivalentTo` | 193 | 48 | **241** | Strings only · **object graphs ❌** |
+| `Contain` | 222 | 1 | **223** | Strings ✅ (159 string-literal) · **collections ❌** |
+| `BeNull` | 127 | 4 | **131** | Nullable value types & string ✅ · **objects ❌** |
+| `BeEmpty` | 39 | 11 | **50** | Strings & Guid ✅ · **collections ❌** |
+| `NotContain` | 18 | 0 | **18** | **❌** |
+| `BeCloseTo` | 17 | 0 | **17** | ✅ |
 | `HaveCount` | 15 | 1 | **16** | **❌** |
-| `NotContain` | 12 | 0 | **12** | **❌** |
-| `ContainSingle` | 11 | 0 | **11** | **❌** |
-| `ContainEquivalentOf` | 8 | 4 | **12** | **❌** |
-| `NotBeEmpty` | 9 | 0 | **9** | **❌** |
-| `Throw<T>` / `ThrowAsync<T>` | 7 | 1 | **8** | **❌** |
+| `BeGreaterThan(OrEqualTo)` / `BeLessThan(OrEqualTo)` | 6 | 4 | **10** | `BeGreaterThan`/`BeLessThan` ✅ · **`…OrEqualTo` missing on numerics ❌** |
 | `BeSameAs` / `NotBeSameAs` | 4 | 6 | **10** | **❌** |
-| `BeOfType<T>` | 3 | 3 | **6** | ✅ (on base) |
-| `BeOneOf` | 0 | 4 | **4** | ✅ (on base) |
-| `OnlyContain` | 5 | 0 | **5** | **❌** |
-| `MatchEquivalentOf` | 0 | 4 | **4** | **❌** (wildcard match) |
-| `Equal` (collections) | 4 | 0 | **4** | **❌** |
-| `BeApproximately` | 4 | 0 | **4** | ✅ |
+| `NotBeEmpty` | 9 | 0 | **9** | **❌** |
+| `Throw<T>` / `ThrowAsync<T>` | 8 | 1 | **9** | **❌** |
+| `ContainSingle` | 8 | 0 | **8** | **❌** |
+| `ContainEquivalentOf` | 8 | 0 | **8** | **❌** |
 | `NotBeNullOrEmpty` / `NotBeNullOrWhiteSpace` | 7 | 0 | **7** | Positive form ✅ · **`NotXxx` shape ❌** |
-| `BeGreaterThan(OrEqualTo)` / `BeLessThan(OrEqualTo)` | 8 | 4 | **12** | `BeGreaterThan`/`BeLessThan` ✅ · **`…OrEqualTo` missing on numerics ❌** |
-| `NotBeEquivalentTo` | 0 | 1 | **1** | **❌** |
+| `BeNullOrEmpty` | 2 | 4 | **6** | ✅ |
+| `BeOfType<T>` | 3 | 3 | **6** | ✅ (on base) |
+| `OnlyContain` | 5 | 0 | **5** | **❌** |
+| `BeOneOf` | 0 | 4 | **4** | ✅ (on base) |
+| `MatchEquivalentOf` | 0 | 4 | **4** | **❌** (wildcard match) |
+| `BeApproximately` | 4 | 0 | **4** | ✅ |
+| `Equal` (collections) | 2 | 0 | **2** | **❌** |
 | `OnlyHaveUniqueItems` | 1 | 1 | **2** | **❌** |
+| `NotBeEquivalentTo` | 0 | 1 | **1** | **❌** |
 | `BeInDescendingOrder` | 1 | 0 | **1** | **❌** |
 | `NotContainEquivalentOf` | 1 | 0 | **1** | **❌** |
-| `StartWith` / `EndWith` | 2 | 0 | **2** | ✅ |
+| `ContainInOrder` | 1 | 0 | **1** | **❌** |
+| `NotBe` | 1 | 0 | **1** | Value types ✅ via `.Not.Be` |
+| `EndWith` | 1 | 0 | **1** | ✅ |
 | `AssertionScope` | 0 | 0 | **0** | Not needed |
 | `ExecutionTime` | 0 | 0 | **0** | Not needed |
+| `Excluding`/`Including`/`RespectingRuntimeType`/`WithStrictOrdering` | 0 | 0 | **0** | Not needed |
 | `.And.` chaining | 1 | 0 | **1** | Not needed |
 | `.Which` | 3 | 0 | **3** | Low priority |
 
@@ -88,8 +100,8 @@ Ranked by combined call count, mapped against what FatCat.Testing supports today
 
 #### G1 — No `Should()` for reference types / objects
 The generic overload is `Should<T>(this T subject) where T : struct, Enum`. There is **no** entry point for
-`object`, a DTO, an interface, or any reference type. This single gap blocks ~1,000 call sites: object
-`Be`, `NotBeNull` (216), `BeNull` (111), `BeSameAs`/`NotBeSameAs` (10), and object `BeOfType`.
+`object`, a DTO, an interface, or any reference type. This single gap blocks ~1,100 call sites: object
+`Be`, `NotBeNull` (261), `BeNull` (131), `BeSameAs`/`NotBeSameAs` (10), and object `BeOfType`.
 
 Needs: an `Objects/` folder with `ObjectComparer<T>` / `NotObjectComparer<T>`, a `Should<T>(this T)`
 overload that does not collide with the existing enum-constrained generic, and `Be` (via `Equals`),
@@ -98,8 +110,8 @@ against the existing 27 concrete overloads is the hard part and should be protot
 
 #### G2 — The `Not` API shape differs — **DECIDED: keep `.Not.`**
 FatCat exposes negation as a `Not` property (`x.Should().Not.Be(y)`). FluentAssertions uses prefixed
-methods (`x.Should().NotBe(y)`). Every negated call site in both repos — **~260** (`NotBeNull` 216,
-`NotContain` 12, `NotBeEmpty` 9, `NotBeNullOrEmpty`/`NotBeNullOrWhiteSpace` 7, `NotBeSameAs` 6, others) —
+methods (`x.Should().NotBe(y)`). Every negated call site in both repos — **304** (`NotBeNull` 261,
+`NotContain` 18, `NotBeEmpty` 9, `NotBeNullOrEmpty`/`NotBeNullOrWhiteSpace` 7, `NotBeSameAs` 6, others) —
 fails to compile as written.
 
 **Decision: `.Should().Not.Be(x)` is the API. It reads better and it is the shape the library already
@@ -111,7 +123,7 @@ see §5. The rewrite is mechanical and regex-clean (FluentAssertions negations a
 PascalCase method name), so it is a codemod, not hand-editing. It no longer gates the other gaps.
 
 #### G3 — No structural (deep) equality — `BeEquivalentTo` for object graphs
-233 call sites. Today `BeEquivalentTo` exists only on strings (case-insensitive compare). Objects and
+241 call sites. Today `BeEquivalentTo` exists only on strings (case-insensitive compare). Objects and
 collections need recursive member-by-member comparison with cycle detection and a readable diff in the
 failure message.
 
@@ -123,15 +135,18 @@ Not required: `Excluding`, `Including`, `RespectingRuntimeType`, `WithStrictOrde
 either repo. Ship the default-options path only.
 
 #### G4 — No collection assertions at all
-There is no `Collections/` folder. ~270 call sites: `Contain` (170 combined with strings), `BeEmpty`,
-`HaveCount`, `NotContain`, `ContainSingle`, `ContainEquivalentOf`, `NotBeEmpty`, `OnlyContain`, `Equal`,
-`OnlyHaveUniqueItems`, `NotContainEquivalentOf`, `BeInDescendingOrder`.
+There is no `Collections/` folder. Up to 344 call sites: `Contain` (223, of which 159 pass a string literal
+and are therefore already covered by the string comparer), `BeEmpty` (50), `NotContain` (18), `HaveCount`
+(16), `NotBeEmpty` (9), `ContainSingle` (8), `ContainEquivalentOf` (8), `OnlyContain` (5), `Equal` (2),
+`OnlyHaveUniqueItems` (2), `NotContainEquivalentOf` (1), `ContainInOrder` (1), `BeInDescendingOrder` (1).
 
 Needs `Should<T>(this IEnumerable<T>)` and a `CollectionComparer<T>` family. Watch the overload collision
 with `string` (which is `IEnumerable<char>`) and with G1's object `Should<T>`.
 
 #### G5 — No custom-assertion extension point
-~410 call sites in the two repos go through **project-defined** assertions, not FluentAssertions built-ins.
+367 call sites in the two repos go through **project-defined** assertions, not FluentAssertions built-ins
+(plus an unknown share of the `Be` / `BeEquivalentTo` counts, which route through the same custom types
+when the subject is a `FatWebResponse`, `WebResult`, `Endpoint`, or `Task<T>`).
 Both repos build them on `ReferenceTypeAssertions<TSubject, TAssertions>` and return `AndConstraint<T>`:
 
 - Toolkit: `WebResultAssertions.cs`, `WebResultClosedOverAssertions.cs`, `FatResultAssertions.cs`,
@@ -247,8 +262,8 @@ followed by a PascalCase method name, which makes this mechanical.
 
 | FluentAssertions | FatCat.Testing | Sites | Gap |
 |---|---|---|---|
-| `.Should().NotBeNull()` | `.Should().Not.BeNull()` | 216 | G1 |
-| `.Should().NotContain(x)` | `.Should().Not.Contain(x)` | 12 | G4 |
+| `.Should().NotBeNull()` | `.Should().Not.BeNull()` | 261 | G1 |
+| `.Should().NotContain(x)` | `.Should().Not.Contain(x)` | 18 | G4 |
 | `.Should().NotBeEmpty()` | `.Should().Not.BeEmpty()` | 9 | G4 |
 | `.Should().NotBeNullOrEmpty()` | `.Should().Not.BeNullOrEmpty()` | 4 | — (exists) |
 | `.Should().NotBeSameAs(x)` | `.Should().Not.BeSameAs(x)` | 6 | G1 |
