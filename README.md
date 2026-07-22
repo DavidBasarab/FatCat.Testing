@@ -1,2 +1,294 @@
 # FatCat.Testing
-Doing my own Fluent Assertions
+
+A fluent assertion library for .NET — a free, Apache-2.0 replacement for FluentAssertions.
+
+## What It Is
+
+FatCat.Testing is a small, self-contained assertion library. You write assertions as fluent, chainable
+sentences:
+
+```csharp
+result.Should().Be(expected);
+name.Should().StartWith("Fat").EndWith("Cat"); // assertions chain by returning the comparer
+count.Should().BeGreaterThan(0);
+```
+
+It exists because FluentAssertions stopped being free: `7.0.0` is the last Apache-2.0 release, and every
+`8.x` release is commercially licensed. FatCat.Testing is Apache-2.0 and stays that way. It is a
+replacement, not a source-compatible clone — see [`MIGRATION.md`](MIGRATION.md) for the differences and how
+to move across.
+
+## Installing
+
+```bash
+dotnet add package FatCat.Testing
+```
+
+Then bring the extension methods into scope, typically through a `GlobalUsings.cs`:
+
+```csharp
+global using FatCat.Testing;
+```
+
+## Quick Start
+
+Every assertion starts with `.Should()` on the subject and reads like a sentence:
+
+```csharp
+using FatCat.Testing;
+
+true.Should().BeTrue();
+"hello world".Should().Contain("world");
+42.Should().BeGreaterThan(10).BeLessThan(100);
+Guid.Empty.Should().BeEmpty();
+
+// Negation is a property, not a method — see ## Negation
+response.IsSuccess.Should().Not.BeFalse();
+```
+
+A failing assertion throws `CompareException` with a plain-English message describing what was expected. An
+optional trailing `because` argument replaces that message:
+
+```csharp
+age.Should().BeGreaterThan(18, "a member must be an adult");
+```
+
+## Requirements
+
+**FatCat.Testing requires xUnit.** This is not a soft preference — it is a hard coupling:
+
+- `CompareException` derives from xUnit's `XunitException`.
+- `xunit.assert` is the library's only package reference.
+
+NUnit, MSTest, TUnit, and MSpec are **not supported**. A failure raised by FatCat.Testing is an
+`XunitException`, so it is only recognised as a test failure by an xUnit test runner. If your test project
+does not use xUnit, this library will not work for you today.
+
+## Assertion Catalog
+
+One table per subject family. Every assertion below ships today and is covered by tests. Negated forms are
+reached through the `Not` property (`x.Should().Not.Be(y)`) and are not listed separately.
+
+Assertions marked *(nullable only)* live on the `Nullable<Type>Comparer` and are reached when the subject is
+the nullable value type (`bool?`, `Guid?`, and so on).
+
+### Booleans
+
+| Assertion | What it asserts |
+|---|---|
+| `Be(expected)` | The value equals `expected`. |
+| `BeTrue()` | The value is `true`. |
+| `BeFalse()` | The value is `false`. |
+| `BeNull()` | *(nullable only)* The nullable has no value. |
+| `HaveValue()` | *(nullable only)* The nullable has a value. |
+
+### Characters
+
+| Assertion | What it asserts |
+|---|---|
+| `Be(expected)` | The character equals `expected`. |
+| `BeDigit()` | The character is a decimal digit. |
+| `BeLetter()` | The character is a letter. |
+| `BeLetterOrDigit()` | The character is a letter or a digit. |
+| `BeLowerCased()` | The character is lower case. |
+| `BeUpperCased()` | The character is upper case. |
+| `BeWhiteSpace()` | The character is white space. |
+| `BeControl()` | The character is a control character. |
+| `BeNull()` | *(nullable only)* The nullable has no value. |
+| `HaveValue()` | *(nullable only)* The nullable has a value. |
+
+### Collections
+
+_Ships in phase 04 — see `tasks/todo/final_gaps/04-collection-entry-points-and-core.md`._
+
+### DateTimes
+
+| Assertion | What it asserts |
+|---|---|
+| `Be(expected)` | The value equals `expected`. |
+| `BeAfter(other)` | The value is strictly after `other`. |
+| `BeBefore(other)` | The value is strictly before `other`. |
+| `BeOnOrAfter(other)` | The value is at or after `other`. |
+| `BeOnOrBefore(other)` | The value is at or before `other`. |
+| `BeCloseTo(other, tolerance)` | The value is within `tolerance` of `other`. |
+| `BeUtc()` | The value's `Kind` is `Utc`. |
+| `BeLocal()` | The value's `Kind` is `Local`. |
+| `HaveYear(year)` | The year component equals `year`. |
+| `HaveMonth(month)` | The month component equals `month`. |
+| `HaveDay(day)` | The day component equals `day`. |
+| `HaveHour(hour)` | The hour component equals `hour`. |
+| `HaveMinute(minute)` | The minute component equals `minute`. |
+| `HaveSecond(second)` | The second component equals `second`. |
+| `HaveMillisecond(millisecond)` | The millisecond component equals `millisecond`. |
+| `HaveKind(kind)` | The `DateTimeKind` equals `kind`. |
+| `HaveOffset(offset)` | The value's offset equals `offset`. |
+| `BeNull()` | *(nullable only)* The nullable has no value. |
+| `HaveValue()` | *(nullable only)* The nullable has a value. |
+
+### Doubles And Floats
+
+Both `double` and `float` share the same assertion set.
+
+| Assertion | What it asserts |
+|---|---|
+| `BeApproximately(expected, tolerance)` | The value is within `tolerance` of `expected`. |
+| `BeGreaterThan(expected)` | The value is strictly greater than `expected`. |
+| `BeLessThan(expected)` | The value is strictly less than `expected`. |
+| `BeInRange(lower, upper)` | The value is within `[lower, upper]`. |
+| `BeNaN()` | The value is `NaN`. |
+| `BeNegative()` | The value is less than zero. |
+| `BePositive()` | The value is greater than zero. |
+| `BeZero()` | The value is zero. |
+| `Match(predicate)` | The value satisfies `predicate`. |
+
+### Enums
+
+| Assertion | What it asserts |
+|---|---|
+| `Be(expected)` | The value equals `expected`. |
+| `BeDefined()` | The value is a defined member of the enum. |
+| `HaveFlag(flag)` | The value has `flag` set. |
+| `BeNull()` | *(nullable only)* The nullable has no value. |
+| `HaveValue()` | *(nullable only)* The nullable has a value. |
+
+### Exceptions
+
+_Ships in phase 03 — see `tasks/todo/final_gaps/03-exception-assertions.md`._
+
+### Guids
+
+| Assertion | What it asserts |
+|---|---|
+| `Be(expected)` | The value equals `expected`. |
+| `BeEmpty()` | The value is `Guid.Empty`. |
+| `BeNull()` | *(nullable only)* The nullable has no value. |
+| `HaveValue()` | *(nullable only)* The nullable has a value. |
+
+### Numbers
+
+Applies to every integral numeric type (`int`, `long`, `short`, `byte`, `decimal`, and their signed and
+unsigned relatives).
+
+| Assertion | What it asserts |
+|---|---|
+| `Be(expected)` | The value equals `expected`. |
+| `BeGreaterThan(expected)` | The value is strictly greater than `expected`. |
+| `BeLessThan(expected)` | The value is strictly less than `expected`. |
+| `BeInRange(lower, upper)` | The value is within `[lower, upper]`. |
+| `BeAround(center, tolerance)` | The value is within `tolerance` of `center`. |
+| `BeNegative()` | The value is less than zero. |
+| `BePositive()` | The value is greater than zero. |
+| `BeZero()` | The value is zero. |
+| `Match(predicate)` | The value satisfies `predicate`. |
+| `BeNull()` | *(nullable only)* The nullable has no value. |
+| `HaveValue()` | *(nullable only)* The nullable has a value. |
+
+### Objects
+
+_Ships in phase 06 — see `tasks/todo/final_gaps/06-object-comparer.md`._
+
+### Strings
+
+| Assertion | What it asserts |
+|---|---|
+| `Be(expected)` | The string equals `expected` (case-sensitive). |
+| `BeEquivalentTo(expected)` | The string equals `expected`, ignoring case. |
+| `Contain(expected)` | The string contains `expected`. |
+| `ContainAll(values)` | The string contains every value in `values`. |
+| `ContainAny(values)` | The string contains at least one value in `values`. |
+| `StartWith(expected)` | The string starts with `expected`. |
+| `EndWith(expected)` | The string ends with `expected`. |
+| `StartWithEquivalentOf(expected)` | The string starts with `expected`, ignoring case. |
+| `EndWithEquivalentOf(expected)` | The string ends with `expected`, ignoring case. |
+| `Match(pattern)` | The string matches the wildcard `pattern`. |
+| `MatchRegex(pattern)` | The string matches the regular expression `pattern`. |
+| `HaveLength(length)` | The string has exactly `length` characters. |
+| `BeEmpty()` | The string is empty. |
+| `BeNull()` | The string is `null`. |
+| `BeNullOrEmpty()` | The string is `null` or empty. |
+| `BeNullOrWhiteSpace()` | The string is `null`, empty, or white space. |
+| `BeLowerCased()` | The string is entirely lower case. |
+| `BeUpperCased()` | The string is entirely upper case. |
+| `HaveValue()` | The string is not `null`. |
+
+### TimeSpans
+
+| Assertion | What it asserts |
+|---|---|
+| `Be(expected)` | The value equals `expected`. |
+| `BeCloseTo(other, tolerance)` | The value is within `tolerance` of `other`. |
+| `BeGreaterThan(expected)` | The value is strictly greater than `expected`. |
+| `BeGreaterThanOrEqualTo(expected)` | The value is greater than or equal to `expected`. |
+| `BeLessThan(expected)` | The value is strictly less than `expected`. |
+| `BeLessThanOrEqualTo(expected)` | The value is less than or equal to `expected`. |
+| `BeNegative()` | The value is negative. |
+| `BePositive()` | The value is positive. |
+| `HaveDays(days)` | The days component equals `days`. |
+| `HaveHours(hours)` | The hours component equals `hours`. |
+| `HaveMinutes(minutes)` | The minutes component equals `minutes`. |
+| `HaveSeconds(seconds)` | The seconds component equals `seconds`. |
+| `HaveMilliseconds(milliseconds)` | The milliseconds component equals `milliseconds`. |
+| `BeNull()` | *(nullable only)* The nullable has no value. |
+| `HaveValue()` | *(nullable only)* The nullable has a value. |
+
+### Shared (all comparers)
+
+Every comparer inherits these from the shared base, so they are available on every subject type above.
+
+| Assertion | What it asserts |
+|---|---|
+| `BeOfType(type)` | The subject is exactly `type`. |
+| `BeAssignableTo(type)` | The subject is assignable to `type`. |
+| `BeOneOf(values)` | The subject equals one of `values`. |
+| `Satisfy(inspector)` | The subject passes the `inspector` action without throwing. |
+
+## Negation
+
+Negation is a property, not a family of methods. Every positive assertion has a negated form reached through
+`Not`:
+
+```csharp
+value.Should().Not.Be(expected);
+name.Should().Not.BeNullOrEmpty();
+```
+
+**There are no `NotXxx` methods, and there never will be.** FatCat.Testing does not expose `NotBe`,
+`NotBeNull`, or any other prefixed negation — not even as obsolete shims. The single negation form is the
+`Not` property. This is a deliberate, permanent API decision.
+
+Because FluentAssertions uses the prefixed shape (`NotBe`, `NotBeNull`, …), moving from it is a mechanical
+rewrite of `.Should().NotXxx(` to `.Should().Not.Xxx(`. That rewrite, and a codemod to perform it, are
+described in [`MIGRATION.md`](MIGRATION.md).
+
+## Custom Comparers
+
+_Ships in phase 10 — see `tasks/todo/final_gaps/10-extension-point.md`._
+
+## Value Formatting
+
+_Ships in phase 02 — see `tasks/todo/final_gaps/02-value-formatting-engine.md`._
+
+## Coming From FluentAssertions
+
+FatCat.Testing is a replacement for FluentAssertions, but it is not source-compatible. The two most common
+differences you will hit are:
+
+- **Negation** is `.Should().Not.Xxx(...)`, not `.Should().NotXxx(...)`.
+- **`because`** replaces the generated failure message rather than being appended to it, and there is no
+  `becauseArgs` — use string interpolation.
+
+The full mapping table, the behavioural differences, the known-unsupported list, and the codemod that
+automates the mechanical parts all live in [`MIGRATION.md`](MIGRATION.md).
+
+## Known Limitations
+
+- **xUnit only.** `CompareException` derives from `XunitException`; there is no framework-detection shim. See
+  `## Requirements`.
+- **`because` replaces the message.** A supplied `because` becomes the whole failure message. It is not
+  appended to the generated one, and there is no `params object[] becauseArgs`.
+- **No `AssertionScope`.** Assertions throw on the first failure; there are no soft assertions that collect
+  multiple failures.
+- **No `.And` / `.Which`.** Assertions chain by returning the comparer, but there is no `.And` property and no
+  `.Which` drill-down onto a matched item.
+- **`BeEquivalentTo` ships default options only.** There is no `Excluding`, `Including`,
+  `WithStrictOrdering`, or the wider option-method surface.
