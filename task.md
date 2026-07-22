@@ -1,18 +1,19 @@
 # Work Item
 
-<!-- Short kebab-case identifier; becomes the plan folder name -->
+final_gaps
 
 # Specification
 
-<!-- What the product manager / stakeholder asked for, in their words.
-     Screens, behaviors, edge cases. This is the source of truth. -->
+Read C:\Code\FatCat.Testing\tasks\remaining_gaps.md
+
+Create a phased plan for each gap.  
 
 ## Acceptance Criteria
 
-<!-- Testable statements of done. Given/When/Then where it helps.
-     The E2E walk at the end of the plan must prove these. -->
 
-- [ ]
+- [ ] Should implement all changes in the gaps
+- [ ] Should be able to replace FluentAssertions in C:\Code\FatCat.Toolkit
+- [ ] Should be able to replace FluentAssertions in C:\Code\Fog
 
 ## Out of Scope / Non-Goals
 
