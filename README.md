@@ -153,7 +153,45 @@ Both `double` and `float` share the same assertion set.
 
 ### Exceptions
 
-_Ships in phase 03 — see `tasks/todo/final_gaps/03-exception-assertions.md`._
+Assertions on a delegate — an `Action` for synchronous code, a `Func<Task>` for asynchronous code. This is
+the only family whose failure messages do not lead with the subject: an `Action`'s `ToString()` is just its
+type name, so there is nothing useful to render, and the messages start with `should` instead.
+
+| Assertion | What it asserts |
+|---|---|
+| `Throw<TException>()` | Invoking the `Action` throws a `TException` (or a derived type). Returns a `ThrownExceptionComparer`. |
+| `NotThrow()` | Invoking the `Action` throws nothing. |
+| `ThrowAsync<TException>()` | Awaiting the `Func<Task>` throws a `TException` (or a derived type). Returns a `ThrownExceptionComparer`. |
+| `NotThrowAsync()` | Awaiting the `Func<Task>` throws nothing. |
+| `WithMessage(expected)` | *(on `ThrownExceptionComparer`)* The caught exception's `Message` equals `expected` exactly. |
+
+Three things worth knowing before you use these:
+
+1. **The delegate must be a typed variable.** A bare lambda has no type and cannot receive an extension
+   method, so you cannot write `(() => Foo()).Should()`. Declare the delegate first:
+
+   ```csharp
+   Action action = () => service.Charge(card);
+   action.Should().Throw<InvalidOperationException>();
+   ```
+
+2. **`Throw<T>` returns a `ThrownExceptionComparer`, not the action comparer**, so `WithMessage` can chain
+   onto the caught exception. This is the one place in the library where an assertion changes comparer type —
+   the subject genuinely changes from "the delegate" to "the exception it threw":
+
+   ```csharp
+   action.Should().Throw<InvalidOperationException>().WithMessage("card declined");
+   ```
+
+3. **`Throw<T>` matches derived exception types.** `Throw<ArgumentException>()` is satisfied by an
+   `ArgumentNullException`. The exact-type form, `ThrowExactly<T>`, ships in a later phase.
+
+`WithMessage` compares the message with exact string equality — FluentAssertions supports `*` wildcards
+there and FatCat.Testing does not. See [`MIGRATION.md`](MIGRATION.md) §5.
+
+Asserting that code throws does **not** make the assertion API asynchronous: `ThrowAsync<T>` observes the
+`Task` synchronously inside the comparer, so the fluent `Should()` surface stays synchronous and is never
+awaited.
 
 ### Guids
 

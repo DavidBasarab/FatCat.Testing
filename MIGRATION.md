@@ -97,7 +97,10 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().ContainInOrder(...)` | `.Should().ContainInOrder(...)` | ⬜ pending (phase 05) | — |
 | `.Should().BeInDescendingOrder()` | `.Should().BeInDescendingOrder()` | ⬜ pending (phase 13) | — |
 | `.Should().MatchEquivalentOf(pattern)` | `.Should().MatchEquivalentOf(pattern)` | ⬜ pending (phase 15) | — |
-| `.Should().Throw<T>()` / `.Should().ThrowAsync<T>()` | `.Should().Throw<T>()` / `.Should().ThrowAsync<T>()` | ⬜ pending (phase 03) | — |
+| `.Should().Throw<T>()` | `.Should().Throw<T>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ActionThrowTests` |
+| `.Should().ThrowAsync<T>()` | `.Should().ThrowAsync<T>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.AsyncActionThrowAsyncTests` |
+| `.Should().NotThrow()` | `.Should().NotThrow()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ActionNotThrowTests` |
+| `.Should().Throw<T>().WithMessage(m)` | `.Should().Throw<T>().WithMessage(m)` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ActionThrowWithMessageTests` |
 
 Every gap phase appends its rows here as it lands, flipping the matching `⬜ pending` row to `✅ supported`
 and naming the test class that proves it. The table covers what the audited call-site inventory shows is in
@@ -120,8 +123,8 @@ Which subject types have a `.Should()` entry point today.
 | `TimeSpan`, `TimeSpan?` | ✅ | |
 | `object` / reference types | ⬜ pending (phase 06) | Blocks object `Be`, `BeNull`, `BeSameAs`, `BeEquivalentTo`. |
 | Collections (`IEnumerable<T>`) | ⬜ pending (phase 04) | Blocks `Contain`, `HaveCount`, `BeEmpty`, and the collection family. |
-| `Action` | ⬜ pending (phase 03) | Exception assertions — `Throw<T>`, `NotThrow`. |
-| `Func<Task>` | ⬜ pending (phase 03) | Async exception assertions — `ThrowAsync<T>`. |
+| `Action` | ✅ | Exception assertions — `Throw<T>`, `NotThrow`. |
+| `Func<Task>` | ✅ | Async exception assertions — `ThrowAsync<T>`, `NotThrowAsync`. |
 
 ## 5. Behavioural Differences
 
@@ -149,6 +152,12 @@ These compile fine and behave differently — the dangerous category. Read them 
 4. **Collection `BeEquivalentTo` is order-insensitive by default, with no `WithStrictOrdering` opt-out.**
    This matches FluentAssertions' default, but FluentAssertions lets you opt into strict ordering and
    FatCat.Testing does not. If you need order-sensitive comparison, use `Equal` instead. *(from phase 08)*
+
+5. **`WithMessage` compares exactly; FluentAssertions supports `*` wildcards.**
+   `Throw<T>().WithMessage(m)` requires the caught exception's message to equal `m` exactly. FluentAssertions'
+   wildcard form (`WithMessage("card *")`) has no equivalent. Rewrite a wildcard assertion as
+   `Throw<T>().Where(e => e.Message.Contains("..."))` once `Where` ships in a later phase, or assert on the
+   message directly until then. *(from phase 03)*
 
 ## 6. Known Unsupported
 

@@ -5,6 +5,7 @@ using FatCat.Testing.Characters;
 using FatCat.Testing.DateTimes;
 using FatCat.Testing.Doubles;
 using FatCat.Testing.Enums;
+using FatCat.Testing.Exceptions;
 using FatCat.Testing.Floats;
 using FatCat.Testing.Guids;
 using FatCat.Testing.Numbers;
@@ -15,6 +16,10 @@ namespace FatCat.Testing;
 
 public static class ShouldExtensions
 {
+	public static ActionComparer Should(this Action subject) { return new ActionComparer(subject); }
+
+	public static AsyncActionComparer Should(this Func<Task> subject) { return new AsyncActionComparer(subject); }
+
 	public static BoolComparer Should(this bool subject) { return new BoolComparer(subject); }
 
 	public static NullableBoolComparer Should(this bool? subject) { return new NullableBoolComparer(subject); }
