@@ -12,6 +12,13 @@ internal static class StringEqualityHelper
 		return string.Equals(left, right, comparison);
 	}
 
+	internal static bool ContainsEquivalent(string source, string value)
+	{
+		if (source == null || value == null) { return false; }
+
+		return source.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0;
+	}
+
 	internal static int CountOccurrences(string source, string value, Options options)
 	{
 		if (source == null || value == null || value.Length == 0) { return 0; }

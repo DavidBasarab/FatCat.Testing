@@ -133,6 +133,13 @@ public class NotNullableStringComparer(string? subject)
 		return this;
 	}
 
+	public NotNullableStringComparer ContainEquivalentOf(string expected, string? because = null)
+	{
+		if (StringEqualityHelper.ContainsEquivalent(Subject, expected)) { CompareException.New(because ?? $"{Subject} should not contain equivalent of {expected}"); }
+
+		return this;
+	}
+
 	public NotNullableStringComparer EndWith(
 		string expected,
 		Options options = Options.CaseSensitive,

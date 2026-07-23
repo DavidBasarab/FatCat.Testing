@@ -74,6 +74,9 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().NotBeNullOrEmpty()` | `.Should().Not.BeNullOrEmpty()` | ✅ supported | `StringBeNullOrEmptyTests` |
 | `.Should().NotBeNullOrWhiteSpace()` | `.Should().Not.BeNullOrWhiteSpace()` | ✅ supported | `StringBeNullOrWhiteSpaceTests` |
 | `.Should().Contain(x)` *(string)* | `.Should().Contain(x)` | ✅ supported | `StringContainTests` |
+| `.Should().ContainEquivalentOf(x)` *(string)* | `.Should().ContainEquivalentOf(x)` | ✅ supported | `Tests.FatCat.Testing.Strings.StringContainEquivalentOfTests` |
+| `.Should().NotContainAll(...)` *(string)* | `.Should().Not.ContainAll(...)` | ✅ supported | `StringContainTests` |
+| `.Should().NotContainAny(...)` *(string)* | `.Should().Not.ContainAny(...)` | ✅ supported | `StringContainTests` |
 | `.Should().Contain(x)` *(collections)* | `.Should().Contain(x)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainTests` |
 | `.Should().NotContain(x)` *(collections)* | `.Should().Not.Contain(x)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainTests` |
 | `.Should().EndWith(x)` | `.Should().EndWith(x)` | ✅ supported | `StringEndWithTests` |

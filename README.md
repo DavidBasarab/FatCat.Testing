@@ -438,8 +438,9 @@ result.Should().Not.BeNull(); // fails with "null should not be null"
 | `Be(expected)` | The string equals `expected` (case-sensitive). |
 | `BeEquivalentTo(expected)` | The string equals `expected`, ignoring case. |
 | `Contain(expected)` | The string contains `expected`. |
-| `ContainAll(values)` | The string contains every value in `values`. |
-| `ContainAny(values)` | The string contains at least one value in `values`. |
+| `ContainAll(values)` | The string contains every value in `values`. Negatable via `.Not.`. |
+| `ContainAny(values)` | The string contains at least one value in `values`. Negatable via `.Not.`. |
+| `ContainEquivalentOf(expected)` | The string contains `expected`, ignoring case. |
 | `StartWith(expected)` | The string starts with `expected`. |
 | `EndWith(expected)` | The string ends with `expected`. |
 | `StartWithEquivalentOf(expected)` | The string starts with `expected`, ignoring case. |

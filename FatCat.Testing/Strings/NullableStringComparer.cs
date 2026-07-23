@@ -148,6 +148,13 @@ public class NullableStringComparer(string? subject) : ComparerBase<string?, Nul
 		return this;
 	}
 
+	public NullableStringComparer ContainEquivalentOf(string expected, string? because = null)
+	{
+		if (!StringEqualityHelper.ContainsEquivalent(Subject, expected)) { CompareException.New(because ?? $"{SubjectDisplay} should contain equivalent of {expected}"); }
+
+		return this;
+	}
+
 	public NullableStringComparer EndWith(
 		string expected,
 		Options options = Options.CaseSensitive,
