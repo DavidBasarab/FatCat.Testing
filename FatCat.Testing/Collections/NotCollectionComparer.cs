@@ -46,6 +46,22 @@ public class NotCollectionComparer<T>(IEnumerable<T> subject) : NotComparerBase<
 		return this;
 	}
 
+	public NotCollectionComparer<T> IntersectWith(IEnumerable<T> other, string because = null)
+	{
+		var otherItems = other?.ToList();
+
+		if (items is null || otherItems is null || items.Any(otherItems.Contains)) { CompareException.New(because ?? $"{FormatItems()} should not intersect with {ValueFormatter.Format(otherItems)}"); }
+
+		return this;
+	}
+
+	public NotCollectionComparer<T> ContainNulls(string because = null)
+	{
+		if (items is null || items.Any(element => element is null)) { CompareException.New(because ?? $"{FormatItems()} should not contain nulls"); }
+
+		return this;
+	}
+
 	private bool IsEquivalentTo(List<T> expectedItems)
 	{
 		if (expectedItems is null || items.Count != expectedItems.Count) { return false; }

@@ -109,6 +109,21 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().Equal(...)` *(collections)* | `.Should().Equal(...)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionEqualTests` |
 | `.Should().ContainInOrder(...)` | `.Should().ContainInOrder(...)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainInOrderTests` |
 | `.Should().BeInDescendingOrder()` | `.Should().BeInDescendingOrder()` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionBeInDescendingOrderTests` |
+| `.Should().BeInAscendingOrder()` | `.Should().BeInAscendingOrder()` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionBeInAscendingOrderTests` |
+| `.Should().BeSubsetOf(super)` | `.Should().BeSubsetOf(super)` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionBeSubsetOfTests` |
+| `.Should().IntersectWith(other)` | `.Should().IntersectWith(other)` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionIntersectWithTests` |
+| `.Should().NotIntersectWith(other)` | `.Should().Not.IntersectWith(other)` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionIntersectWithTests` |
+| `.Should().AllSatisfy(inspector)` | `.Should().AllSatisfy(inspector)` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionAllSatisfyTests` |
+| `.Should().SatisfyRespectively(...)` | `.Should().SatisfyRespectively(...)` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionSatisfyRespectivelyTests` |
+| `.Should().AllBeOfType<T>()` | `.Should().AllBeOfType<T>()` / `.Should().AllBeOfType(type)` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionAllBeOfTypeTests` |
+| `.Should().AllBeEquivalentTo(x)` | `.Should().AllBeEquivalentTo(x)` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionAllBeEquivalentToTests` |
+| `.Should().HaveCountGreaterThan(n)` | `.Should().HaveCountGreaterThan(n)` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionHaveCountGreaterThanTests` |
+| `.Should().HaveCountLessThan(n)` | `.Should().HaveCountLessThan(n)` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionHaveCountLessThanTests` |
+| `.Should().HaveSameCount(other)` | `.Should().HaveSameCount(other)` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionHaveSameCountTests` |
+| `.Should().HaveElementAt(i, x)` | `.Should().HaveElementAt(i, x)` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionHaveElementAtTests` |
+| `.Should().ContainNulls()` | `.Should().ContainNulls()` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionContainNullsTests` |
+| `.Should().NotContainNulls()` | `.Should().Not.ContainNulls()` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionContainNullsTests` |
+| `.Should().ContainMatch(wildcard)` | `.Should().ContainMatch(wildcard)` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionContainMatchTests` |
 | `.Should().MatchEquivalentOf(pattern)` | `.Should().MatchEquivalentOf(pattern)` | ⬜ pending (phase 15) | — |
 | `.Should().Throw<T>()` | `.Should().Throw<T>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ActionThrowTests` |
 | `.Should().ThrowAsync<T>()` | `.Should().ThrowAsync<T>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.AsyncActionThrowAsyncTests` |

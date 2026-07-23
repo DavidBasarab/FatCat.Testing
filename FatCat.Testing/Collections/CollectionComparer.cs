@@ -2,6 +2,7 @@ using FatCat.Testing.Comparers;
 using FatCat.Testing.Equivalency;
 using FatCat.Testing.Exceptions;
 using FatCat.Testing.Formatting;
+using FatCat.Testing.Strings;
 
 namespace FatCat.Testing.Collections;
 
@@ -107,6 +108,161 @@ public class CollectionComparer<T>(IEnumerable<T> subject) : ComparerBase<IEnume
 		if (items is null || !IsInDescendingOrder()) { CompareException.New(because ?? $"{FormatItems()} should be in descending order"); }
 
 		return this;
+	}
+
+	public CollectionComparer<T> BeInAscendingOrder(string because = null)
+	{
+		if (items is null || !IsInAscendingOrder()) { CompareException.New(because ?? $"{FormatItems()} should be in ascending order"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> BeSubsetOf(IEnumerable<T> superset, string because = null)
+	{
+		var supersetItems = superset?.ToList();
+
+		if (items is null || supersetItems is null || items.Any(element => !supersetItems.Contains(element))) { CompareException.New(because ?? $"{FormatItems()} should be a subset of {ValueFormatter.Format(supersetItems)}"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> IntersectWith(IEnumerable<T> other, string because = null)
+	{
+		var otherItems = other?.ToList();
+
+		if (items is null || otherItems is null || !items.Any(otherItems.Contains)) { CompareException.New(because ?? $"{FormatItems()} should intersect with {ValueFormatter.Format(otherItems)}"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> AllSatisfy(Action<T> inspector, string because = null)
+	{
+		if (items is null) { CompareException.New(because ?? $"{FormatItems()} should have every element satisfy the inspector"); }
+
+		var failingIndex = FindFailingInspectorIndex(inspector);
+
+		if (failingIndex >= 0) { CompareException.New(because ?? $"{FormatItems()} should have every element satisfy the inspector but element at index {failingIndex} did not"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> SatisfyRespectively(params Action<T>[] inspectors)
+	{
+		if (items is null || items.Count != inspectors.Length) { CompareException.New($"{FormatItems()} should satisfy {inspectors.Length} inspectors respectively but has {items?.Count ?? 0} elements"); }
+
+		var failingIndex = FindFailingRespectiveInspectorIndex(inspectors);
+
+		if (failingIndex >= 0) { CompareException.New($"{FormatItems()} should satisfy {inspectors.Length} inspectors respectively but element at index {failingIndex} did not"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> AllBeOfType<TExpected>(string because = null) { return AllBeOfType(typeof(TExpected), because); }
+
+	public CollectionComparer<T> AllBeOfType(Type expectedType, string because = null)
+	{
+		if (items is null || items.Any(element => element is null || element.GetType() != expectedType)) { CompareException.New(because ?? $"{FormatItems()} should have all elements of type {expectedType}"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> AllBeEquivalentTo(T expected, string because = null)
+	{
+		if (items is null || !items.All(element => EquivalencyComparer.Compare(element, expected).AreEquivalent)) { CompareException.New(because ?? $"{FormatItems()} should have all elements equivalent to {ValueFormatter.Format(expected)}"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> HaveCountGreaterThan(int expected, string because = null)
+	{
+		if (items is null || items.Count <= expected) { CompareException.New(because ?? $"{FormatItems()} should have count greater than {expected} but has {items?.Count ?? 0}"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> HaveCountLessThan(int expected, string because = null)
+	{
+		if (items is null || items.Count >= expected) { CompareException.New(because ?? $"{FormatItems()} should have count less than {expected} but has {items?.Count ?? 0}"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> HaveSameCount(IEnumerable<T> other, string because = null)
+	{
+		var otherItems = other?.ToList();
+
+		if (items is null || otherItems is null || items.Count != otherItems.Count) { CompareException.New(because ?? $"{FormatItems()} should have the same count as {ValueFormatter.Format(otherItems)} ({otherItems?.Count ?? 0}) but has {items?.Count ?? 0}"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> HaveElementAt(int index, T expected, string because = null)
+	{
+		if (items is null || index < 0 || index >= items.Count || !Equals(items[index], expected)) { CompareException.New(because ?? $"{FormatItems()} should have {ValueFormatter.Format(expected)} at index {index}"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> ContainNulls(string because = null)
+	{
+		if (items is null || !items.Any(element => element is null)) { CompareException.New(because ?? $"{FormatItems()} should contain nulls"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> ContainMatch(string wildcard, string because = null)
+	{
+		if (items is null || !items.Any(element => element is string text && StringEqualityHelper.MatchesWildcard(text, wildcard, Options.CaseSensitive))) { CompareException.New(because ?? $"{FormatItems()} should contain a match for {wildcard}"); }
+
+		return this;
+	}
+
+	private int FindFailingInspectorIndex(Action<T> inspector)
+	{
+		for (var index = 0; index < items.Count; index++)
+		{
+			try
+			{
+				inspector(items[index]);
+			}
+			catch (Exception)
+			{
+				// The inspector signals a failing element by throwing — usually a CompareException from a nested assertion. Catching it turns the throw into the index of the element that did not satisfy the inspector.
+				return index;
+			}
+		}
+
+		return -1;
+	}
+
+	private int FindFailingRespectiveInspectorIndex(Action<T>[] inspectors)
+	{
+		for (var index = 0; index < inspectors.Length; index++)
+		{
+			try
+			{
+				inspectors[index](items[index]);
+			}
+			catch (Exception)
+			{
+				// The inspector signals a failing element by throwing — usually a CompareException from a nested assertion. Catching it turns the throw into the index of the element that did not satisfy its inspector.
+				return index;
+			}
+		}
+
+		return -1;
+	}
+
+	private bool IsInAscendingOrder()
+	{
+		var comparer = Comparer<T>.Default;
+
+		for (var index = 0; index < items.Count - 1; index++)
+		{
+			if (comparer.Compare(items[index], items[index + 1]) > 0) { return false; }
+		}
+
+		return true;
 	}
 
 	private string FindEquivalencyFailure(List<T> expectedItems)

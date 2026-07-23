@@ -119,6 +119,19 @@ snapshot.
 | `ContainInOrder(expected)` | The `expected` elements appear in this relative order (not necessarily contiguous). |
 | `BeInDescendingOrder()` | The elements are in descending order (`Comparer<T>.Default`). |
 | `ContainSingle(predicate)` | Exactly one element satisfies `predicate`. |
+| `BeInAscendingOrder()` | The elements are in ascending order (`Comparer<T>.Default`). |
+| `BeSubsetOf(superset)` | Every element is contained in `superset`. |
+| `IntersectWith(other)` | The collection and `other` share at least one element. |
+| `AllSatisfy(inspector)` | Every element passes the `inspector` without throwing. |
+| `SatisfyRespectively(inspectors)` | Element _i_ passes inspector _i_; the counts must match. |
+| `AllBeOfType<T>()` / `AllBeOfType(type)` | Every element's runtime type is exactly `T`. |
+| `AllBeEquivalentTo(expected)` | Every element is structurally equivalent to `expected`. |
+| `HaveCountGreaterThan(n)` | The collection has more than `n` elements. |
+| `HaveCountLessThan(n)` | The collection has fewer than `n` elements. |
+| `HaveSameCount(other)` | The collection has the same number of elements as `other`. |
+| `HaveElementAt(index, expected)` | The element at `index` equals `expected`. |
+| `ContainNulls()` | At least one element is `null`. |
+| `ContainMatch(wildcard)` | At least one `string` element matches the `wildcard` (`*`, `?`). |
 
 `Equal` is **order-sensitive** — `[1, 2, 3].Should().Equal([3, 2, 1])` fails. `BeEquivalentTo` is its
 order-**insensitive** counterpart — `[1, 2, 3].Should().BeEquivalentTo([3, 2, 1])` **passes**. This is the
@@ -137,7 +150,17 @@ Predicate-based assertions (`OnlyContain`, `ContainSingle(predicate)`) cannot de
 generated message, which reads "matching the predicate". Supply `because` to make the failure specific.
 
 Negated forms are reached through `Not`: `Not.Contain(x)`, `Not.BeEmpty()` (assert the collection is not
-empty), and `Not.HaveCount(n)`.
+empty), `Not.HaveCount(n)`, `Not.IntersectWith(other)` (share no element), and `Not.ContainNulls()`. The
+remaining assertions have no negated form because it would not read naturally.
+
+`AllSatisfy` and `SatisfyRespectively` take inspectors that assert on each element and signal failure by
+throwing (typically a nested `Should()` call). `SatisfyRespectively` uses `params` for its inspectors, so it
+has no trailing `because`. `ContainMatch` and `ContainNulls` are meaningful only on the element types they
+name — `ContainMatch` inspects `string` elements, `ContainNulls` a collection whose elements can be `null`.
+
+Deliberately **not** shipped from FluentAssertions' collection surface: `ContainInConsecutiveOrder`,
+`HaveElementPreceding` / `HaveElementSucceeding`, and `ContainItemsAssignableTo`. They have no consumer and
+marginal value; they are a possible future top-up, not part of the current catalog.
 
 ### DateTimes
 
