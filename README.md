@@ -81,6 +81,7 @@ the nullable value type (`bool?`, `Guid?`, and so on).
 | `BeFalse()` | The value is `false`. |
 | `BeNull()` | *(nullable only)* The nullable has no value. |
 | `HaveValue()` | *(nullable only)* The nullable has a value. |
+| `Imply(consequent)` | Material implication — fails only when the subject is `true` and `consequent` is `false`. |
 
 ### Characters
 

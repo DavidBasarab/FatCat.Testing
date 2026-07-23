@@ -25,4 +25,11 @@ public class NotBoolComparer(bool subject) : NotComparerBase<bool, NotBoolCompar
 
 		return this;
 	}
+
+	public NotBoolComparer Imply(bool consequent, string because = null)
+	{
+		if (!(Subject && !consequent)) { CompareException.New(because ?? $"{Subject} should not imply {consequent}"); }
+
+		return this;
+	}
 }

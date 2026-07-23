@@ -27,4 +27,11 @@ public class BoolComparer(bool subject) : ComparerBase<bool, BoolComparer>(subje
 
 		return this;
 	}
+
+	public BoolComparer Imply(bool consequent, string because = null)
+	{
+		if (Subject && !consequent) { CompareException.New(because ?? $"{Subject} should imply {consequent}"); }
+
+		return this;
+	}
 }

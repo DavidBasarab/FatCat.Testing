@@ -64,6 +64,7 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().NotBe(x)` *(objects)* | `.Should().Not.Be(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeTests` |
 | `.Should().NotBe(x)` *(value types)* | `.Should().Not.Be(x)` | ✅ supported | `BoolBeTests` |
 | `.Should().BeTrue()` / `.Should().BeFalse()` | `.Should().BeTrue()` / `.Should().BeFalse()` | ✅ supported | `BoolBeTrueTests`, `BoolBeFalseTests` |
+| `.Should().Imply(x)` | `.Should().Imply(x)` | ✅ supported | `Tests.FatCat.Testing.Booleans.BoolImplyTests` |
 | `.Should().BeNull()` *(value types & string)* | `.Should().BeNull()` | ✅ supported | `StringBeNullTests`, `NullableGuidBeNullTests` |
 | `.Should().BeNull()` *(objects)* | `.Should().BeNull()` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeNullTests` |
 | `.Should().NotBeNull()` *(objects)* | `.Should().Not.BeNull()` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeNullTests` |
