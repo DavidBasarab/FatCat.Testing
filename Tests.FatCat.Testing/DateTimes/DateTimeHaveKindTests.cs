@@ -15,10 +15,7 @@ public class DateTimeHaveKindTests : BaseTest
 	{
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
-		RunCompareFailTest(
-							() => utcDate.Should().HaveKind(DateTimeKind.Local),
-							"2024-06-15 10:30:45 should have kind Local"
-						);
+		RunCompareFailTest(() => utcDate.Should().HaveKind(DateTimeKind.Local), "2024-06-15 10:30:45 should have kind Local");
 	}
 
 	[Fact]
@@ -26,10 +23,7 @@ public class DateTimeHaveKindTests : BaseTest
 	{
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
-		RunCompareFailTest(
-							() => utcDate.Should().HaveKind(DateTimeKind.Local, "custom because"),
-							"custom because"
-						);
+		RunCompareFailTest(() => utcDate.Should().HaveKind(DateTimeKind.Local, "custom because"), "custom because");
 	}
 
 	[Fact]
@@ -46,9 +40,9 @@ public class DateTimeHaveKindTests : BaseTest
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
 		RunCompareFailTest(
-							() => utcDate.Should().Not.HaveKind(DateTimeKind.Utc),
-							"2024-06-15 10:30:45 should not have kind Utc"
-						);
+			() => utcDate.Should().Not.HaveKind(DateTimeKind.Utc),
+			"2024-06-15 10:30:45 should not have kind Utc"
+		);
 	}
 
 	[Fact]
@@ -56,10 +50,7 @@ public class DateTimeHaveKindTests : BaseTest
 	{
 		var utcDate = new DateTime(2024, 6, 15, 10, 30, 45, DateTimeKind.Utc);
 
-		RunCompareFailTest(
-							() => utcDate.Should().Not.HaveKind(DateTimeKind.Utc, "custom because"),
-							"custom because"
-						);
+		RunCompareFailTest(() => utcDate.Should().Not.HaveKind(DateTimeKind.Utc, "custom because"), "custom because");
 	}
 
 	[Fact]

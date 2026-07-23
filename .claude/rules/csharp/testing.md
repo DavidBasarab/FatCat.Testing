@@ -20,7 +20,10 @@ failure behaviour:
 ```csharp
 public abstract class BaseTest
 {
-    protected void RunCompareFailTest(Action testAction) { Assert.Throws<CompareException>(testAction); }
+    protected void RunCompareFailTest(Action testAction)
+    {
+        Assert.Throws<CompareException>(testAction);
+    }
 
     protected void RunCompareFailTest(Action testAction, string message)
     {
@@ -59,6 +62,8 @@ public class StringContainTests : BaseTest
     public void BadContain() { RunCompareFailTest(() => "hello world".Should().Contain("xyz"), "hello world should contain xyz"); }
 }
 ```
+
+> The `[Fact]` bodies here and below are shown on one line only for compactness in these naming examples. CSharpier expands every method body onto its own lines (opening brace on its own line, statement indented) — that expanded form is the format you commit. Use block bodies with braces; never write `=>` bodies or hand-format to a single line.
 
 ## Test Method Naming — Good/Bad Prefix
 `[Fact]` methods are PascalCase with **no underscores**, prefixed by the path they exercise:
@@ -131,16 +136,19 @@ global using Xunit;
 Per-folder namespaces (`FatCat.Testing.Strings`, `FatCat.Testing.Exceptions`) are imported per file, not globally.
 
 ## Expression-Bodied Members in Tests — BANNED
-The expression-bodied member ban applies to test code too. All test methods must use block bodies — CSharpier will collapse a short one onto a single line, which is correct:
+The expression-bodied member ban applies to test code too. All test methods must use block bodies — CSharpier then expands the body onto its own lines:
 
 ```csharp
-// Wrong
+// Wrong — expression body
 [Fact]
 public void GoodBe() => true.Should().Be(true);
 
-// Correct — CSharpier formats it to one line, braces intact
+// Correct — block body, expanded by CSharpier
 [Fact]
-public void GoodBe() { true.Should().Be(true); }
+public void GoodBe()
+{
+	true.Should().Be(true);
+}
 ```
 
 ## OneOff Is Not A Test Project

@@ -9,9 +9,9 @@ public class NullableDateTimeBeAfterTests : BaseTest
 		var laterDate = new DateTime(2024, 6, 16);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().BeAfter(laterDate),
-							"2024-06-15 10:30:45 should be after 2024-06-16 00:00:00"
-						);
+			() => ((DateTime?)date).Should().BeAfter(laterDate),
+			"2024-06-15 10:30:45 should be after 2024-06-16 00:00:00"
+		);
 	}
 
 	[Fact]
@@ -19,10 +19,7 @@ public class NullableDateTimeBeAfterTests : BaseTest
 	{
 		var laterDate = new DateTime(2024, 6, 16);
 
-		RunCompareFailTest(
-							() => ((DateTime?)null).Should().BeAfter(laterDate),
-							"null should be after 2024-06-16 00:00:00"
-						);
+		RunCompareFailTest(() => ((DateTime?)null).Should().BeAfter(laterDate), "null should be after 2024-06-16 00:00:00");
 	}
 
 	[Fact]
@@ -31,10 +28,7 @@ public class NullableDateTimeBeAfterTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 		var laterDate = new DateTime(2024, 6, 16);
 
-		RunCompareFailTest(
-							() => ((DateTime?)date).Should().BeAfter(laterDate, "custom because"),
-							"custom because"
-						);
+		RunCompareFailTest(() => ((DateTime?)date).Should().BeAfter(laterDate, "custom because"), "custom because");
 	}
 
 	[Fact]
@@ -44,9 +38,9 @@ public class NullableDateTimeBeAfterTests : BaseTest
 		var earlierDate = new DateTime(2024, 6, 14);
 
 		RunCompareFailTest(
-							() => ((DateTime?)date).Should().Not.BeAfter(earlierDate),
-							"2024-06-15 10:30:45 should not be after 2024-06-14 00:00:00"
-						);
+			() => ((DateTime?)date).Should().Not.BeAfter(earlierDate),
+			"2024-06-15 10:30:45 should not be after 2024-06-14 00:00:00"
+		);
 	}
 
 	[Fact]
@@ -55,10 +49,7 @@ public class NullableDateTimeBeAfterTests : BaseTest
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 		var earlierDate = new DateTime(2024, 6, 14);
 
-		RunCompareFailTest(
-							() => ((DateTime?)date).Should().Not.BeAfter(earlierDate, "custom because"),
-							"custom because"
-						);
+		RunCompareFailTest(() => ((DateTime?)date).Should().Not.BeAfter(earlierDate, "custom because"), "custom because");
 	}
 
 	[Fact]

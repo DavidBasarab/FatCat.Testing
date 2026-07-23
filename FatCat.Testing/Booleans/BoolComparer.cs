@@ -9,21 +9,40 @@ public class BoolComparer(bool subject) : ComparerBase<bool, BoolComparer>(subje
 
 	public BoolComparer Be(bool expected, string because = null)
 	{
-		if (Subject != expected) { CompareException.New(because ?? $"{Subject} should be {expected}"); }
+		if (Subject != expected)
+		{
+			CompareException.New(because ?? $"{Subject} should be {expected}");
+		}
 
 		return this;
 	}
 
 	public BoolComparer BeFalse(string because = null)
 	{
-		if (Subject) { CompareException.New(because ?? $"{Subject} should be False"); }
+		if (Subject)
+		{
+			CompareException.New(because ?? $"{Subject} should be False");
+		}
 
 		return this;
 	}
 
 	public BoolComparer BeTrue(string because = null)
 	{
-		if (!Subject) { CompareException.New(because ?? $"{Subject} should be True"); }
+		if (!Subject)
+		{
+			CompareException.New(because ?? $"{Subject} should be True");
+		}
+
+		return this;
+	}
+
+	public BoolComparer Imply(bool consequent, string because = null)
+	{
+		if (Subject && !consequent)
+		{
+			CompareException.New(because ?? $"{Subject} should imply {consequent}");
+		}
 
 		return this;
 	}

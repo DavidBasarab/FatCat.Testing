@@ -16,7 +16,7 @@ These are hard stops. Do not do any of the following under any circumstances.
 
 ## Code Style
 - Do NOT use expression-bodied members (`=>` syntax for methods or properties) — this applies to ALL access levels (public, private, protected, internal) and BOTH projects including tests
-- Do NOT omit braces on an `if`, even for a single-statement body. CSharpier collapsing the body onto one line is not the same as dropping the braces
+- Do NOT omit braces on an `if`, even for a single-statement body — and do NOT hand-write the one-line braced form `if (x) { Foo(); }`. CSharpier expands a braced body onto its own lines; write it that way. Braceless and one-line-braced are both wrong
 - Do NOT use query syntax LINQ (`from x in y where...`) — method chaining only
 - Do NOT use string concatenation with `+` — use string interpolation. Write `$"{Subject} should be {expected}"`, never `Subject + " should be " + expected`. (No analyzer enforces this; it is caught by code review.)
 - Do NOT abbreviate names — write them out fully

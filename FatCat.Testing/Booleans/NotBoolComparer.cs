@@ -7,21 +7,40 @@ public class NotBoolComparer(bool subject) : NotComparerBase<bool, NotBoolCompar
 {
 	public NotBoolComparer Be(bool expected, string because = null)
 	{
-		if (Subject == expected) { CompareException.New(because ?? $"{expected} should not be {Subject}"); }
+		if (Subject == expected)
+		{
+			CompareException.New(because ?? $"{expected} should not be {Subject}");
+		}
 
 		return this;
 	}
 
 	public NotBoolComparer BeFalse(string because = null)
 	{
-		if (!Subject) { CompareException.New(because ?? $"{Subject} should not be False"); }
+		if (!Subject)
+		{
+			CompareException.New(because ?? $"{Subject} should not be False");
+		}
 
 		return this;
 	}
 
 	public NotBoolComparer BeTrue(string because = null)
 	{
-		if (Subject) { CompareException.New(because ?? $"{Subject} should not be True"); }
+		if (Subject)
+		{
+			CompareException.New(because ?? $"{Subject} should not be True");
+		}
+
+		return this;
+	}
+
+	public NotBoolComparer Imply(bool consequent, string because = null)
+	{
+		if (!(Subject && !consequent))
+		{
+			CompareException.New(because ?? $"{Subject} should not imply {consequent}");
+		}
 
 		return this;
 	}

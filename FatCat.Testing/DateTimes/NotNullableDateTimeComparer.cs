@@ -3,14 +3,11 @@ using FatCat.Testing.Exceptions;
 
 namespace FatCat.Testing.DateTimes;
 
-public class NotNullableDateTimeComparer(DateTime? subject)
-	: NotComparerBase<DateTime?, NotNullableDateTimeComparer>(subject)
+public class NotNullableDateTimeComparer(DateTime? subject) : NotComparerBase<DateTime?, NotNullableDateTimeComparer>(subject)
 {
 	private TimeSpan SubjectOffset
 	{
-		get => Subject.Value.Kind == DateTimeKind.Utc
-					? TimeSpan.Zero
-					: TimeZoneInfo.Local.GetUtcOffset(Subject.Value);
+		get => Subject.Value.Kind == DateTimeKind.Utc ? TimeSpan.Zero : TimeZoneInfo.Local.GetUtcOffset(Subject.Value);
 	}
 
 	public NotNullableDateTimeComparer Be(DateTime expected, string because = null)
@@ -18,8 +15,8 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 		if (Subject.HasValue && Subject.Value == expected)
 		{
 			CompareException.New(
-								because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not be {expected:yyyy-MM-dd HH:mm:ss}"
-								);
+				because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not be {expected:yyyy-MM-dd HH:mm:ss}"
+			);
 		}
 
 		return this;
@@ -30,9 +27,8 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 		if (Subject.HasValue && Subject.Value > expected)
 		{
 			CompareException.New(
-								because
-								?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not be after {expected:yyyy-MM-dd HH:mm:ss}"
-								);
+				because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not be after {expected:yyyy-MM-dd HH:mm:ss}"
+			);
 		}
 
 		return this;
@@ -43,9 +39,8 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 		if (Subject.HasValue && Subject.Value < expected)
 		{
 			CompareException.New(
-								because
-								?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not be before {expected:yyyy-MM-dd HH:mm:ss}"
-								);
+				because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not be before {expected:yyyy-MM-dd HH:mm:ss}"
+			);
 		}
 
 		return this;
@@ -56,9 +51,9 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 		if (Subject.HasValue && Math.Abs((Subject.Value - expected).Ticks) <= precision.Ticks)
 		{
 			CompareException.New(
-								because
-								?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not be within {precision} of {expected:yyyy-MM-dd HH:mm:ss}"
-								);
+				because
+					?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not be within {precision} of {expected:yyyy-MM-dd HH:mm:ss}"
+			);
 		}
 
 		return this;
@@ -66,7 +61,10 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 
 	public NotNullableDateTimeComparer BeLocal(string because = null)
 	{
-		if (Subject.HasValue && Subject.Value.Kind == DateTimeKind.Local) { CompareException.New(because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not be local"); }
+		if (Subject.HasValue && Subject.Value.Kind == DateTimeKind.Local)
+		{
+			CompareException.New(because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not be local");
+		}
 
 		return this;
 	}
@@ -76,9 +74,8 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 		if (Subject.HasValue && Subject.Value >= expected)
 		{
 			CompareException.New(
-								because
-								?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not be on or after {expected:yyyy-MM-dd HH:mm:ss}"
-								);
+				because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not be on or after {expected:yyyy-MM-dd HH:mm:ss}"
+			);
 		}
 
 		return this;
@@ -89,9 +86,8 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 		if (Subject.HasValue && Subject.Value <= expected)
 		{
 			CompareException.New(
-								because
-								?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not be on or before {expected:yyyy-MM-dd HH:mm:ss}"
-								);
+				because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not be on or before {expected:yyyy-MM-dd HH:mm:ss}"
+			);
 		}
 
 		return this;
@@ -99,14 +95,20 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 
 	public NotNullableDateTimeComparer BeUtc(string because = null)
 	{
-		if (Subject.HasValue && Subject.Value.Kind == DateTimeKind.Utc) { CompareException.New(because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not be UTC"); }
+		if (Subject.HasValue && Subject.Value.Kind == DateTimeKind.Utc)
+		{
+			CompareException.New(because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not be UTC");
+		}
 
 		return this;
 	}
 
 	public NotNullableDateTimeComparer HaveDay(int expected, string because = null)
 	{
-		if (Subject.HasValue && Subject.Value.Day == expected) { CompareException.New(because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have day {expected}"); }
+		if (Subject.HasValue && Subject.Value.Day == expected)
+		{
+			CompareException.New(because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have day {expected}");
+		}
 
 		return this;
 	}
@@ -115,9 +117,7 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 	{
 		if (Subject.HasValue && Subject.Value.Hour == expected)
 		{
-			CompareException.New(
-								because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have hour {expected}"
-								);
+			CompareException.New(because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have hour {expected}");
 		}
 
 		return this;
@@ -127,9 +127,7 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 	{
 		if (Subject.HasValue && Subject.Value.Kind == expected)
 		{
-			CompareException.New(
-								because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have kind {expected}"
-								);
+			CompareException.New(because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have kind {expected}");
 		}
 
 		return this;
@@ -139,9 +137,7 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 	{
 		if (Subject.HasValue && Subject.Value.Millisecond == expected)
 		{
-			CompareException.New(
-								because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have millisecond {expected}"
-								);
+			CompareException.New(because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have millisecond {expected}");
 		}
 
 		return this;
@@ -151,9 +147,7 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 	{
 		if (Subject.HasValue && Subject.Value.Minute == expected)
 		{
-			CompareException.New(
-								because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have minute {expected}"
-								);
+			CompareException.New(because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have minute {expected}");
 		}
 
 		return this;
@@ -163,9 +157,7 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 	{
 		if (Subject.HasValue && Subject.Value.Month == expected)
 		{
-			CompareException.New(
-								because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have month {expected}"
-								);
+			CompareException.New(because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have month {expected}");
 		}
 
 		return this;
@@ -175,9 +167,7 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 	{
 		if (Subject.HasValue && SubjectOffset == expected)
 		{
-			CompareException.New(
-								because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have offset {expected}"
-								);
+			CompareException.New(because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have offset {expected}");
 		}
 
 		return this;
@@ -187,9 +177,7 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 	{
 		if (Subject.HasValue && Subject.Value.Second == expected)
 		{
-			CompareException.New(
-								because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have second {expected}"
-								);
+			CompareException.New(because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have second {expected}");
 		}
 
 		return this;
@@ -197,7 +185,10 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 
 	public NotNullableDateTimeComparer HaveValue(string because = null)
 	{
-		if (Subject.HasValue) { CompareException.New(because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have a value"); }
+		if (Subject.HasValue)
+		{
+			CompareException.New(because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have a value");
+		}
 
 		return this;
 	}
@@ -206,9 +197,7 @@ public class NotNullableDateTimeComparer(DateTime? subject)
 	{
 		if (Subject.HasValue && Subject.Value.Year == expected)
 		{
-			CompareException.New(
-								because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have year {expected}"
-								);
+			CompareException.New(because ?? $"{Subject.Value:yyyy-MM-dd HH:mm:ss} should not have year {expected}");
 		}
 
 		return this;
