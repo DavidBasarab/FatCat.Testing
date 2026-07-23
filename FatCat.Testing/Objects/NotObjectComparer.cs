@@ -1,4 +1,5 @@
 using FatCat.Testing.Comparers;
+using FatCat.Testing.Equivalency;
 using FatCat.Testing.Exceptions;
 using FatCat.Testing.Formatting;
 
@@ -10,6 +11,15 @@ public class NotObjectComparer<T>(T subject) : NotComparerBase<T, NotObjectCompa
 	public NotObjectComparer<T> Be(T expected, string because = null)
 	{
 		if (Equals(Subject, expected)) { CompareException.New(because ?? $"{ValueFormatter.Format(Subject)} should not be {ValueFormatter.Format(expected)}"); }
+
+		return this;
+	}
+
+	public NotObjectComparer<T> BeEquivalentTo(T expected, string because = null)
+	{
+		var result = EquivalencyComparer.Compare(Subject, expected);
+
+		if (result.AreEquivalent) { CompareException.New(because ?? $"{ValueFormatter.Format(Subject)} should not be equivalent to {ValueFormatter.Format(expected)}"); }
 
 		return this;
 	}

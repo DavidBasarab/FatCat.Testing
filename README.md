@@ -255,6 +255,7 @@ never lands here by accident.
 | Assertion | What it asserts |
 |---|---|
 | `Be(expected)` | The subject equals `expected` by **value** — `Equals`, so a type that overrides `Equals` compares by value. |
+| `BeEquivalentTo(expected)` | The subject is **structurally equivalent** to `expected` — a recursive, member-by-member comparison. |
 | `BeNull()` | The subject is `null`. |
 | `BeSameAs(expected)` | The subject is the **same instance** as `expected` — reference identity (`ReferenceEquals`). |
 | `Satisfy(inspector)` | The subject passes the `inspector` action without throwing. |
@@ -265,9 +266,34 @@ never lands here by accident.
 `Be` and `BeSameAs` are different questions. `Be` is **value** equality: two distinct instances that are
 `Equals` pass `Be` and **fail** `BeSameAs`. `BeSameAs` is **reference identity**: only the very same object
 passes. `Be` is *not* structural comparison — comparing the members of a type that does not override
-`Equals` is `BeEquivalentTo` (arrives in phase 07). When two objects differ but render the same text (because
+`Equals` is `BeEquivalentTo`. When two objects differ but render the same text (because
 they override `ToString`), the `Be` failure message cannot explain *why* they differ; `BeEquivalentTo` is the
 assertion that does.
+
+`BeEquivalentTo` compares two objects **structurally**, member by member, without either type having to
+override `Equals`. It:
+
+- compares **public readable instance properties only** — fields are **not** compared, so two objects that
+  differ only in a public field are still equivalent;
+- uses the type's own `Equals` for any type that **overrides** it (so `string`, primitives, `Guid`,
+  `DateTime`, and enums compare by value and terminate the recursion) — this is the base case that keeps the
+  engine from trying to dump the members of an `int`;
+- recurses into nested objects and into collection-typed members (collection members match
+  **order-insensitively**), and is **cycle-safe** — a reference already on the current path is treated as
+  equivalent rather than recursing forever;
+- **names the differing member** in the failure message and the full path to it, for example
+  `... but Address.City differs: expected "York" but found "Leeds"`.
+
+This is a separate question from `Be`. `Be` uses the type's own `Equals`; `BeEquivalentTo` walks members
+regardless of whether `Equals` is overridden. Recursion is depth-limited (10) and collection members are
+capped (32 elements) as safety valves for pathological graphs.
+
+```csharp
+var actual = new Person { Name = "Alice", Address = new Address { City = "Leeds" } };
+var expected = new Person { Name = "Alice", Address = new Address { City = "Leeds" } };
+actual.Should().BeEquivalentTo(expected);       // passes — same members, no Equals override needed
+actual.Should().Not.BeEquivalentTo(other);      // negation is the Not property, as everywhere
+```
 
 A bare `null` literal cannot receive `Should()` — the compiler has no type to bind `T` to. Type the variable
 first:

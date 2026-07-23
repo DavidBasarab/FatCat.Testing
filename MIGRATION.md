@@ -78,8 +78,8 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().NotContain(x)` *(collections)* | `.Should().Not.Contain(x)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainTests` |
 | `.Should().EndWith(x)` | `.Should().EndWith(x)` | ✅ supported | `StringEndWithTests` |
 | `.Should().BeEquivalentTo(x)` *(string)* | `.Should().BeEquivalentTo(x)` | ✅ supported | `StringBeEquivalentToTests` |
-| `.Should().BeEquivalentTo(x)` *(object graphs)* | `.Should().BeEquivalentTo(x)` | ⬜ pending (phase 07) | — |
-| `.Should().NotBeEquivalentTo(x)` | `.Should().Not.BeEquivalentTo(x)` | ⬜ pending (phase 07) | — |
+| `.Should().BeEquivalentTo(x)` *(object graphs)* | `.Should().BeEquivalentTo(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeEquivalentToTests` |
+| `.Should().NotBeEquivalentTo(x)` | `.Should().Not.BeEquivalentTo(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeEquivalentToTests` |
 | `.Should().BeCloseTo(x, tolerance)` | `.Should().BeCloseTo(x, tolerance)` | ✅ supported | `DateTimeBeCloseToTests`, `TimeSpanBeCloseToTests` |
 | `.Should().BeApproximately(x, tolerance)` | `.Should().BeApproximately(x, tolerance)` | ✅ supported | `DoubleBeApproximatelyTests` |
 | `.Should().BeGreaterThan(x)` / `.Should().BeLessThan(x)` | same | ✅ supported | `IntBeGreaterThanTests`, `IntBeLessThanTests` |
@@ -124,7 +124,7 @@ Which subject types have a `.Should()` entry point today.
 | `Guid`, `Guid?` | ✅ | |
 | `string` | ✅ | |
 | `TimeSpan`, `TimeSpan?` | ✅ | |
-| `object` / reference types | ✅ | `Be` (value), `BeNull`, `BeSameAs` (reference identity) ship; `BeEquivalentTo` pending phase 07. |
+| `object` / reference types | ✅ | `Be` (value), `BeEquivalentTo` (structural), `BeNull`, `BeSameAs` (reference identity) ship. |
 | Collections (`IEnumerable<T>`, `List<T>`, `T[]`) | ✅ | Core methods (`Contain`, `BeEmpty`, `HaveCount`, `ContainSingle`) ship; `ContainEquivalentOf` pending phase 08. |
 | `Action` | ✅ | Exception assertions — `Throw<T>`, `NotThrow`. |
 | `Func<Task>` | ✅ | Async exception assertions — `ThrowAsync<T>`, `NotThrowAsync`. |
@@ -155,6 +155,12 @@ These compile fine and behave differently — the dangerous category. Read them 
 4. **Collection `BeEquivalentTo` is order-insensitive by default, with no `WithStrictOrdering` opt-out.**
    This matches FluentAssertions' default, but FluentAssertions lets you opt into strict ordering and
    FatCat.Testing does not. If you need order-sensitive comparison, use `Equal` instead. *(from phase 08)*
+
+6. **Object `BeEquivalentTo` compares public readable instance properties only — fields are excluded.**
+   Two objects that differ only in a public **field** are still equivalent. This matches FluentAssertions'
+   default (properties only), but FluentAssertions can be configured to include fields
+   (`ComparingByMembers`, `IncludingFields`) and FatCat.Testing ships no such option (ADR-6). If a field
+   carries state that must be compared, expose it as a property or assert on it directly.
 
 5. **`WithMessage` compares exactly; FluentAssertions supports `*` wildcards.**
    `Throw<T>().WithMessage(m)` requires the caught exception's message to equal `m` exactly. FluentAssertions'
