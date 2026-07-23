@@ -308,6 +308,44 @@ actual.Should().BeEquivalentTo(expected);       // passes — same members, no E
 actual.Should().Not.BeEquivalentTo(other);      // negation is the Not property, as everywhere
 ```
 
+#### Per-type equivalency rules — `Equivalency.Using<T>`
+
+`BeEquivalentTo` ships one configuration hook: a global per-type rule that replaces the default comparison
+for a single type wherever that type appears in a graph. The canonical use is a `DateTime` closeness rule —
+two timestamps within a tolerance count as equivalent even though they are not exactly equal. Register the
+rule with `Equivalency.Using<T>` and it fires for every `T` node, short-circuiting the recursion for that
+type (a `DateTime` with a closeness rule never recurses into `DateTime`'s own properties):
+
+```csharp
+Equivalency.Using<DateTime>((subject, expected) => (subject - expected).Duration() <= TimeSpan.FromSeconds(1));
+
+actual.Should().BeEquivalentTo(expected); // Timestamp members within one second now match
+```
+
+Registration is a **single `<T>`** — there is no `WhenTypeIs<T>()` chain to repeat the type. Registering
+twice for the same type is **last-registration-wins**.
+
+> **This registry is process-wide, mutable state.** A rule registered by one test affects **every later test
+> in the run**, so registration belongs in a **fixture** (a collection fixture, a static constructor, or a
+> test class's constructor), **never inside a `[Fact]`**. Tear it down with `Equivalency.Reset()` in the
+> fixture's `Dispose`, so no rule leaks into unrelated tests and test-run order stays irrelevant:
+
+```csharp
+public class EquivalencyFixture : IDisposable
+{
+	public EquivalencyFixture()
+	{
+		Equivalency.Using<DateTime>((subject, expected) => (subject - expected).Duration() <= TimeSpan.FromSeconds(1));
+	}
+
+	public void Dispose() { Equivalency.Reset(); }
+}
+```
+
+This is a deliberate divergence from FluentAssertions, where `options.Using<T>(...).WhenTypeIs<T>()` is a
+**per-call** option. FatCat.Testing registers the rule **globally** instead — matched to the only way real
+call sites use it, and without growing every `BeEquivalentTo` signature with an options lambda.
+
 A bare `null` literal cannot receive `Should()` — the compiler has no type to bind `T` to. Type the variable
 first:
 
@@ -477,5 +515,6 @@ automates the mechanical parts all live in [`MIGRATION.md`](MIGRATION.md).
   multiple failures.
 - **No `.And` / `.Which`.** Assertions chain by returning the comparer, but there is no `.And` property and no
   `.Which` drill-down onto a matched item.
-- **`BeEquivalentTo` ships default options only.** There is no `Excluding`, `Including`,
-  `WithStrictOrdering`, or the wider option-method surface.
+- **`BeEquivalentTo` ships default options plus one hook.** The only configuration point is the global
+  `Equivalency.Using<T>` per-type rule (register it in a fixture, reset it after). There is no `Excluding`,
+  `Including`, `WithStrictOrdering`, or the wider option-method surface, and no per-call options lambda.

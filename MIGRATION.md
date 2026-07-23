@@ -81,6 +81,7 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().BeEquivalentTo(x)` *(object graphs)* | `.Should().BeEquivalentTo(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeEquivalentToTests` |
 | `.Should().BeEquivalentTo(coll)` *(collections)* | `.Should().BeEquivalentTo(coll)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionBeEquivalentToTests` |
 | `.Should().NotBeEquivalentTo(x)` | `.Should().Not.BeEquivalentTo(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeEquivalentToTests` |
+| `options.Using<T>(...).WhenTypeIs<T>()` | `Equivalency.Using<T>((s, e) => ...)` | ✅ supported | `Tests.FatCat.Testing.Equivalency.EquivalencyUsingTests` |
 | `.Should().BeCloseTo(x, tolerance)` | `.Should().BeCloseTo(x, tolerance)` | ✅ supported | `DateTimeBeCloseToTests`, `TimeSpanBeCloseToTests` |
 | `.Should().BeApproximately(x, tolerance)` | `.Should().BeApproximately(x, tolerance)` | ✅ supported | `DoubleBeApproximatelyTests` |
 | `.Should().BeGreaterThan(x)` / `.Should().BeLessThan(x)` | same | ✅ supported | `IntBeGreaterThanTests`, `IntBeLessThanTests` |
@@ -171,6 +172,25 @@ These compile fine and behave differently — the dangerous category. Read them 
    wildcard form (`WithMessage("card *")`) has no equivalent. Rewrite a wildcard assertion as
    `Throw<T>().Where(e => e.Message.Contains("..."))` once `Where` ships in a later phase, or assert on the
    message directly until then. *(from phase 03)*
+
+7. **Per-type equivalency rules are registered globally, not per `BeEquivalentTo` call.** FluentAssertions'
+   `options.Using<T>(...).WhenTypeIs<T>()` is a per-call option on one assertion. FatCat.Testing ships a
+   single **global** registration instead — `Equivalency.Using<T>((subject, expected) => ...)` — with no
+   `WhenTypeIs<T>()` chain (the `<T>` already carries the type) and no per-call options lambda. Rewrite each
+   `Using().WhenTypeIs()` chain to one `Equivalency.Using<T>` call in a **fixture** (a collection fixture or
+   a static/instance constructor), and add `Equivalency.Reset()` to the fixture teardown — the registry is
+   process-wide mutable state, so leaving a rule registered makes every later test in the run see it.
+   Registering twice for the same type is last-registration-wins. *(from phase 09)*
+
+   ```csharp
+   // FluentAssertions — per call
+   actual.Should().BeEquivalentTo(expected, options =>
+       options.Using<DateTime>(ctx => ctx.Subject.Should().BeCloseTo(ctx.Expectation, 1.Seconds())).WhenTypeIs<DateTime>());
+
+   // FatCat.Testing — once, in a fixture
+   Equivalency.Using<DateTime>((subject, expected) => (subject - expected).Duration() <= TimeSpan.FromSeconds(1));
+   actual.Should().BeEquivalentTo(expected);
+   ```
 
 ## 6. Known Unsupported
 

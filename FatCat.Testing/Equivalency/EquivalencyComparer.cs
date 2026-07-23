@@ -123,8 +123,12 @@ public static class EquivalencyComparer
 
 	private static EquivalencyResult ApplyCustomRule(object subject, object expected)
 	{
-		// Phase 09 seam: the Using<T>() / WhenTypeIs<T>() override registry is consulted here, before the Equals base case and the member walk. It ships empty, so today there is never a custom rule.
-		return null;
+		// The Using<T>() override registry is consulted here, before the Equals base case and the member walk, keyed on the node's runtime type. A registered rule short-circuits recursion for that type.
+		if (!Equivalency.TryGetRule(subject.GetType(), out var rule)) { return null; }
+
+		if (rule(subject, expected)) { return Equivalent(); }
+
+		return NotEquivalent(path: "", $"expected {FormatValue(expected)} but found {FormatValue(subject)}");
 	}
 
 	private static IEnumerable<PropertyInfo> ReadableProperties(Type type)
