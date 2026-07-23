@@ -52,7 +52,10 @@ Columns: the FluentAssertions call, its FatCat.Testing form, whether it is suppo
 class that proves it.
 
 - `✅ supported` — the rewritten form compiles and is covered by the named test class in this repository.
-- `⬜ pending (phase NN)` — not shipped yet; the phase number is the one that delivers it.
+- `⬜ out of scope — tier_2_gaps` — deliberately **not** shipped by the `final_gaps` plan. These belong to the
+  independent `tier_2_gaps` plan (G7–G10) and are owned by the named phase there; they are listed here only so
+  the mapping is complete and the ownership is explicit. As of this close-out those methods are genuinely
+  absent from the library (verified by grep), so the row is not a claim this plan makes.
 
 Where a method is supported for some subject types but pending for others (for example `Be` on value types
 versus objects), the row reflects what ships today and §4 records the type coverage.
@@ -65,7 +68,7 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().NotBe(x)` *(value types)* | `.Should().Not.Be(x)` | ✅ supported | `BoolBeTests` |
 | `.Should().Be("guid-string")` *(Guid)* | `.Should().Be("guid-string")` | ✅ supported | `Tests.FatCat.Testing.Guids.GuidBeStringTests` |
 | `.Should().BeTrue()` / `.Should().BeFalse()` | `.Should().BeTrue()` / `.Should().BeFalse()` | ✅ supported | `BoolBeTrueTests`, `BoolBeFalseTests` |
-| `.Should().Imply(x)` | `.Should().Imply(x)` | ✅ supported | `Tests.FatCat.Testing.Booleans.BoolImplyTests` |
+| `Imply(x)` *(FatCat-native — no FluentAssertions equivalent)* | `.Should().Imply(x)` | ✅ supported | `Tests.FatCat.Testing.Booleans.BoolImplyTests` |
 | `.Should().BeNull()` *(value types & string)* | `.Should().BeNull()` | ✅ supported | `StringBeNullTests`, `NullableGuidBeNullTests` |
 | `.Should().BeNull()` *(objects)* | `.Should().BeNull()` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeNullTests` |
 | `.Should().NotBeNull()` *(objects)* | `.Should().Not.BeNull()` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeNullTests` |
@@ -100,8 +103,8 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().NotBeApproximately(v, t)` | `.Should().Not.BeApproximately(v, t)` | ✅ supported | `DoubleBeApproximatelyTests`, `FloatBeApproximatelyTests` |
 | `.Should().NotBeInRange(lo, hi)` | `.Should().Not.BeInRange(lo, hi)` | ✅ supported | `IntBeInRangeTests`, `DoubleNotBeInRangeTests`, `FloatNotBeInRangeTests` |
 | `.Should().BeGreaterThan(x)` / `.Should().BeLessThan(x)` | same | ✅ supported | `IntBeGreaterThanTests`, `IntBeLessThanTests` |
-| `.Should().BeGreaterOrEqualTo(x)` | `.Should().BeGreaterThanOrEqualTo(x)` | ⬜ pending (phase 16) | — |
-| `.Should().BeLessOrEqualTo(x)` | `.Should().BeLessThanOrEqualTo(x)` | ⬜ pending (phase 16) | — |
+| `.Should().BeGreaterOrEqualTo(x)` *(numerics)* | `.Should().BeGreaterThanOrEqualTo(x)` | ⬜ out of scope — `tier_2_gaps` (phases 02/03, G8) | — |
+| `.Should().BeLessOrEqualTo(x)` *(numerics)* | `.Should().BeLessThanOrEqualTo(x)` | ⬜ out of scope — `tier_2_gaps` (phases 02/03, G8) | — |
 | `.Should().BeOfType<T>()` | `.Should().BeOfType(typeof(T))` | ✅ supported | `ComparerBaseTests` |
 | `.Should().BeOneOf(...)` | `.Should().BeOneOf(...)` | ✅ supported | `ComparerBaseTests` |
 | `.Should().BeSameAs(x)` | `.Should().BeSameAs(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeSameAsTests` |
@@ -131,7 +134,7 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().ContainNulls()` | `.Should().ContainNulls()` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionContainNullsTests` |
 | `.Should().NotContainNulls()` | `.Should().Not.ContainNulls()` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionContainNullsTests` |
 | `.Should().ContainMatch(wildcard)` | `.Should().ContainMatch(wildcard)` | ✅ supported *(coverage — no call site)* | `Tests.FatCat.Testing.Collections.CollectionContainMatchTests` |
-| `.Should().MatchEquivalentOf(pattern)` | `.Should().MatchEquivalentOf(pattern)` | ⬜ pending (phase 15) | — |
+| `.Should().MatchEquivalentOf(pattern)` *(string)* | `.Should().MatchEquivalentOf(pattern)` | ⬜ out of scope — `tier_2_gaps` (phase 04, G9) | — |
 | `.Should().Throw<T>()` | `.Should().Throw<T>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ActionThrowTests` |
 | `.Should().ThrowAsync<T>()` | `.Should().ThrowAsync<T>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.AsyncActionThrowAsyncTests` |
 | `.Should().NotThrow()` | `.Should().NotThrow()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ActionNotThrowTests` |

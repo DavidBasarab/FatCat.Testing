@@ -706,3 +706,29 @@ see [`MIGRATION.md`](MIGRATION.md) §7.
 - **`BeEquivalentTo` ships default options plus one hook.** The only configuration point is the global
   `Equivalency.Using<T>` per-type rule (register it in a fixture, reset it after). There is no `Excluding`,
   `Including`, `WithStrictOrdering`, or the wider option-method surface, and no per-call options lambda.
+
+### Deliberately omitted from the FluentAssertions surface
+
+These have no consumer and are intentionally not part of the current catalog: the collection assertions
+`ContainInConsecutiveOrder`, `HaveElementPreceding` / `HaveElementSucceeding`, and `ContainItemsAssignableTo`;
+the exception wrappers `Awaiting` / `Invoking` / `Enumerating`, `WithResult`, and `CompleteWithinAsync`; and
+`WithMessage` wildcard matching. See [`MIGRATION.md`](MIGRATION.md) §6.
+
+`BeGreaterOrEqualTo` / `BeLessOrEqualTo` on numerics and `MatchEquivalentOf` on strings are **not** shipped by
+this library today — they belong to a separate `tier_2_gaps` plan (`TimeSpan` already ships its own
+`BeGreaterThanOrEqualTo` / `BeLessThanOrEqualTo`). See [`MIGRATION.md`](MIGRATION.md) §3.
+
+### Known coverage gaps
+
+A few shipped methods are not yet test-complete to the standard the rest of the library holds, and the catalog
+should not be read as claiming otherwise: the DateTime difference chains (`BeLessThan(t).Before(x)` and the
+other four builders) ship on `DateTime` but **not** on `DateTime?`; `double` / `float` `BeInRange` ships but is
+exercised only through its negated form; and there is no dedicated nullable `ContainEquivalentOf` collection
+test. These are follow-up top-ups, not part of the current plan.
+
+### Framework coupling — an open decision (flagged for review)
+
+The xUnit coupling above (`CompareException : XunitException`, single `xunit.assert` reference) is a
+**deliberately open decision**, not a settled one. Whether to add a framework-detection shim so non-xUnit
+runners are supported is left for a human to decide — the trade-off, and why it grows more expensive the
+longer it waits, is written up in [`tasks/todo/final_gaps/CLOSEOUT.md`](tasks/todo/final_gaps/CLOSEOUT.md).
