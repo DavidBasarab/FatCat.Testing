@@ -95,6 +95,8 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().BeExactly(t).Before(x)` / `.After(x)` *(DateTime)* | same | ✅ supported *(coverage — no call site)* | `DateTimeBeExactlyBeforeTests`, `DateTimeBeExactlyAfterTests` |
 | `2.Hours()` / `2.Minutes()` *(FluentAssertions.Extensions)* | `2.Hours()` / `2.Minutes()` | ✅ supported *(coverage — no call site)* | `NumericTimeExtensionsTests` |
 | `.Should().BeApproximately(x, tolerance)` | `.Should().BeApproximately(x, tolerance)` | ✅ supported | `DoubleBeApproximatelyTests` |
+| `.Should().NotBeApproximately(v, t)` | `.Should().Not.BeApproximately(v, t)` | ✅ supported | `DoubleBeApproximatelyTests`, `FloatBeApproximatelyTests` |
+| `.Should().NotBeInRange(lo, hi)` | `.Should().Not.BeInRange(lo, hi)` | ✅ supported | `IntBeInRangeTests`, `DoubleNotBeInRangeTests`, `FloatNotBeInRangeTests` |
 | `.Should().BeGreaterThan(x)` / `.Should().BeLessThan(x)` | same | ✅ supported | `IntBeGreaterThanTests`, `IntBeLessThanTests` |
 | `.Should().BeGreaterOrEqualTo(x)` | `.Should().BeGreaterThanOrEqualTo(x)` | ⬜ pending (phase 16) | — |
 | `.Should().BeLessOrEqualTo(x)` | `.Should().BeLessThanOrEqualTo(x)` | ⬜ pending (phase 16) | — |

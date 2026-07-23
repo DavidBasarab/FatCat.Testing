@@ -230,10 +230,10 @@ Both `double` and `float` share the same assertion set.
 
 | Assertion | What it asserts |
 |---|---|
-| `BeApproximately(expected, tolerance)` | The value is within `tolerance` of `expected`. |
+| `BeApproximately(expected, tolerance)` | The value is within `tolerance` of `expected`. Negatable via `.Not.BeApproximately(expected, tolerance)`. |
 | `BeGreaterThan(expected)` | The value is strictly greater than `expected`. |
 | `BeLessThan(expected)` | The value is strictly less than `expected`. |
-| `BeInRange(lower, upper)` | The value is within `[lower, upper]`. |
+| `BeInRange(lower, upper)` | The value is within `[lower, upper]`. Negatable via `.Not.BeInRange(lower, upper)`. |
 | `BeNaN()` | The value is `NaN`. |
 | `BeNegative()` | The value is less than zero. |
 | `BePositive()` | The value is greater than zero. |
@@ -326,7 +326,7 @@ unsigned relatives).
 | `Be(expected)` | The value equals `expected`. |
 | `BeGreaterThan(expected)` | The value is strictly greater than `expected`. |
 | `BeLessThan(expected)` | The value is strictly less than `expected`. |
-| `BeInRange(lower, upper)` | The value is within `[lower, upper]`. |
+| `BeInRange(lower, upper)` | The value is within `[lower, upper]`. Negatable via `.Not.BeInRange(lower, upper)`. |
 | `BeAround(center, tolerance)` | The value is within `tolerance` of `center`. |
 | `BeNegative()` | The value is less than zero. |
 | `BePositive()` | The value is greater than zero. |
