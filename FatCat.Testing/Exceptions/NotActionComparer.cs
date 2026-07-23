@@ -13,4 +13,14 @@ public class NotActionComparer(Action subject) : NotComparerBase<Action, NotActi
 
 		return this;
 	}
+
+	public NotActionComparer ThrowExactly<TException>(string because = null)
+		where TException : Exception
+	{
+		var exception = ActionComparer.CaptureException(Subject);
+
+		if (exception?.GetType() == typeof(TException)) { CompareException.New(because ?? $"should not throw exactly {typeof(TException).Name} but did"); }
+
+		return this;
+	}
 }

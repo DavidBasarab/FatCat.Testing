@@ -13,4 +13,14 @@ public class NotAsyncActionComparer(Func<Task> subject) : NotComparerBase<Func<T
 
 		return this;
 	}
+
+	public NotAsyncActionComparer ThrowExactlyAsync<TException>(string because = null)
+		where TException : Exception
+	{
+		var exception = AsyncActionComparer.RunAndCaptureException(Subject);
+
+		if (exception?.GetType() == typeof(TException)) { CompareException.New(because ?? $"should not throw exactly {typeof(TException).Name} but did"); }
+
+		return this;
+	}
 }

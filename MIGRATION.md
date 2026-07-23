@@ -129,6 +129,12 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().ThrowAsync<T>()` | `.Should().ThrowAsync<T>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.AsyncActionThrowAsyncTests` |
 | `.Should().NotThrow()` | `.Should().NotThrow()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ActionNotThrowTests` |
 | `.Should().Throw<T>().WithMessage(m)` | `.Should().Throw<T>().WithMessage(m)` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ActionThrowWithMessageTests` |
+| `.Should().ThrowExactly<T>()` | `.Should().ThrowExactly<T>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ActionThrowExactlyTests` |
+| `.Should().ThrowExactlyAsync<T>()` | `.Should().ThrowExactlyAsync<T>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.AsyncActionThrowExactlyAsyncTests` |
+| `.Should().Throw<T>().WithInnerException<TInner>()` | `.Should().Throw<T>().WithInnerException<TInner>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ThrownExceptionWithInnerExceptionTests` |
+| `.Should().Throw<T>().WithInnerExceptionExactly<TInner>()` | `.Should().Throw<T>().WithInnerExceptionExactly<TInner>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ThrownExceptionWithInnerExceptionExactlyTests` |
+| `.Should().Throw<T>().Where(predicate)` | `.Should().Throw<T>().Where(predicate)` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ThrownExceptionWhereTests` |
+| `.Should().Throw<T>().WithParameterName(name)` | `.Should().Throw<T>().WithParameterName(name)` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ThrownExceptionWithParameterNameTests` |
 | `ReferenceTypeAssertions<T, TAssertions>` *(custom-assertion base)* | `ComparerBase<TSubject, TComparer>` | ✅ supported | `Tests.FatCat.Testing.Extensibility.CustomComparerTests` |
 | `AndConstraint<T>` *(custom-assertion return)* | return `this` (the comparer) | ✅ supported | `Tests.FatCat.Testing.Extensibility.CustomComparerTests` |
 
@@ -153,8 +159,8 @@ Which subject types have a `.Should()` entry point today.
 | `TimeSpan`, `TimeSpan?` | ✅ | |
 | `object` / reference types | ✅ | `Be` (value), `BeEquivalentTo` (structural), `BeNull`, `BeSameAs` (reference identity) ship. |
 | Collections (`IEnumerable<T>`, `List<T>`, `T[]`) | ✅ | Core methods (`Contain`, `BeEmpty`, `HaveCount`, `ContainSingle`), order-sensitive `Equal`, and the structural `BeEquivalentTo` / `ContainEquivalentOf` all ship. |
-| `Action` | ✅ | Exception assertions — `Throw<T>`, `NotThrow`. |
-| `Func<Task>` | ✅ | Async exception assertions — `ThrowAsync<T>`, `NotThrowAsync`. |
+| `Action` | ✅ | Exception assertions — `Throw<T>`, `ThrowExactly<T>`, `NotThrow`, plus `WithInnerException`/`Where`/`WithParameterName` on the caught exception. |
+| `Func<Task>` | ✅ | Async exception assertions — `ThrowAsync<T>`, `ThrowExactlyAsync<T>`, `NotThrowAsync`. |
 
 ## 5. Behavioural Differences
 
@@ -195,8 +201,8 @@ These compile fine and behave differently — the dangerous category. Read them 
 5. **`WithMessage` compares exactly; FluentAssertions supports `*` wildcards.**
    `Throw<T>().WithMessage(m)` requires the caught exception's message to equal `m` exactly. FluentAssertions'
    wildcard form (`WithMessage("card *")`) has no equivalent. Rewrite a wildcard assertion as
-   `Throw<T>().Where(e => e.Message.Contains("..."))` once `Where` ships in a later phase, or assert on the
-   message directly until then. *(from phase 03)*
+   `Throw<T>().Where(e => e.Message.Contains("..."))`, or assert on the message directly. *(from phase 03;
+   `Where` shipped in phase 14)*
 
 7. **Per-type equivalency rules are registered globally, not per `BeEquivalentTo` call.** FluentAssertions'
    `options.Using<T>(...).WhenTypeIs<T>()` is a per-call option on one assertion. FatCat.Testing ships a

@@ -27,6 +27,18 @@ public class ActionComparer(Action subject) : ComparerBase<Action, ActionCompare
 		return new ThrownExceptionComparer(exception);
 	}
 
+	public ThrownExceptionComparer ThrowExactly<TException>(string because = null)
+		where TException : Exception
+	{
+		var exception = CaptureException(Subject);
+
+		if (exception == null) { CompareException.New(because ?? $"should throw exactly {typeof(TException).Name} but no exception was thrown"); }
+
+		if (exception.GetType() != typeof(TException)) { CompareException.New(because ?? $"should throw exactly {typeof(TException).Name} but threw {exception.GetType().Name}"); }
+
+		return new ThrownExceptionComparer(exception);
+	}
+
 	internal static Exception CaptureException(Action subject)
 	{
 		try

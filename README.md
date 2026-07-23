@@ -259,10 +259,16 @@ type name, so there is nothing useful to render, and the messages start with `sh
 | Assertion | What it asserts |
 |---|---|
 | `Throw<TException>()` | Invoking the `Action` throws a `TException` (or a derived type). Returns a `ThrownExceptionComparer`. |
+| `ThrowExactly<TException>()` | Invoking the `Action` throws a `TException` *exactly* — a derived type fails. Returns a `ThrownExceptionComparer`. |
 | `NotThrow()` | Invoking the `Action` throws nothing. |
 | `ThrowAsync<TException>()` | Awaiting the `Func<Task>` throws a `TException` (or a derived type). Returns a `ThrownExceptionComparer`. |
+| `ThrowExactlyAsync<TException>()` | Awaiting the `Func<Task>` throws a `TException` *exactly* — a derived type fails. Returns a `ThrownExceptionComparer`. |
 | `NotThrowAsync()` | Awaiting the `Func<Task>` throws nothing. |
 | `WithMessage(expected)` | *(on `ThrownExceptionComparer`)* The caught exception's `Message` equals `expected` exactly. |
+| `WithInnerException<TInner>()` | *(on `ThrownExceptionComparer`)* The caught exception has an inner exception of `TInner` (or a derived type). Returns a `ThrownExceptionComparer` scoped to the inner exception, so it chains further. |
+| `WithInnerExceptionExactly<TInner>()` | *(on `ThrownExceptionComparer`)* The inner exception is `TInner` *exactly*. Returns a `ThrownExceptionComparer` scoped to the inner exception. |
+| `Where(predicate)` | *(on `ThrownExceptionComparer`)* The caught exception satisfies `predicate` (`Func<Exception, bool>`). |
+| `WithParameterName(expected)` | *(on `ThrownExceptionComparer`)* The caught `ArgumentException`'s `ParamName` equals `expected`. |
 
 Three things worth knowing before you use these:
 
@@ -282,15 +288,24 @@ Three things worth knowing before you use these:
    action.Should().Throw<InvalidOperationException>().WithMessage("card declined");
    ```
 
-3. **`Throw<T>` matches derived exception types.** `Throw<ArgumentException>()` is satisfied by an
-   `ArgumentNullException`. The exact-type form, `ThrowExactly<T>`, ships in a later phase.
+3. **`Throw<T>` matches derived exception types; `ThrowExactly<T>` does not.**
+   `Throw<ArgumentException>()` is satisfied by an `ArgumentNullException`; `ThrowExactly<ArgumentException>()`
+   fails on it, requiring the thrown type to be `ArgumentException` exactly. The same distinction holds for
+   `WithInnerException<T>` (derived) versus `WithInnerExceptionExactly<T>` (exact).
 
 `WithMessage` compares the message with exact string equality — FluentAssertions supports `*` wildcards
-there and FatCat.Testing does not. See [`MIGRATION.md`](MIGRATION.md) §5.
+there and FatCat.Testing does not. Use `Where(e => e.Message.Contains("..."))` for a substring check. See
+[`MIGRATION.md`](MIGRATION.md) §5.
 
-Asserting that code throws does **not** make the assertion API asynchronous: `ThrowAsync<T>` observes the
-`Task` synchronously inside the comparer, so the fluent `Should()` surface stays synchronous and is never
-awaited.
+Asserting that code throws does **not** make the assertion API asynchronous: `ThrowAsync<T>` and
+`ThrowExactlyAsync<T>` observe the `Task` synchronously inside the comparer, so the fluent `Should()` surface
+stays synchronous and is never awaited.
+
+**Deliberate omissions.** FluentAssertions' `Awaiting` / `Invoking` / `Enumerating` wrappers are not
+provided — the `Action` and `Func<Task>` overloads above already adapt a subject into a delegate. `WithResult`
+(asserting an async result value) is omitted as it has no consumer here. `CompleteWithinAsync(TimeSpan)` is
+also omitted: enforcing a timeout requires either a banned primitive (`Task.Delay` / `Thread.Sleep`) or a
+second blocking site, both disallowed, so this family is intentionally not a complete port.
 
 ### Guids
 

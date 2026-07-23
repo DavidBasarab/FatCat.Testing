@@ -27,6 +27,18 @@ public class AsyncActionComparer(Func<Task> subject) : ComparerBase<Func<Task>, 
 		return new ThrownExceptionComparer(exception);
 	}
 
+	public ThrownExceptionComparer ThrowExactlyAsync<TException>(string because = null)
+		where TException : Exception
+	{
+		var exception = RunAndCaptureException(Subject);
+
+		if (exception == null) { CompareException.New(because ?? $"should throw exactly {typeof(TException).Name} but no exception was thrown"); }
+
+		if (exception.GetType() != typeof(TException)) { CompareException.New(because ?? $"should throw exactly {typeof(TException).Name} but threw {exception.GetType().Name}"); }
+
+		return new ThrownExceptionComparer(exception);
+	}
+
 	// The fluent assertion surface is synchronous by design (async.md). Observing the task here is the
 	// single, deliberate blocking call in the library; no other file may block. GetAwaiter().GetResult()
 	// unwraps rather than wrapping in AggregateException, so the caught type is the type the author expects.
