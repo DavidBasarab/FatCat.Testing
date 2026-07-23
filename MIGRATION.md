@@ -106,6 +106,8 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().ThrowAsync<T>()` | `.Should().ThrowAsync<T>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.AsyncActionThrowAsyncTests` |
 | `.Should().NotThrow()` | `.Should().NotThrow()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ActionNotThrowTests` |
 | `.Should().Throw<T>().WithMessage(m)` | `.Should().Throw<T>().WithMessage(m)` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ActionThrowWithMessageTests` |
+| `ReferenceTypeAssertions<T, TAssertions>` *(custom-assertion base)* | `ComparerBase<TSubject, TComparer>` | ✅ supported | `Tests.FatCat.Testing.Extensibility.CustomComparerTests` |
+| `AndConstraint<T>` *(custom-assertion return)* | return `this` (the comparer) | ✅ supported | `Tests.FatCat.Testing.Extensibility.CustomComparerTests` |
 
 Every gap phase appends its rows here as it lands, flipping the matching `⬜ pending` row to `✅ supported`
 and naming the test class that proves it. The table covers what the audited call-site inventory shows is in
@@ -191,6 +193,14 @@ These compile fine and behave differently — the dangerous category. Read them 
    Equivalency.Using<DateTime>((subject, expected) => (subject - expected).Duration() <= TimeSpan.FromSeconds(1));
    actual.Should().BeEquivalentTo(expected);
    ```
+
+8. **A ported custom assertion drops `becauseArgs` and uses `because` as a replacement.** FluentAssertions
+   custom assertions built on `ReferenceTypeAssertions<T, TAssertions>` return `AndConstraint<T>`; the
+   FatCat.Testing equivalent derives from `ComparerBase<TSubject, TComparer>` and returns `this` (see
+   `## Custom Comparers` in [`README.md`](README.md)). When porting one, rewrite any
+   `("expected {0}", value)` reason into string interpolation — `($"expected {value}")` — because there is no
+   `params object[] becauseArgs`, and remember `because` **replaces** the generated message rather than being
+   appended to it. Proven by `Tests.FatCat.Testing.Extensibility.CustomComparerTests`. *(from phase 10)*
 
 ## 6. Known Unsupported
 

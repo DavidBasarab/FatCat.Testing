@@ -430,7 +430,107 @@ described in [`MIGRATION.md`](MIGRATION.md).
 
 ## Custom Comparers
 
-_Ships in phase 10 — see `tasks/todo/final_gaps/10-extension-point.md`._
+FatCat.Testing is extensible: you write your own comparer for your own subject type, reusing the same base
+class, failure exception, and value formatter the built-in comparers use. There is no separate authoring API
+to learn — a custom comparer is an ordinary class deriving from `ComparerBase<TSubject, TComparer>`, and it
+gets `BeOfType`, `BeAssignableTo`, `BeOneOf`, and `Satisfy` for free.
+
+The recipe:
+
+1. **Derive from `ComparerBase<TSubject, TComparer>`**, forwarding the subject through the primary
+   constructor. `TComparer` is your own comparer type, so chained assertions return it and keep chaining.
+2. **Expose a `Not` property** returning a twin that derives from `NotComparerBase<TSubject, TComparer>`
+   (recommended — it gives you `.Not.BeOk()`; there are no `NotXxx` methods).
+3. **Return `this`** from every assertion method so calls chain.
+4. **Throw failures with `CompareException.New(because ?? $"...")`** — `because` *replaces* the generated
+   message, and messages are built with string interpolation, never `+` concatenation.
+5. **Add a `Should(this TSubject)` extension** in your own static class to reach the comparer.
+6. **Read `Subject`** (public on the base) and format object or collection values with
+   `FatCat.Testing.Formatting.ValueFormatter.Format` so your messages render subjects the way the built-in
+   comparers do.
+
+`Subject` is **public** on both base classes, so a composing helper can read it from *outside* the comparer —
+which is exactly what a real assertion does when it delegates to an inner `.Should()`.
+
+### The direct form
+
+The comparer inspects `Subject` and throws:
+
+```csharp
+using FatCat.Testing.Comparers;
+using FatCat.Testing.Exceptions;
+
+public class WebResponse
+{
+	public int StatusCode { get; set; }
+}
+
+public class WebResponseComparer(WebResponse subject) : ComparerBase<WebResponse, WebResponseComparer>(subject)
+{
+	public WebResponseComparer BeOk(string because = null)
+	{
+		if (Subject.StatusCode != 200) { CompareException.New(because ?? $"status code {Subject.StatusCode} should be 200 (OK)"); }
+
+		return this;
+	}
+}
+
+public static class WebResponseShouldExtensions
+{
+	public static WebResponseComparer Should(this WebResponse subject) { return new WebResponseComparer(subject); }
+}
+```
+
+```csharp
+response.Should().BeOk();                 // passes when StatusCode is 200
+response.Should().BeOk().BeOk();          // chains — every assertion returns the comparer
+response.Should().BeOk("service is up");  // because replaces the generated message on failure
+```
+
+### The delegating form
+
+Because `Subject` is public, an assertion can delegate to an inner `.Should()` on a property of the subject
+rather than re-implementing the comparison — this is how the real consumer assertions are written:
+
+```csharp
+public WebResponseComparer BeOk(string because = null)
+{
+	Subject.StatusCode.Should().Be(200, because);
+
+	return this;
+}
+```
+
+Here the inner `Subject.StatusCode.Should().Be(200)` produces its own `CompareException` if the status code
+is not `200`, and `BeOk` simply returns `this` to keep the chain going. Both forms are proven in
+`Tests.FatCat.Testing.Extensibility.CustomComparerTests`.
+
+### Negation
+
+Give your comparer a `Not` twin deriving from `NotComparerBase<TSubject, TComparer>` so negation reads
+`.Not.BeOk()`, matching the rest of the library:
+
+```csharp
+public class NotWebResponseComparer(WebResponse subject)
+	: NotComparerBase<WebResponse, NotWebResponseComparer>(subject)
+{
+	public NotWebResponseComparer BeOk(string because = null)
+	{
+		if (Subject.StatusCode == 200) { CompareException.New(because ?? $"status code {Subject.StatusCode} should not be 200 (OK)"); }
+
+		return this;
+	}
+}
+```
+
+Then expose it from the positive comparer with `public NotWebResponseComparer Not { get; } = new(subject);`.
+
+### One caveat — failure stack traces
+
+FatCat.Testing has no `[CustomAssertion]` equivalent. When a custom assertion fails, the top of the stack
+trace points at `CompareException.New` inside your comparer method, not at the test line that called it — the
+test line is the bottom-most frame. The failure message is unaffected; only the stack-trace attribution
+differs from a hand-written `Assert` in the test body.
 
 ## Value Formatting
 

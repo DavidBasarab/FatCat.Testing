@@ -6,7 +6,7 @@ namespace FatCat.Testing.Comparers;
 public abstract class ComparerBase<TSubject, TComparer>(TSubject subject)
 	where TComparer : ComparerBase<TSubject, TComparer>
 {
-	protected TSubject Subject { get; } = subject;
+	public TSubject Subject { get; } = subject;
 
 	public TComparer BeAssignableTo(Type expectedType, string because = null)
 	{
