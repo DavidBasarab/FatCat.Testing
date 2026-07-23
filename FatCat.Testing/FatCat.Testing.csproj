@@ -6,7 +6,7 @@
 		<AssemblyName>FatCat.Testing</AssemblyName>
 		<DebugType>full</DebugType>
 		<LangVersion>default</LangVersion>
-    <VersionPrefix>1.0.2</VersionPrefix>
+		<VersionPrefix>1.0.2</VersionPrefix>
 		<Authors>David Basarab</Authors>
 		<Description>A free, Apache-2.0 fluent assertion library for .NET and a replacement for FluentAssertions. Write chainable, readable assertions (result.Should().Be(expected)) for xUnit test suites. See the README for the FluentAssertions migration guide.</Description>
 		<PackageTags>testing;assertions;fluent-assertions;xunit;unit-testing;fluent;assert;tdd</PackageTags>
