@@ -41,5 +41,79 @@ public class CollectionComparer<T>(IEnumerable<T> subject) : ComparerBase<IEnume
 		return this;
 	}
 
+	public CollectionComparer<T> ContainSingle(Func<T, bool> predicate, string because = null)
+	{
+		var matchedCount = items?.Count(predicate) ?? 0;
+
+		if (items is null || matchedCount != 1) { CompareException.New(because ?? $"{FormatItems()} should contain a single element matching the predicate but {matchedCount} matched"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> Equal(IEnumerable<T> expected, string because = null)
+	{
+		var expectedItems = expected?.ToList();
+
+		if (items is null || expectedItems is null || !items.SequenceEqual(expectedItems)) { CompareException.New(because ?? $"{FormatItems()} should equal {ValueFormatter.Format(expectedItems)}"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> OnlyContain(Func<T, bool> predicate, string because = null)
+	{
+		if (items is null || !items.All(predicate)) { CompareException.New(because ?? $"{FormatItems()} should only contain elements matching the predicate"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> OnlyHaveUniqueItems(string because = null)
+	{
+		if (items is null || items.Distinct().Count() != items.Count) { CompareException.New(because ?? $"{FormatItems()} should only have unique items"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> ContainInOrder(IEnumerable<T> expected, string because = null)
+	{
+		var expectedItems = expected?.ToList();
+
+		if (items is null || expectedItems is null || !ContainsInOrder(expectedItems)) { CompareException.New(because ?? $"{FormatItems()} should contain {ValueFormatter.Format(expectedItems)} in order"); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> ContainInOrder(params T[] expected) { return ContainInOrder((IEnumerable<T>)expected); }
+
+	public CollectionComparer<T> BeInDescendingOrder(string because = null)
+	{
+		if (items is null || !IsInDescendingOrder()) { CompareException.New(because ?? $"{FormatItems()} should be in descending order"); }
+
+		return this;
+	}
+
+	private bool ContainsInOrder(IReadOnlyList<T> expected)
+	{
+		var matchedCount = 0;
+
+		foreach (var item in items)
+		{
+			if (matchedCount < expected.Count && Equals(item, expected[matchedCount])) { matchedCount++; }
+		}
+
+		return matchedCount == expected.Count;
+	}
+
+	private bool IsInDescendingOrder()
+	{
+		var comparer = Comparer<T>.Default;
+
+		for (var index = 0; index < items.Count - 1; index++)
+		{
+			if (comparer.Compare(items[index], items[index + 1]) < 0) { return false; }
+		}
+
+		return true;
+	}
+
 	private string FormatItems() { return ValueFormatter.Format(items); }
 }

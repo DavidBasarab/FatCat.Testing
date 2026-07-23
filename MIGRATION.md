@@ -89,13 +89,14 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().BeSameAs(x)` / `.Should().NotBeSameAs(x)` | `.Should().BeSameAs(x)` / `.Should().Not.BeSameAs(x)` | ⬜ pending (phase 06) | — |
 | `.Should().HaveCount(n)` | `.Should().HaveCount(n)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionHaveCountTests` |
 | `.Should().ContainSingle()` | `.Should().ContainSingle()` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainSingleTests` |
+| `.Should().ContainSingle(p)` | `.Should().ContainSingle(p)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainSinglePredicateTests` |
 | `.Should().ContainEquivalentOf(x)` | `.Should().ContainEquivalentOf(x)` | ⬜ pending (phase 08) | — |
 | `.Should().NotContainEquivalentOf(x)` | `.Should().Not.ContainEquivalentOf(x)` | ⬜ pending (phase 08) | — |
-| `.Should().OnlyContain(pred)` | `.Should().OnlyContain(pred)` | ⬜ pending (phase 05) | — |
-| `.Should().OnlyHaveUniqueItems()` | `.Should().OnlyHaveUniqueItems()` | ⬜ pending (phase 05) | — |
-| `.Should().Equal(...)` *(collections)* | `.Should().Equal(...)` | ⬜ pending (phase 05) | — |
-| `.Should().ContainInOrder(...)` | `.Should().ContainInOrder(...)` | ⬜ pending (phase 05) | — |
-| `.Should().BeInDescendingOrder()` | `.Should().BeInDescendingOrder()` | ⬜ pending (phase 13) | — |
+| `.Should().OnlyContain(pred)` | `.Should().OnlyContain(pred)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionOnlyContainTests` |
+| `.Should().OnlyHaveUniqueItems()` | `.Should().OnlyHaveUniqueItems()` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionOnlyHaveUniqueItemsTests` |
+| `.Should().Equal(...)` *(collections)* | `.Should().Equal(...)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionEqualTests` |
+| `.Should().ContainInOrder(...)` | `.Should().ContainInOrder(...)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainInOrderTests` |
+| `.Should().BeInDescendingOrder()` | `.Should().BeInDescendingOrder()` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionBeInDescendingOrderTests` |
 | `.Should().MatchEquivalentOf(pattern)` | `.Should().MatchEquivalentOf(pattern)` | ⬜ pending (phase 15) | — |
 | `.Should().Throw<T>()` | `.Should().Throw<T>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ActionThrowTests` |
 | `.Should().ThrowAsync<T>()` | `.Should().ThrowAsync<T>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.AsyncActionThrowAsyncTests` |

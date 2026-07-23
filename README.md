@@ -110,6 +110,18 @@ query is enumerated a single time and every chained assertion reads that snapsho
 | `BeEmpty()` | The collection has no elements. |
 | `HaveCount(count)` | The collection has exactly `count` elements. |
 | `ContainSingle()` | The collection has exactly one element. |
+| `Equal(expected)` | The collection equals `expected` element-by-element, **in order**. |
+| `OnlyContain(predicate)` | Every element satisfies `predicate`. |
+| `OnlyHaveUniqueItems()` | The collection has no duplicate elements. |
+| `ContainInOrder(expected)` | The `expected` elements appear in this relative order (not necessarily contiguous). |
+| `BeInDescendingOrder()` | The elements are in descending order (`Comparer<T>.Default`). |
+| `ContainSingle(predicate)` | Exactly one element satisfies `predicate`. |
+
+`Equal` is **order-sensitive** — `[1, 2, 3].Should().Equal([3, 2, 1])` fails. The order-**insensitive**
+counterpart, `BeEquivalentTo`, arrives in phase 08.
+
+Predicate-based assertions (`OnlyContain`, `ContainSingle(predicate)`) cannot describe the predicate in the
+generated message, which reads "matching the predicate". Supply `because` to make the failure specific.
 
 Negated forms are reached through `Not`: `Not.Contain(x)`, `Not.BeEmpty()` (assert the collection is not
 empty), and `Not.HaveCount(n)`.
