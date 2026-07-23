@@ -679,19 +679,196 @@ declaration order (no fields, no static members, no indexers). A type with no su
 
 ## Coming From FluentAssertions
 
-FatCat.Testing is a replacement for FluentAssertions, but it is not source-compatible. The two most common
-differences you will hit are:
+FatCat.Testing is a replacement for FluentAssertions, but it is **not** source-compatible. This section is a
+practical guide to moving a real codebase across. It uses [`FatCat.Toolkit`](https://github.com/) as the
+worked example, because the Toolkit exercises the whole spectrum of FluentAssertions usage — plain
+assertions in tests **and** custom assertion classes shipped from production libraries — so if your project
+does something with FluentAssertions, the Toolkit almost certainly does the same thing somewhere.
 
-- **Negation** is `.Should().Not.Xxx(...)`, not `.Should().NotXxx(...)`.
-- **`because`** replaces the generated failure message rather than being appended to it, and there is no
-  `becauseArgs` — use string interpolation.
+The full mapping table (every FluentAssertions call and its FatCat.Testing form), the behavioural
+differences, the known-unsupported list, and the codemod reference all live in
+[`MIGRATION.md`](MIGRATION.md). This section is the how-to; that file is the lookup.
 
-The full mapping table, the behavioural differences, the known-unsupported list, and the codemod that
-automates the mechanical parts all live in [`MIGRATION.md`](MIGRATION.md).
+### The three kinds of change
 
-The mechanical negation rewrite ships as a codemod, `tools/Convert-FluentAssertions.ps1` — run it with
-`pwsh ./tools/Convert-FluentAssertions.ps1 -Path <dir> -WhatIf` to preview, then without `-WhatIf` to apply;
-see [`MIGRATION.md`](MIGRATION.md) §7.
+Every migration is some mix of these three, in increasing order of effort:
+
+1. **Swap the reference and the using.** Replace the `FluentAssertions` package reference with
+   `FatCat.Testing`, and the `global using FluentAssertions;` with `global using FatCat.Testing;`. Both
+   projects target the same `net10.0`, so nothing else in the project file moves.
+2. **Rewrite the call sites.** Negation moves from a prefixed method to the `Not` property
+   (`.NotBeNull()` → `.Not.BeNull()`), and any `because` that used `{0}`-style format arguments becomes an
+   interpolated string. The negation rewrite is mechanical — the shipped codemod does it (see below); the
+   `because` rewrite is a hand edit at the few sites that use format arguments.
+3. **Port the custom assertion classes.** If your project ships its own `.Should()` assertions built on
+   FluentAssertions' `ReferenceTypeAssertions<,>`, those classes are rewritten as comparers deriving from
+   `ComparerBase<TSubject, TComparer>`. This is the only part that is genuinely a rewrite rather than a
+   find-and-replace, and it is covered in full below.
+
+### Step by step
+
+```pwsh
+# 1. Swap the package reference (per project that references FluentAssertions)
+dotnet remove package FluentAssertions
+dotnet add package FatCat.Testing
+
+# 2. Swap the global using — change `global using FluentAssertions;` to
+#    `global using FatCat.Testing;` in each GlobalUsings.cs
+
+# 3. Preview the mechanical negation rewrite, then apply it
+pwsh ./tools/Convert-FluentAssertions.ps1 -Path <dir> -WhatIf
+pwsh ./tools/Convert-FluentAssertions.ps1 -Path <dir>
+
+# 4. Port any custom assertion classes (see "Porting a custom assertion" below)
+
+# 5. Build and let the compiler flag the residue — the handful of behavioural
+#    differences in MIGRATION.md §5/§6 that no rewrite can catch
+dotnet build
+```
+
+The codemod (`tools/Convert-FluentAssertions.ps1`) rewrites `.Should().NotXxx(` to `.Should().Not.Xxx(`
+across a source tree, is idempotent, and **reports** the four cases it deliberately cannot rewrite (chains
+through `.And`, line-broken chains, project-defined `Not*` methods, and subjects the target build does not
+yet cover) rather than mangling them. See [`MIGRATION.md`](MIGRATION.md) §7.
+
+### Porting a custom assertion — the Toolkit model
+
+The Toolkit ships assertion helpers like `FatResultAssertions<T>`, `FatWebResponseAssertions`, and
+`EndpointAssertions` from its **production** libraries, so downstream tests can write
+`result.Should().BeSuccessful()`. Each is built on FluentAssertions' extensibility surface. Here is the real
+`FatResultAssertions<T>` and its FatCat.Testing rewrite.
+
+**Before — on FluentAssertions' `ReferenceTypeAssertions<,>`:**
+
+```csharp
+using FluentAssertions;
+using FluentAssertions.Primitives;
+
+public class FatResultAssertions<T>(FatResult<T> subject)
+	: ReferenceTypeAssertions<FatResult<T>, FatResultAssertions<T>>(subject)
+{
+	protected override string Identifier
+	{
+		get { return "FatResultAssertions"; }
+	}
+
+	public FatResultAssertions<T> Be(FatResult<T> expectedResult)
+	{
+		new ObjectAssertions(Subject).BeEquivalentTo(expectedResult);
+
+		return this;
+	}
+
+	public FatResultAssertions<T> BeSuccessful()
+	{
+		Subject.Should().NotBeNull();
+
+		Subject.IsSuccessful.Should().BeTrue();
+
+		return this;
+	}
+}
+```
+
+**After — on FatCat.Testing's `ComparerBase<,>`:**
+
+```csharp
+using FatCat.Testing;
+using FatCat.Testing.Comparers;
+
+public class FatResultComparer<T>(FatResult<T> subject)
+	: ComparerBase<FatResult<T>, FatResultComparer<T>>(subject)
+	where T : class
+{
+	public FatResultComparer<T> Be(FatResult<T> expected)
+	{
+		Subject.Should().BeEquivalentTo(expected);
+
+		return this;
+	}
+
+	public FatResultComparer<T> BeSuccessful()
+	{
+		Subject.Should().Not.BeNull();
+
+		Subject.IsSuccessful.Should().BeTrue();
+
+		return this;
+	}
+}
+
+public static class FatResultShouldExtensions
+{
+	public static FatResultComparer<T> Should<T>(this FatResult<T> response)
+		where T : class
+	{
+		return new FatResultComparer<T>(response);
+	}
+}
+```
+
+Point by point, that is the whole mapping you apply to every custom assertion class:
+
+| FluentAssertions | FatCat.Testing |
+|---|---|
+| `ReferenceTypeAssertions<TSubject, TAssertions>` base | `ComparerBase<TSubject, TComparer>` base |
+| `protected override string Identifier { get; }` | **Deleted** — there is no identifier concept |
+| `new ObjectAssertions(Subject).BeEquivalentTo(x)` | `Subject.Should().BeEquivalentTo(x)` |
+| `.Should().NotBeNull()` | `.Should().Not.BeNull()` |
+| `AndConstraint<TAssertions>` return | `return this;` (the comparer itself) |
+| `Execute.Assertion.ForCondition(c).FailWith(m)` | `if (!c) { CompareException.New(m); }` |
+| the `Should(this TSubject)` extension | unchanged in shape — returns the new comparer |
+
+`Subject` is public on `ComparerBase`, so the delegating style the Toolkit uses — assert on the subject's
+members through an inner `.Should()` rather than re-implementing the check — carries over unchanged. See
+[`## Custom Comparers`](#custom-comparers) for the full recipe, including the `Not` twin.
+
+### Call-site rewrites in tests
+
+The bulk of a test suite needs only mechanical edits. The negations are handled by the codemod; the
+`because` format-argument sites are the only routine hand edits:
+
+```csharp
+// FluentAssertions
+value.Should().NotBeNull();
+copy.Should().NotBeSameAs(original);
+bytes.Should().NotBeEquivalentTo(other);
+list.Should().HaveCount(3, "expected {0} items", count);
+
+// FatCat.Testing
+value.Should().Not.BeNull();
+copy.Should().Not.BeSameAs(original);
+bytes.Should().Not.BeEquivalentTo(other);
+list.Should().HaveCount(3, $"expected {count} items");   // because replaces the message; no becauseArgs
+```
+
+### Watch-outs — the things a rewrite cannot catch
+
+These compile-or-fail in ways the codemod cannot see. The Toolkit hits each of them:
+
+- **`because` replaces the message; it is not appended.** FluentAssertions appends the reason to the
+  generated text — FatCat.Testing's `because` **becomes** the whole message. Migrate the intent, and note
+  there is no `params object[] becauseArgs`.
+- **`EquivalencyAssertionOptions<T>` config lambdas.** The Toolkit's `HaveContentEquivalentTo(x, config => …)`
+  overloads take an options lambda but never apply it. There is no per-call options object in FatCat.Testing —
+  drop the parameter, or, for a genuine per-type rule (a `DateTime` closeness tolerance, say), register it once
+  globally with `Equivalency.Using<T>` in a fixture (see [`## Objects`](#objects)). `Excluding`, `Including`,
+  and `WithStrictOrdering` have no equivalent.
+- **`MatchEquivalentOf` (string) and `BeGreaterOrEqualTo` / `BeLessOrEqualTo` (numerics) are not shipped
+  today.** They belong to a separate `tier_2_gaps` plan. Rewrite a `MatchEquivalentOf` wildcard as `Match`
+  (case-sensitive wildcard) or `Contain` (substring); `TimeSpan` already ships
+  `BeGreaterThanOrEqualTo` / `BeLessThanOrEqualTo`. See [`MIGRATION.md`](MIGRATION.md) §3.
+- **No `AssertionScope`, `.And`, or `.Which`.** Assertions throw on the first failure and chain by returning
+  the comparer. Split soft-assertion scopes into separate statements; capture a matched item in a local
+  instead of drilling through `.Which`.
+
+### Migrate in dependency order
+
+FluentAssertions reaches consumers transitively, so migrate a chain of repositories from the bottom up.
+Because the Toolkit references FluentAssertions from **production** projects (it ships those test helpers),
+replacing it changes the Toolkit package's public contract — treat that as its own release step, port its
+custom assertion layer, then move downstream consumers onto the FluentAssertions-free Toolkit. The full
+sequence is in [`MIGRATION.md`](MIGRATION.md) §7.
 
 ## Known Limitations
 

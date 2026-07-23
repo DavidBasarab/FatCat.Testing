@@ -25,6 +25,16 @@ public class NotNullableIntComparer(int? subject) : NotComparerBase<int?, NotNul
 		return this;
 	}
 
+	public NotNullableIntComparer BeGreaterThanOrEqualTo(int expected, string because = null)
+	{
+		if (Subject.HasValue && Subject.Value >= expected)
+		{
+			CompareException.New(because ?? $"{Subject.Value} should not be greater than or equal to {expected}");
+		}
+
+		return this;
+	}
+
 	public NotNullableIntComparer BeInRange(int lower, int upper, string because = null)
 	{
 		if (Subject.HasValue && Subject.Value >= lower && Subject.Value <= upper)
@@ -40,6 +50,16 @@ public class NotNullableIntComparer(int? subject) : NotComparerBase<int?, NotNul
 		if (Subject.HasValue && Subject.Value < expected)
 		{
 			CompareException.New(because ?? $"{Subject.Value} should not be less than {expected}");
+		}
+
+		return this;
+	}
+
+	public NotNullableIntComparer BeLessThanOrEqualTo(int expected, string because = null)
+	{
+		if (Subject.HasValue && Subject.Value <= expected)
+		{
+			CompareException.New(because ?? $"{Subject.Value} should not be less than or equal to {expected}");
 		}
 
 		return this;

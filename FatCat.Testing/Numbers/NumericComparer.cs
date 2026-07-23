@@ -39,6 +39,16 @@ public class NumericComparer<T>(T subject) : ComparerBase<T, NumericComparer<T>>
 		return this;
 	}
 
+	public NumericComparer<T> BeGreaterThanOrEqualTo(T expected, string because = null)
+	{
+		if (Subject < expected)
+		{
+			CompareException.New(because ?? $"{Subject} should be greater than or equal to {expected}");
+		}
+
+		return this;
+	}
+
 	public NumericComparer<T> BeInRange(T lower, T upper, string because = null)
 	{
 		if (Subject < lower || Subject > upper)
@@ -54,6 +64,16 @@ public class NumericComparer<T>(T subject) : ComparerBase<T, NumericComparer<T>>
 		if (Subject > expected)
 		{
 			CompareException.New(because ?? $"{Subject} should be less than {expected}");
+		}
+
+		return this;
+	}
+
+	public NumericComparer<T> BeLessThanOrEqualTo(T expected, string because = null)
+	{
+		if (Subject > expected)
+		{
+			CompareException.New(because ?? $"{Subject} should be less than or equal to {expected}");
 		}
 
 		return this;

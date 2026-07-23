@@ -1,0 +1,41 @@
+namespace Tests.FatCat.Testing.Numbers;
+
+public class IntBeLessThanOrEqualToTests : BaseTest
+{
+	[Fact]
+	public void BadBeLessThanOrEqualTo()
+	{
+		RunCompareFailTest(() => 5.Should().BeLessThanOrEqualTo(3), "5 should be less than or equal to 3");
+	}
+
+	[Fact]
+	public void BadBeLessThanOrEqualToWithBecause()
+	{
+		RunCompareFailTest(() => 5.Should().BeLessThanOrEqualTo(3, "custom because"), "custom because");
+	}
+
+	[Fact]
+	public void BadNotBeLessThanOrEqualTo()
+	{
+		RunCompareFailTest(() => 3.Should().Not.BeLessThanOrEqualTo(3), "3 should not be less than or equal to 3");
+	}
+
+	[Fact]
+	public void BadNotBeLessThanOrEqualToWithBecause()
+	{
+		RunCompareFailTest(() => 2.Should().Not.BeLessThanOrEqualTo(3, "custom because"), "custom because");
+	}
+
+	[Fact]
+	public void GoodBeLessThanOrEqualTo()
+	{
+		3.Should().BeLessThanOrEqualTo(3);
+		2.Should().BeLessThanOrEqualTo(3);
+	}
+
+	[Fact]
+	public void GoodNotBeLessThanOrEqualTo()
+	{
+		5.Should().Not.BeLessThanOrEqualTo(3);
+	}
+}

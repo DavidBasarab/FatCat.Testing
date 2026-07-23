@@ -27,6 +27,16 @@ public class NotNumericComparer<T>(T subject) : NotComparerBase<T, NotNumericCom
 		return this;
 	}
 
+	public NotNumericComparer<T> BeGreaterThanOrEqualTo(T expected, string because = null)
+	{
+		if (Subject >= expected)
+		{
+			CompareException.New(because ?? $"{Subject} should not be greater than or equal to {expected}");
+		}
+
+		return this;
+	}
+
 	public NotNumericComparer<T> BeInRange(T lower, T upper, string because = null)
 	{
 		if (Subject >= lower && Subject <= upper)
@@ -42,6 +52,16 @@ public class NotNumericComparer<T>(T subject) : NotComparerBase<T, NotNumericCom
 		if (Subject < expected)
 		{
 			CompareException.New(because ?? $"{Subject} should not be less than {expected}");
+		}
+
+		return this;
+	}
+
+	public NotNumericComparer<T> BeLessThanOrEqualTo(T expected, string because = null)
+	{
+		if (Subject <= expected)
+		{
+			CompareException.New(because ?? $"{Subject} should not be less than or equal to {expected}");
 		}
 
 		return this;

@@ -27,6 +27,16 @@ public class FloatComparer(float subject) : ComparerBase<float, FloatComparer>(s
 		return this;
 	}
 
+	public FloatComparer BeGreaterThanOrEqualTo(float expected, string because = null)
+	{
+		if (Subject < expected)
+		{
+			CompareException.New(because ?? $"{Subject} should be greater than or equal to {expected}");
+		}
+
+		return this;
+	}
+
 	public FloatComparer BeInRange(float lower, float upper, string because = null)
 	{
 		if (Subject < lower || Subject > upper)
@@ -42,6 +52,16 @@ public class FloatComparer(float subject) : ComparerBase<float, FloatComparer>(s
 		if (Subject >= expected)
 		{
 			CompareException.New(because ?? $"{Subject} should be less than {expected}");
+		}
+
+		return this;
+	}
+
+	public FloatComparer BeLessThanOrEqualTo(float expected, string because = null)
+	{
+		if (Subject > expected)
+		{
+			CompareException.New(because ?? $"{Subject} should be less than or equal to {expected}");
 		}
 
 		return this;

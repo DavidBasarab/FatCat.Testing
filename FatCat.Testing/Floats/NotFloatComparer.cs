@@ -25,6 +25,16 @@ public class NotFloatComparer(float subject) : NotComparerBase<float, NotFloatCo
 		return this;
 	}
 
+	public NotFloatComparer BeGreaterThanOrEqualTo(float expected, string because = null)
+	{
+		if (Subject >= expected)
+		{
+			CompareException.New(because ?? $"{Subject} should not be greater than or equal to {expected}");
+		}
+
+		return this;
+	}
+
 	public NotFloatComparer BeInRange(float lower, float upper, string because = null)
 	{
 		if (Subject >= lower && Subject <= upper)
@@ -40,6 +50,16 @@ public class NotFloatComparer(float subject) : NotComparerBase<float, NotFloatCo
 		if (Subject < expected)
 		{
 			CompareException.New(because ?? $"{Subject} should not be less than {expected}");
+		}
+
+		return this;
+	}
+
+	public NotFloatComparer BeLessThanOrEqualTo(float expected, string because = null)
+	{
+		if (Subject <= expected)
+		{
+			CompareException.New(because ?? $"{Subject} should not be less than or equal to {expected}");
 		}
 
 		return this;

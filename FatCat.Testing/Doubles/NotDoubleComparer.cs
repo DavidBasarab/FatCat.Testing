@@ -25,6 +25,16 @@ public class NotDoubleComparer(double subject) : NotComparerBase<double, NotDoub
 		return this;
 	}
 
+	public NotDoubleComparer BeGreaterThanOrEqualTo(double expected, string because = null)
+	{
+		if (Subject >= expected)
+		{
+			CompareException.New(because ?? $"{Subject} should not be greater than or equal to {expected}");
+		}
+
+		return this;
+	}
+
 	public NotDoubleComparer BeInRange(double lower, double upper, string because = null)
 	{
 		if (Subject >= lower && Subject <= upper)
@@ -40,6 +50,16 @@ public class NotDoubleComparer(double subject) : NotComparerBase<double, NotDoub
 		if (Subject < expected)
 		{
 			CompareException.New(because ?? $"{Subject} should not be less than {expected}");
+		}
+
+		return this;
+	}
+
+	public NotDoubleComparer BeLessThanOrEqualTo(double expected, string because = null)
+	{
+		if (Subject <= expected)
+		{
+			CompareException.New(because ?? $"{Subject} should not be less than or equal to {expected}");
 		}
 
 		return this;

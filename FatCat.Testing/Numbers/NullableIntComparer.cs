@@ -42,6 +42,16 @@ public class NullableIntComparer(int? subject) : ComparerBase<int?, NullableIntC
 		return this;
 	}
 
+	public NullableIntComparer BeGreaterThanOrEqualTo(int expected, string because = null)
+	{
+		if (!Subject.HasValue || Subject.Value < expected)
+		{
+			CompareException.New(because ?? $"{SubjectDisplay} should be greater than or equal to {expected}");
+		}
+
+		return this;
+	}
+
 	public NullableIntComparer BeInRange(int lower, int upper, string because = null)
 	{
 		if (!Subject.HasValue || Subject.Value < lower || Subject.Value > upper)
@@ -57,6 +67,16 @@ public class NullableIntComparer(int? subject) : ComparerBase<int?, NullableIntC
 		if (!Subject.HasValue || Subject.Value > expected)
 		{
 			CompareException.New(because ?? $"{SubjectDisplay} should be less than {expected}");
+		}
+
+		return this;
+	}
+
+	public NullableIntComparer BeLessThanOrEqualTo(int expected, string because = null)
+	{
+		if (!Subject.HasValue || Subject.Value > expected)
+		{
+			CompareException.New(because ?? $"{SubjectDisplay} should be less than or equal to {expected}");
 		}
 
 		return this;
