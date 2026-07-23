@@ -15,10 +15,7 @@ public class TimeSpanHaveMillisecondsTests : BaseTest
 	{
 		var span = TimeSpan.FromMilliseconds(500);
 
-		RunCompareFailTest(
-							() => span.Should().HaveMilliseconds(600),
-							"00:00:00.5000000 should have milliseconds 600"
-						);
+		RunCompareFailTest(() => span.Should().HaveMilliseconds(600), "00:00:00.5000000 should have milliseconds 600");
 	}
 
 	[Fact]
@@ -42,10 +39,7 @@ public class TimeSpanHaveMillisecondsTests : BaseTest
 	{
 		var span = TimeSpan.FromMilliseconds(500);
 
-		RunCompareFailTest(
-							() => span.Should().Not.HaveMilliseconds(500),
-							"00:00:00.5000000 should not have milliseconds 500"
-						);
+		RunCompareFailTest(() => span.Should().Not.HaveMilliseconds(500), "00:00:00.5000000 should not have milliseconds 500");
 	}
 
 	[Fact]

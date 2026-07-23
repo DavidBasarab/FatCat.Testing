@@ -5,22 +5,31 @@ namespace Tests.FatCat.Testing.Objects;
 public class ObjectBeSameAsTests : BaseTest
 {
 	[Fact]
-	public void BadBeSameAs() { RunCompareFailTest(() => new Dto("Alice").Should().BeSameAs(new Dto("Bob"))); }
+	public void BadBeSameAs()
+	{
+		RunCompareFailTest(() => new Dto("Alice").Should().BeSameAs(new Dto("Bob")));
+	}
 
 	[Fact]
 	public void BadBeSameAsShowsCorrectMessage()
 	{
 		RunCompareFailTest(
-							() => new Dto("Alice").Should().BeSameAs(new Dto("Bob")),
-							"Dto { Name = \"Alice\" } should be the same instance as Dto { Name = \"Bob\" }"
-						);
+			() => new Dto("Alice").Should().BeSameAs(new Dto("Bob")),
+			"Dto { Name = \"Alice\" } should be the same instance as Dto { Name = \"Bob\" }"
+		);
 	}
 
 	[Fact]
-	public void BadBeSameAsWhenEqualButNotSame() { RunCompareFailTest(() => new Dto("Alice").Should().BeSameAs(new Dto("Alice"))); }
+	public void BadBeSameAsWhenEqualButNotSame()
+	{
+		RunCompareFailTest(() => new Dto("Alice").Should().BeSameAs(new Dto("Alice")));
+	}
 
 	[Fact]
-	public void BadBeSameAsWithBecause() { RunCompareFailTest(() => new Dto("Alice").Should().BeSameAs(new Dto("Bob"), "custom because"), "custom because"); }
+	public void BadBeSameAsWithBecause()
+	{
+		RunCompareFailTest(() => new Dto("Alice").Should().BeSameAs(new Dto("Bob"), "custom because"), "custom because");
+	}
 
 	[Fact]
 	public void BadNotBeSameAs()
@@ -36,9 +45,9 @@ public class ObjectBeSameAsTests : BaseTest
 		var subject = new Dto("Alice");
 
 		RunCompareFailTest(
-							() => subject.Should().Not.BeSameAs(subject),
-							"Dto { Name = \"Alice\" } should not be the same instance as Dto { Name = \"Alice\" }"
-						);
+			() => subject.Should().Not.BeSameAs(subject),
+			"Dto { Name = \"Alice\" } should not be the same instance as Dto { Name = \"Alice\" }"
+		);
 	}
 
 	[Fact]
@@ -58,5 +67,8 @@ public class ObjectBeSameAsTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotBeSameAs() { new Dto("Alice").Should().Not.BeSameAs(new Dto("Alice")); }
+	public void GoodNotBeSameAs()
+	{
+		new Dto("Alice").Should().Not.BeSameAs(new Dto("Alice"));
+	}
 }

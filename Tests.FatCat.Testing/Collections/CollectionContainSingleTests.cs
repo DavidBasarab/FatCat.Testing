@@ -3,24 +3,45 @@ namespace Tests.FatCat.Testing.Collections;
 public class CollectionContainSingleTests : BaseTest
 {
 	[Fact]
-	public void GoodContainSingle() { new List<int> { 42 }.Should().ContainSingle(); }
+	public void GoodContainSingle()
+	{
+		new List<int> { 42 }
+			.Should()
+			.ContainSingle();
+	}
 
 	[Fact]
-	public void BadContainSingle() { RunCompareFailTest(() => new List<int> { 1, 2, 3 }.Should().ContainSingle()); }
+	public void BadContainSingle()
+	{
+		RunCompareFailTest(() =>
+			new List<int> { 1, 2, 3 }
+				.Should()
+				.ContainSingle()
+		);
+	}
 
 	[Fact]
 	public void BadContainSingleShowsCorrectMessage()
 	{
 		RunCompareFailTest(
-							() => new List<int> { 1, 2, 3 }.Should().ContainSingle(),
-							"[1, 2, 3] should contain a single element but has 3"
-						);
+			() =>
+				new List<int> { 1, 2, 3 }
+					.Should()
+					.ContainSingle(),
+			"[1, 2, 3] should contain a single element but has 3"
+		);
 	}
 
 	[Fact]
 	public void BadContainSingleWithBecause()
 	{
-		RunCompareFailTest(() => new List<int> { 1, 2, 3 }.Should().ContainSingle("custom because"), "custom because");
+		RunCompareFailTest(
+			() =>
+				new List<int> { 1, 2, 3 }
+					.Should()
+					.ContainSingle("custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]

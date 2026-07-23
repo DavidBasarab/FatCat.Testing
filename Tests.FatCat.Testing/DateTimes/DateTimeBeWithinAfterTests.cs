@@ -20,9 +20,9 @@ public class DateTimeBeWithinAfterTests : BaseTest
 		var other = new DateTime(2026, 1, 1, 10, 0, 0);
 
 		RunCompareFailTest(
-							() => subject.Should().BeWithin(2.Hours()).After(other),
-							"2026-01-01 13:00:00 should be within 02:00:00 after 2026-01-01 10:00:00 but the difference is 03:00:00"
-						);
+			() => subject.Should().BeWithin(2.Hours()).After(other),
+			"2026-01-01 13:00:00 should be within 02:00:00 after 2026-01-01 10:00:00 but the difference is 03:00:00"
+		);
 	}
 
 	[Fact]
@@ -41,9 +41,9 @@ public class DateTimeBeWithinAfterTests : BaseTest
 		var other = new DateTime(2026, 1, 1, 12, 0, 0);
 
 		RunCompareFailTest(
-							() => subject.Should().BeWithin(2.Hours()).After(other),
-							"2026-01-01 10:00:00 should be within 02:00:00 after 2026-01-01 12:00:00 but is not after it"
-						);
+			() => subject.Should().BeWithin(2.Hours()).After(other),
+			"2026-01-01 10:00:00 should be within 02:00:00 after 2026-01-01 12:00:00 but is not after it"
+		);
 	}
 
 	[Fact]

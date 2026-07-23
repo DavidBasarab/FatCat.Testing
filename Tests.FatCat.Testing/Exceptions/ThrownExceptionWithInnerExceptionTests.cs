@@ -15,7 +15,10 @@ public class ThrownExceptionWithInnerExceptionTests : BaseTest
 	{
 		Action action = () => throw new InvalidOperationException("outer");
 
-		RunCompareFailTest(() => action.Should().Throw<InvalidOperationException>().WithInnerException<ArgumentException>(), "thrown InvalidOperationException should have inner exception ArgumentException but had none");
+		RunCompareFailTest(
+			() => action.Should().Throw<InvalidOperationException>().WithInnerException<ArgumentException>(),
+			"thrown InvalidOperationException should have inner exception ArgumentException but had none"
+		);
 	}
 
 	[Fact]
@@ -23,7 +26,10 @@ public class ThrownExceptionWithInnerExceptionTests : BaseTest
 	{
 		Action action = () => throw new InvalidOperationException("outer", new FormatException("inner"));
 
-		RunCompareFailTest(() => action.Should().Throw<InvalidOperationException>().WithInnerException<ArgumentException>(), "thrown InvalidOperationException should have inner exception ArgumentException but had FormatException");
+		RunCompareFailTest(
+			() => action.Should().Throw<InvalidOperationException>().WithInnerException<ArgumentException>(),
+			"thrown InvalidOperationException should have inner exception ArgumentException but had FormatException"
+		);
 	}
 
 	[Fact]
@@ -31,7 +37,10 @@ public class ThrownExceptionWithInnerExceptionTests : BaseTest
 	{
 		Action action = () => throw new InvalidOperationException("outer");
 
-		RunCompareFailTest(() => action.Should().Throw<InvalidOperationException>().WithInnerException<ArgumentException>("custom because"), "custom because");
+		RunCompareFailTest(
+			() => action.Should().Throw<InvalidOperationException>().WithInnerException<ArgumentException>("custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]

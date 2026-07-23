@@ -5,13 +5,22 @@ namespace Tests.FatCat.Testing.Objects;
 public class ObjectBeNullTests : BaseTest
 {
 	[Fact]
-	public void BadBeNull() { RunCompareFailTest(() => new Dto("Alice").Should().BeNull()); }
+	public void BadBeNull()
+	{
+		RunCompareFailTest(() => new Dto("Alice").Should().BeNull());
+	}
 
 	[Fact]
-	public void BadBeNullShowsCorrectMessage() { RunCompareFailTest(() => new Dto("Alice").Should().BeNull(), "Dto { Name = \"Alice\" } should be null"); }
+	public void BadBeNullShowsCorrectMessage()
+	{
+		RunCompareFailTest(() => new Dto("Alice").Should().BeNull(), "Dto { Name = \"Alice\" } should be null");
+	}
 
 	[Fact]
-	public void BadBeNullWithBecause() { RunCompareFailTest(() => new Dto("Alice").Should().BeNull("custom because"), "custom because"); }
+	public void BadBeNullWithBecause()
+	{
+		RunCompareFailTest(() => new Dto("Alice").Should().BeNull("custom because"), "custom because");
+	}
 
 	[Fact]
 	public void BadNotBeNull()
@@ -46,5 +55,8 @@ public class ObjectBeNullTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotBeNull() { new Dto("Alice").Should().Not.BeNull(); }
+	public void GoodNotBeNull()
+	{
+		new Dto("Alice").Should().Not.BeNull();
+	}
 }

@@ -36,7 +36,7 @@
 ## Control Flow
 - Avoid deep if/else nesting. Prefer guard clauses and early returns to keep the main flow readable.
 - Avoid complex nested ternary expressions — prefer clear `if` statements or extract into a well-named method.
-- Always use braces on `if` statements, including single-statement bodies. CSharpier keeps short bodies on one line (`if (Subject != expected) { CompareException.New(because); }`) — that is correct, but the braces are never optional.
+- Always use braces on `if` statements, including single-statement bodies. CSharpier expands a braced body with content onto its own lines — write the block form (`if (Subject != expected)\n{\n\tCompareException.New(because);\n}`); never the one-line braced form and never braceless.
 - If you need to explain what code does with a comment, first ask whether a better name makes the comment unnecessary.
 - Use switch expressions (not if/else chains) when branching on an enum or type. Always include a discard arm `_` that throws `ArgumentOutOfRangeException` for unhandled cases:
 
@@ -120,7 +120,10 @@ public class BoolComparer(bool subject) : ComparerBase<bool, BoolComparer>(subje
 
     public BoolComparer BeTrue(string because = null)
     {
-        if (!Subject) { CompareException.New(because ?? $"{Subject} should be True"); }
+        if (!Subject)
+        {
+            CompareException.New(because ?? $"{Subject} should be True");
+        }
 
         return this;
     }

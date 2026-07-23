@@ -11,7 +11,10 @@ public class NullableTimeSpanHaveHoursTests : BaseTest
 	}
 
 	[Fact]
-	public void BadHaveHoursNullValue() { RunCompareFailTest(() => ((TimeSpan?)null).Should().HaveHours(3), "null should have hours 3"); }
+	public void BadHaveHoursNullValue()
+	{
+		RunCompareFailTest(() => ((TimeSpan?)null).Should().HaveHours(3), "null should have hours 3");
+	}
 
 	[Fact]
 	public void BadHaveHoursWithBecause()
@@ -54,5 +57,8 @@ public class NullableTimeSpanHaveHoursTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodNotHaveHoursWhenNull() { ((TimeSpan?)null).Should().Not.HaveHours(5); }
+	public void GoodNotHaveHoursWhenNull()
+	{
+		((TimeSpan?)null).Should().Not.HaveHours(5);
+	}
 }

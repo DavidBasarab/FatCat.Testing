@@ -15,7 +15,10 @@ public class AsyncActionThrowExactlyAsyncTests : BaseTest
 	{
 		Func<Task> action = () => Task.FromException(new ArgumentException("boom"));
 
-		RunCompareFailTest(() => action.Should().Not.ThrowExactlyAsync<ArgumentException>(), "should not throw exactly ArgumentException but did");
+		RunCompareFailTest(
+			() => action.Should().Not.ThrowExactlyAsync<ArgumentException>(),
+			"should not throw exactly ArgumentException but did"
+		);
 	}
 
 	[Fact]
@@ -39,7 +42,10 @@ public class AsyncActionThrowExactlyAsyncTests : BaseTest
 	{
 		Func<Task> action = () => Task.CompletedTask;
 
-		RunCompareFailTest(() => action.Should().ThrowExactlyAsync<ArgumentException>(), "should throw exactly ArgumentException but no exception was thrown");
+		RunCompareFailTest(
+			() => action.Should().ThrowExactlyAsync<ArgumentException>(),
+			"should throw exactly ArgumentException but no exception was thrown"
+		);
 	}
 
 	[Fact]
@@ -55,7 +61,10 @@ public class AsyncActionThrowExactlyAsyncTests : BaseTest
 	{
 		Func<Task> action = () => Task.FromException(new ArgumentNullException("param"));
 
-		RunCompareFailTest(() => action.Should().ThrowExactlyAsync<ArgumentException>(), "should throw exactly ArgumentException but threw ArgumentNullException");
+		RunCompareFailTest(
+			() => action.Should().ThrowExactlyAsync<ArgumentException>(),
+			"should throw exactly ArgumentException but threw ArgumentNullException"
+		);
 	}
 
 	[Fact]

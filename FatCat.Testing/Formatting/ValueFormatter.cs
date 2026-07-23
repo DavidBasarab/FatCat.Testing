@@ -16,24 +16,45 @@ public static class ValueFormatter
 
 	private static string Format(object value, bool isNested, int depth, HashSet<object> visited)
 	{
-		if (value == null) { return "null"; }
+		if (value == null)
+		{
+			return "null";
+		}
 
-		if (value is string text) { return isNested ? $"\"{text}\"" : text; }
+		if (value is string text)
+		{
+			return isNested ? $"\"{text}\"" : text;
+		}
 
-		if (value is char character) { return isNested ? $"'{character}'" : $"{character}"; }
+		if (value is char character)
+		{
+			return isNested ? $"'{character}'" : $"{character}";
+		}
 
-		if (OverridesToString(value)) { return value.ToString(); }
+		if (OverridesToString(value))
+		{
+			return value.ToString();
+		}
 
-		if (depth > MaxDepth) { return "{ … }"; }
+		if (depth > MaxDepth)
+		{
+			return "{ … }";
+		}
 
-		if (value is IEnumerable enumerable) { return FormatEnumerable(enumerable, depth, visited); }
+		if (value is IEnumerable enumerable)
+		{
+			return FormatEnumerable(enumerable, depth, visited);
+		}
 
 		return FormatObject(value, depth, visited);
 	}
 
 	private static string FormatEnumerable(IEnumerable enumerable, int depth, HashSet<object> visited)
 	{
-		if (visited.Contains(enumerable)) { return $"{{ cyclic reference to {enumerable.GetType().Name} }}"; }
+		if (visited.Contains(enumerable))
+		{
+			return $"{{ cyclic reference to {enumerable.GetType().Name} }}";
+		}
 
 		visited.Add(enumerable);
 
@@ -54,18 +75,30 @@ public static class ValueFormatter
 
 		foreach (var item in enumerable)
 		{
-			if (elements.Count < MaxCollectionElements) { elements.Add(Format(item, isNested: true, depth + 1, visited)); }
-			else { remainder++; }
+			if (elements.Count < MaxCollectionElements)
+			{
+				elements.Add(Format(item, isNested: true, depth + 1, visited));
+			}
+			else
+			{
+				remainder++;
+			}
 		}
 
-		if (remainder > 0) { return $"[{string.Join(", ", elements)}, …and {remainder} more]"; }
+		if (remainder > 0)
+		{
+			return $"[{string.Join(", ", elements)}, …and {remainder} more]";
+		}
 
 		return $"[{string.Join(", ", elements)}]";
 	}
 
 	private static string FormatObject(object value, int depth, HashSet<object> visited)
 	{
-		if (visited.Contains(value)) { return $"{{ cyclic reference to {value.GetType().Name} }}"; }
+		if (visited.Contains(value))
+		{
+			return $"{{ cyclic reference to {value.GetType().Name} }}";
+		}
 
 		visited.Add(value);
 
@@ -86,7 +119,10 @@ public static class ValueFormatter
 			.Select(property => $"{property.Name} = {FormatProperty(value, property, depth, visited)}")
 			.ToList();
 
-		if (members.Count == 0) { return $"{typeName} {{ }}"; }
+		if (members.Count == 0)
+		{
+			return $"{typeName} {{ }}";
+		}
 
 		return $"{typeName} {{ {string.Join(", ", members)} }}";
 	}
@@ -113,7 +149,10 @@ public static class ValueFormatter
 
 	private static string UnwrapExceptionTypeName(Exception exception)
 	{
-		if (exception is TargetInvocationException && exception.InnerException != null) { return exception.InnerException.GetType().Name; }
+		if (exception is TargetInvocationException && exception.InnerException != null)
+		{
+			return exception.InnerException.GetType().Name;
+		}
 
 		return exception.GetType().Name;
 	}

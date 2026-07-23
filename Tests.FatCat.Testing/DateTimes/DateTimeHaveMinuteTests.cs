@@ -39,10 +39,7 @@ public class DateTimeHaveMinuteTests : BaseTest
 	{
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 
-		RunCompareFailTest(
-							() => date.Should().Not.HaveMinute(30),
-							"2024-06-15 10:30:45 should not have minute 30"
-						);
+		RunCompareFailTest(() => date.Should().Not.HaveMinute(30), "2024-06-15 10:30:45 should not have minute 30");
 	}
 
 	[Fact]

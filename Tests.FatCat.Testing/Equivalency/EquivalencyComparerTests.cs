@@ -82,7 +82,10 @@ public class EquivalencyComparerTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodCompareBothNull() { EquivalencyComparer.Compare(null, null).AreEquivalent.Should().BeTrue(); }
+	public void GoodCompareBothNull()
+	{
+		EquivalencyComparer.Compare(null, null).AreEquivalent.Should().BeTrue();
+	}
 
 	[Fact]
 	public void GoodCompareCollectionMemberOrderInsensitive()
@@ -127,10 +130,16 @@ public class EquivalencyComparerTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodCompareEqualScalars() { EquivalencyComparer.Compare(5, 5).AreEquivalent.Should().BeTrue(); }
+	public void GoodCompareEqualScalars()
+	{
+		EquivalencyComparer.Compare(5, 5).AreEquivalent.Should().BeTrue();
+	}
 
 	[Fact]
-	public void GoodCompareEqualStrings() { EquivalencyComparer.Compare("hello", "hello").AreEquivalent.Should().BeTrue(); }
+	public void GoodCompareEqualStrings()
+	{
+		EquivalencyComparer.Compare("hello", "hello").AreEquivalent.Should().BeTrue();
+	}
 
 	[Fact]
 	public void GoodCompareIgnoresFields()

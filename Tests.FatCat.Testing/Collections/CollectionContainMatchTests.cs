@@ -3,24 +3,45 @@ namespace Tests.FatCat.Testing.Collections;
 public class CollectionContainMatchTests : BaseTest
 {
 	[Fact]
-	public void GoodContainMatch() { new List<string> { "hello", "world" }.Should().ContainMatch("h*"); }
+	public void GoodContainMatch()
+	{
+		new List<string> { "hello", "world" }
+			.Should()
+			.ContainMatch("h*");
+	}
 
 	[Fact]
-	public void BadContainMatch() { RunCompareFailTest(() => new List<string> { "hello", "world" }.Should().ContainMatch("z*")); }
+	public void BadContainMatch()
+	{
+		RunCompareFailTest(() =>
+			new List<string> { "hello", "world" }
+				.Should()
+				.ContainMatch("z*")
+		);
+	}
 
 	[Fact]
 	public void BadContainMatchShowsCorrectMessage()
 	{
 		RunCompareFailTest(
-							() => new List<string> { "hello", "world" }.Should().ContainMatch("z*"),
-							"[\"hello\", \"world\"] should contain a match for z*"
-						);
+			() =>
+				new List<string> { "hello", "world" }
+					.Should()
+					.ContainMatch("z*"),
+			"[\"hello\", \"world\"] should contain a match for z*"
+		);
 	}
 
 	[Fact]
 	public void BadContainMatchWithBecause()
 	{
-		RunCompareFailTest(() => new List<string> { "hello", "world" }.Should().ContainMatch("z*", "custom because"), "custom because");
+		RunCompareFailTest(
+			() =>
+				new List<string> { "hello", "world" }
+					.Should()
+					.ContainMatch("z*", "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]

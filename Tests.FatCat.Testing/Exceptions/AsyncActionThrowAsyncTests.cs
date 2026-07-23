@@ -15,7 +15,10 @@ public class AsyncActionThrowAsyncTests : BaseTest
 	{
 		Func<Task> action = () => throw new InvalidOperationException("boom");
 
-		RunCompareFailTest(() => action.Should().Not.ThrowAsync<InvalidOperationException>(), "should not throw InvalidOperationException but did");
+		RunCompareFailTest(
+			() => action.Should().Not.ThrowAsync<InvalidOperationException>(),
+			"should not throw InvalidOperationException but did"
+		);
 	}
 
 	[Fact]
@@ -39,7 +42,10 @@ public class AsyncActionThrowAsyncTests : BaseTest
 	{
 		Func<Task> action = () => Task.CompletedTask;
 
-		RunCompareFailTest(() => action.Should().ThrowAsync<InvalidOperationException>(), "should throw InvalidOperationException but no exception was thrown");
+		RunCompareFailTest(
+			() => action.Should().ThrowAsync<InvalidOperationException>(),
+			"should throw InvalidOperationException but no exception was thrown"
+		);
 	}
 
 	[Fact]
@@ -47,7 +53,10 @@ public class AsyncActionThrowAsyncTests : BaseTest
 	{
 		Func<Task> action = () => Task.FromException(new ArgumentException("bad arg"));
 
-		RunCompareFailTest(() => action.Should().ThrowAsync<InvalidOperationException>(), "should throw InvalidOperationException but threw ArgumentException");
+		RunCompareFailTest(
+			() => action.Should().ThrowAsync<InvalidOperationException>(),
+			"should throw InvalidOperationException but threw ArgumentException"
+		);
 	}
 
 	[Fact]

@@ -10,7 +10,12 @@ public class NotObjectComparer<T>(T subject) : NotComparerBase<T, NotObjectCompa
 {
 	public NotObjectComparer<T> Be(T expected, string because = null)
 	{
-		if (Equals(Subject, expected)) { CompareException.New(because ?? $"{ValueFormatter.Format(Subject)} should not be {ValueFormatter.Format(expected)}"); }
+		if (Equals(Subject, expected))
+		{
+			CompareException.New(
+				because ?? $"{ValueFormatter.Format(Subject)} should not be {ValueFormatter.Format(expected)}"
+			);
+		}
 
 		return this;
 	}
@@ -19,21 +24,35 @@ public class NotObjectComparer<T>(T subject) : NotComparerBase<T, NotObjectCompa
 	{
 		var result = EquivalencyComparer.Compare(Subject, expected);
 
-		if (result.AreEquivalent) { CompareException.New(because ?? $"{ValueFormatter.Format(Subject)} should not be equivalent to {ValueFormatter.Format(expected)}"); }
+		if (result.AreEquivalent)
+		{
+			CompareException.New(
+				because ?? $"{ValueFormatter.Format(Subject)} should not be equivalent to {ValueFormatter.Format(expected)}"
+			);
+		}
 
 		return this;
 	}
 
 	public NotObjectComparer<T> BeNull(string because = null)
 	{
-		if (Subject == null) { CompareException.New(because ?? $"{ValueFormatter.Format(Subject)} should not be null"); }
+		if (Subject == null)
+		{
+			CompareException.New(because ?? $"{ValueFormatter.Format(Subject)} should not be null");
+		}
 
 		return this;
 	}
 
 	public NotObjectComparer<T> BeSameAs(T expected, string because = null)
 	{
-		if (ReferenceEquals(Subject, expected)) { CompareException.New(because ?? $"{ValueFormatter.Format(Subject)} should not be the same instance as {ValueFormatter.Format(expected)}"); }
+		if (ReferenceEquals(Subject, expected))
+		{
+			CompareException.New(
+				because
+					?? $"{ValueFormatter.Format(Subject)} should not be the same instance as {ValueFormatter.Format(expected)}"
+			);
+		}
 
 		return this;
 	}

@@ -7,7 +7,9 @@ public class ThrownExceptionWithInnerExceptionExactlyTests : BaseTest
 	{
 		Action action = () => throw new InvalidOperationException("outer");
 
-		RunCompareFailTest(() => action.Should().Throw<InvalidOperationException>().WithInnerExceptionExactly<ArgumentException>());
+		RunCompareFailTest(() =>
+			action.Should().Throw<InvalidOperationException>().WithInnerExceptionExactly<ArgumentException>()
+		);
 	}
 
 	[Fact]
@@ -15,7 +17,10 @@ public class ThrownExceptionWithInnerExceptionExactlyTests : BaseTest
 	{
 		Action action = () => throw new InvalidOperationException("outer", new ArgumentNullException("param"));
 
-		RunCompareFailTest(() => action.Should().Throw<InvalidOperationException>().WithInnerExceptionExactly<ArgumentException>(), "thrown InvalidOperationException should have inner exception exactly ArgumentException but had ArgumentNullException");
+		RunCompareFailTest(
+			() => action.Should().Throw<InvalidOperationException>().WithInnerExceptionExactly<ArgumentException>(),
+			"thrown InvalidOperationException should have inner exception exactly ArgumentException but had ArgumentNullException"
+		);
 	}
 
 	[Fact]
@@ -23,7 +28,10 @@ public class ThrownExceptionWithInnerExceptionExactlyTests : BaseTest
 	{
 		Action action = () => throw new InvalidOperationException("outer");
 
-		RunCompareFailTest(() => action.Should().Throw<InvalidOperationException>().WithInnerExceptionExactly<ArgumentException>(), "thrown InvalidOperationException should have inner exception exactly ArgumentException but had none");
+		RunCompareFailTest(
+			() => action.Should().Throw<InvalidOperationException>().WithInnerExceptionExactly<ArgumentException>(),
+			"thrown InvalidOperationException should have inner exception exactly ArgumentException but had none"
+		);
 	}
 
 	[Fact]
@@ -31,7 +39,14 @@ public class ThrownExceptionWithInnerExceptionExactlyTests : BaseTest
 	{
 		Action action = () => throw new InvalidOperationException("outer");
 
-		RunCompareFailTest(() => action.Should().Throw<InvalidOperationException>().WithInnerExceptionExactly<ArgumentException>("custom because"), "custom because");
+		RunCompareFailTest(
+			() =>
+				action
+					.Should()
+					.Throw<InvalidOperationException>()
+					.WithInnerExceptionExactly<ArgumentException>("custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]

@@ -15,7 +15,10 @@ public class ThrownExceptionWithParameterNameTests : BaseTest
 	{
 		Action action = () => throw new ArgumentNullException("param");
 
-		RunCompareFailTest(() => action.Should().Throw<ArgumentNullException>().WithParameterName("other"), "thrown exception parameter name param should be other");
+		RunCompareFailTest(
+			() => action.Should().Throw<ArgumentNullException>().WithParameterName("other"),
+			"thrown exception parameter name param should be other"
+		);
 	}
 
 	[Fact]
@@ -23,7 +26,10 @@ public class ThrownExceptionWithParameterNameTests : BaseTest
 	{
 		Action action = () => throw new InvalidOperationException("boom");
 
-		RunCompareFailTest(() => action.Should().Throw<InvalidOperationException>().WithParameterName("param"), "thrown InvalidOperationException should be an ArgumentException to read the parameter name but was not");
+		RunCompareFailTest(
+			() => action.Should().Throw<InvalidOperationException>().WithParameterName("param"),
+			"thrown InvalidOperationException should be an ArgumentException to read the parameter name but was not"
+		);
 	}
 
 	[Fact]
@@ -31,7 +37,10 @@ public class ThrownExceptionWithParameterNameTests : BaseTest
 	{
 		Action action = () => throw new ArgumentNullException("param");
 
-		RunCompareFailTest(() => action.Should().Throw<ArgumentNullException>().WithParameterName("other", "custom because"), "custom because");
+		RunCompareFailTest(
+			() => action.Should().Throw<ArgumentNullException>().WithParameterName("other", "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]

@@ -5,7 +5,10 @@ namespace Tests.FatCat.Testing.Equivalency;
 // The test namespace mirrors the source folder (Equivalency), which shadows the FatCat.Testing.Equivalency.Equivalency type. The Registrar alias reaches the real registration surface consumers call as Equivalency.Using<T>.
 public class EquivalencyUsingTests : BaseTest, IDisposable
 {
-	public void Dispose() { Registrar.Reset(); }
+	public void Dispose()
+	{
+		Registrar.Reset();
+	}
 
 	[Fact]
 	public void GoodUsingDateTimeCloseness()

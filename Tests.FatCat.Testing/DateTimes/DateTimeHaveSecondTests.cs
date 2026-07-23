@@ -39,10 +39,7 @@ public class DateTimeHaveSecondTests : BaseTest
 	{
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 
-		RunCompareFailTest(
-							() => date.Should().Not.HaveSecond(45),
-							"2024-06-15 10:30:45 should not have second 45"
-						);
+		RunCompareFailTest(() => date.Should().Not.HaveSecond(45), "2024-06-15 10:30:45 should not have second 45");
 	}
 
 	[Fact]

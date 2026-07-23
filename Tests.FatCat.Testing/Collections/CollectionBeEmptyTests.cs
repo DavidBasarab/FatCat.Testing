@@ -3,21 +3,43 @@ namespace Tests.FatCat.Testing.Collections;
 public class CollectionBeEmptyTests : BaseTest
 {
 	[Fact]
-	public void GoodBeEmpty() { new List<int>().Should().BeEmpty(); }
+	public void GoodBeEmpty()
+	{
+		new List<int>().Should().BeEmpty();
+	}
 
 	[Fact]
-	public void BadBeEmpty() { RunCompareFailTest(() => new List<int> { 1, 2, 3 }.Should().BeEmpty()); }
+	public void BadBeEmpty()
+	{
+		RunCompareFailTest(() =>
+			new List<int> { 1, 2, 3 }
+				.Should()
+				.BeEmpty()
+		);
+	}
 
 	[Fact]
 	public void BadBeEmptyShowsCorrectMessage()
 	{
-		RunCompareFailTest(() => new List<int> { 1, 2, 3 }.Should().BeEmpty(), "[1, 2, 3] should be empty");
+		RunCompareFailTest(
+			() =>
+				new List<int> { 1, 2, 3 }
+					.Should()
+					.BeEmpty(),
+			"[1, 2, 3] should be empty"
+		);
 	}
 
 	[Fact]
 	public void BadBeEmptyWithBecause()
 	{
-		RunCompareFailTest(() => new List<int> { 1, 2, 3 }.Should().BeEmpty("custom because"), "custom because");
+		RunCompareFailTest(
+			() =>
+				new List<int> { 1, 2, 3 }
+					.Should()
+					.BeEmpty("custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]

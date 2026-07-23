@@ -3,24 +3,45 @@ namespace Tests.FatCat.Testing.Collections;
 public class CollectionHaveCountGreaterThanTests : BaseTest
 {
 	[Fact]
-	public void GoodHaveCountGreaterThan() { new List<int> { 1, 2, 3 }.Should().HaveCountGreaterThan(2); }
+	public void GoodHaveCountGreaterThan()
+	{
+		new List<int> { 1, 2, 3 }
+			.Should()
+			.HaveCountGreaterThan(2);
+	}
 
 	[Fact]
-	public void BadHaveCountGreaterThan() { RunCompareFailTest(() => new List<int> { 1, 2 }.Should().HaveCountGreaterThan(2)); }
+	public void BadHaveCountGreaterThan()
+	{
+		RunCompareFailTest(() =>
+			new List<int> { 1, 2 }
+				.Should()
+				.HaveCountGreaterThan(2)
+		);
+	}
 
 	[Fact]
 	public void BadHaveCountGreaterThanShowsCorrectMessage()
 	{
 		RunCompareFailTest(
-							() => new List<int> { 1, 2 }.Should().HaveCountGreaterThan(2),
-							"[1, 2] should have count greater than 2 but has 2"
-						);
+			() =>
+				new List<int> { 1, 2 }
+					.Should()
+					.HaveCountGreaterThan(2),
+			"[1, 2] should have count greater than 2 but has 2"
+		);
 	}
 
 	[Fact]
 	public void BadHaveCountGreaterThanWithBecause()
 	{
-		RunCompareFailTest(() => new List<int> { 1, 2 }.Should().HaveCountGreaterThan(2, "custom because"), "custom because");
+		RunCompareFailTest(
+			() =>
+				new List<int> { 1, 2 }
+					.Should()
+					.HaveCountGreaterThan(2, "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]

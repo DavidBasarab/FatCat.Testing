@@ -3,10 +3,18 @@ namespace Tests.FatCat.Testing.Collections;
 public class CollectionNotBeEmptyTests : BaseTest
 {
 	[Fact]
-	public void GoodNotBeEmpty() { new List<int> { 1, 2, 3 }.Should().Not.BeEmpty(); }
+	public void GoodNotBeEmpty()
+	{
+		new List<int> { 1, 2, 3 }
+			.Should()
+			.Not.BeEmpty();
+	}
 
 	[Fact]
-	public void BadNotBeEmpty() { RunCompareFailTest(() => new List<int>().Should().Not.BeEmpty()); }
+	public void BadNotBeEmpty()
+	{
+		RunCompareFailTest(() => new List<int>().Should().Not.BeEmpty());
+	}
 
 	[Fact]
 	public void BadNotBeEmptyShowsCorrectMessage()

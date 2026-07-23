@@ -5,27 +5,37 @@ using FatCat.Testing.Formatting;
 
 namespace FatCat.Testing.Collections;
 
-public class NotCollectionComparer<T>(IEnumerable<T> subject) : NotComparerBase<IEnumerable<T>, NotCollectionComparer<T>>(subject)
+public class NotCollectionComparer<T>(IEnumerable<T> subject)
+	: NotComparerBase<IEnumerable<T>, NotCollectionComparer<T>>(subject)
 {
 	private readonly List<T> items = subject is null ? null : subject.ToList();
 
 	public NotCollectionComparer<T> Contain(T expected, string because = null)
 	{
-		if (items is null || items.Contains(expected)) { CompareException.New(because ?? $"{FormatItems()} should not contain {ValueFormatter.Format(expected)}"); }
+		if (items is null || items.Contains(expected))
+		{
+			CompareException.New(because ?? $"{FormatItems()} should not contain {ValueFormatter.Format(expected)}");
+		}
 
 		return this;
 	}
 
 	public NotCollectionComparer<T> BeEmpty(string because = null)
 	{
-		if (items is null || items.Count == 0) { CompareException.New(because ?? $"{FormatItems()} should not be empty"); }
+		if (items is null || items.Count == 0)
+		{
+			CompareException.New(because ?? $"{FormatItems()} should not be empty");
+		}
 
 		return this;
 	}
 
 	public NotCollectionComparer<T> HaveCount(int expected, string because = null)
 	{
-		if (items is null || items.Count == expected) { CompareException.New(because ?? $"{FormatItems()} should not have count {expected}"); }
+		if (items is null || items.Count == expected)
+		{
+			CompareException.New(because ?? $"{FormatItems()} should not have count {expected}");
+		}
 
 		return this;
 	}
@@ -34,14 +44,24 @@ public class NotCollectionComparer<T>(IEnumerable<T> subject) : NotComparerBase<
 	{
 		var expectedItems = expected?.ToList();
 
-		if (items is null || IsEquivalentTo(expectedItems)) { CompareException.New(because ?? $"{FormatItems()} should not be equivalent to {ValueFormatter.Format(expectedItems)}"); }
+		if (items is null || IsEquivalentTo(expectedItems))
+		{
+			CompareException.New(
+				because ?? $"{FormatItems()} should not be equivalent to {ValueFormatter.Format(expectedItems)}"
+			);
+		}
 
 		return this;
 	}
 
 	public NotCollectionComparer<T> ContainEquivalentOf(T expected, string because = null)
 	{
-		if (items is null || ContainsEquivalentOf(expected)) { CompareException.New(because ?? $"{FormatItems()} should not contain an element equivalent to {ValueFormatter.Format(expected)}"); }
+		if (items is null || ContainsEquivalentOf(expected))
+		{
+			CompareException.New(
+				because ?? $"{FormatItems()} should not contain an element equivalent to {ValueFormatter.Format(expected)}"
+			);
+		}
 
 		return this;
 	}
@@ -50,29 +70,43 @@ public class NotCollectionComparer<T>(IEnumerable<T> subject) : NotComparerBase<
 	{
 		var otherItems = other?.ToList();
 
-		if (items is null || otherItems is null || items.Any(otherItems.Contains)) { CompareException.New(because ?? $"{FormatItems()} should not intersect with {ValueFormatter.Format(otherItems)}"); }
+		if (items is null || otherItems is null || items.Any(otherItems.Contains))
+		{
+			CompareException.New(because ?? $"{FormatItems()} should not intersect with {ValueFormatter.Format(otherItems)}");
+		}
 
 		return this;
 	}
 
 	public NotCollectionComparer<T> ContainNulls(string because = null)
 	{
-		if (items is null || items.Any(element => element is null)) { CompareException.New(because ?? $"{FormatItems()} should not contain nulls"); }
+		if (items is null || items.Any(element => element is null))
+		{
+			CompareException.New(because ?? $"{FormatItems()} should not contain nulls");
+		}
 
 		return this;
 	}
 
 	private bool IsEquivalentTo(List<T> expectedItems)
 	{
-		if (expectedItems is null || items.Count != expectedItems.Count) { return false; }
+		if (expectedItems is null || items.Count != expectedItems.Count)
+		{
+			return false;
+		}
 
 		var unmatchedExpected = expectedItems.ToList();
 
 		foreach (var actual in items)
 		{
-			var matchIndex = unmatchedExpected.FindIndex(candidate => EquivalencyComparer.Compare(actual, candidate).AreEquivalent);
+			var matchIndex = unmatchedExpected.FindIndex(candidate =>
+				EquivalencyComparer.Compare(actual, candidate).AreEquivalent
+			);
 
-			if (matchIndex < 0) { return false; }
+			if (matchIndex < 0)
+			{
+				return false;
+			}
 
 			unmatchedExpected.RemoveAt(matchIndex);
 		}
@@ -85,5 +119,8 @@ public class NotCollectionComparer<T>(IEnumerable<T> subject) : NotComparerBase<
 		return items.Any(element => EquivalencyComparer.Compare(element, expected).AreEquivalent);
 	}
 
-	private string FormatItems() { return ValueFormatter.Format(items); }
+	private string FormatItems()
+	{
+		return ValueFormatter.Format(items);
+	}
 }

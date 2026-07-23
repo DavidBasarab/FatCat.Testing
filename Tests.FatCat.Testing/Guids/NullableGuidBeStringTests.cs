@@ -8,27 +8,27 @@ public class NullableGuidBeStringTests : BaseTest
 	public void BadBeString()
 	{
 		RunCompareFailTest(
-							() => ((Guid?)testGuid).Should().Be("00000000-0000-0000-0000-000000000000"),
-							"12345678-1234-1234-1234-123456789012 should be 00000000-0000-0000-0000-000000000000"
-						);
+			() => ((Guid?)testGuid).Should().Be("00000000-0000-0000-0000-000000000000"),
+			"12345678-1234-1234-1234-123456789012 should be 00000000-0000-0000-0000-000000000000"
+		);
 	}
 
 	[Fact]
 	public void BadBeStringNullValue()
 	{
 		RunCompareFailTest(
-							() => ((Guid?)null).Should().Be("00000000-0000-0000-0000-000000000000"),
-							"null should be 00000000-0000-0000-0000-000000000000"
-						);
+			() => ((Guid?)null).Should().Be("00000000-0000-0000-0000-000000000000"),
+			"null should be 00000000-0000-0000-0000-000000000000"
+		);
 	}
 
 	[Fact]
 	public void BadBeStringWithBecause()
 	{
 		RunCompareFailTest(
-							() => ((Guid?)testGuid).Should().Be("00000000-0000-0000-0000-000000000000", "custom because"),
-							"custom because"
-						);
+			() => ((Guid?)testGuid).Should().Be("00000000-0000-0000-0000-000000000000", "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]
@@ -41,18 +41,18 @@ public class NullableGuidBeStringTests : BaseTest
 	public void BadNotBeString()
 	{
 		RunCompareFailTest(
-							() => ((Guid?)testGuid).Should().Not.Be("12345678-1234-1234-1234-123456789012"),
-							"12345678-1234-1234-1234-123456789012 should not be 12345678-1234-1234-1234-123456789012"
-						);
+			() => ((Guid?)testGuid).Should().Not.Be("12345678-1234-1234-1234-123456789012"),
+			"12345678-1234-1234-1234-123456789012 should not be 12345678-1234-1234-1234-123456789012"
+		);
 	}
 
 	[Fact]
 	public void BadNotBeStringWithBecause()
 	{
 		RunCompareFailTest(
-							() => ((Guid?)testGuid).Should().Not.Be("12345678-1234-1234-1234-123456789012", "custom because"),
-							"custom because"
-						);
+			() => ((Guid?)testGuid).Should().Not.Be("12345678-1234-1234-1234-123456789012", "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]
@@ -62,11 +62,20 @@ public class NullableGuidBeStringTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodBeString() { ((Guid?)testGuid).Should().Be("12345678-1234-1234-1234-123456789012"); }
+	public void GoodBeString()
+	{
+		((Guid?)testGuid).Should().Be("12345678-1234-1234-1234-123456789012");
+	}
 
 	[Fact]
-	public void GoodNotBeString() { ((Guid?)testGuid).Should().Not.Be("00000000-0000-0000-0000-000000000000"); }
+	public void GoodNotBeString()
+	{
+		((Guid?)testGuid).Should().Not.Be("00000000-0000-0000-0000-000000000000");
+	}
 
 	[Fact]
-	public void GoodNotBeStringWhenNull() { ((Guid?)null).Should().Not.Be("00000000-0000-0000-0000-000000000000"); }
+	public void GoodNotBeStringWhenNull()
+	{
+		((Guid?)null).Should().Not.Be("00000000-0000-0000-0000-000000000000");
+	}
 }

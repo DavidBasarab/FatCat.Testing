@@ -5,10 +5,16 @@ namespace Tests.FatCat.Testing.Formatting;
 public class ValueFormatterTests : BaseTest
 {
 	[Fact]
-	public void GoodFormatCharIsBareAtTopLevel() { ValueFormatter.Format('c').Should().Be("c"); }
+	public void GoodFormatCharIsBareAtTopLevel()
+	{
+		ValueFormatter.Format('c').Should().Be("c");
+	}
 
 	[Fact]
-	public void GoodFormatCharIsQuotedInCollection() { ValueFormatter.Format(new[] { 'a', 'b' }).Should().Be("['a', 'b']"); }
+	public void GoodFormatCharIsQuotedInCollection()
+	{
+		ValueFormatter.Format(new[] { 'a', 'b' }).Should().Be("['a', 'b']");
+	}
 
 	[Fact]
 	public void GoodFormatCollectionCapsAtThirtyTwo()
@@ -63,10 +69,16 @@ public class ValueFormatterTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodFormatEmptyCollection() { ValueFormatter.Format(Array.Empty<int>()).Should().Be("[]"); }
+	public void GoodFormatEmptyCollection()
+	{
+		ValueFormatter.Format(Array.Empty<int>()).Should().Be("[]");
+	}
 
 	[Fact]
-	public void GoodFormatEnumUsesToString() { ValueFormatter.Format(DateTimeKind.Utc).Should().Be("Utc"); }
+	public void GoodFormatEnumUsesToString()
+	{
+		ValueFormatter.Format(DateTimeKind.Utc).Should().Be("Utc");
+	}
 
 	[Fact]
 	public void GoodFormatGuidUsesToString()
@@ -77,21 +89,34 @@ public class ValueFormatterTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodFormatIntCollection() { ValueFormatter.Format(new[] { 1, 2, 3 }).Should().Be("[1, 2, 3]"); }
+	public void GoodFormatIntCollection()
+	{
+		ValueFormatter.Format(new[] { 1, 2, 3 }).Should().Be("[1, 2, 3]");
+	}
 
 	[Fact]
-	public void GoodFormatIntUsesToString() { ValueFormatter.Format(42).Should().Be("42"); }
+	public void GoodFormatIntUsesToString()
+	{
+		ValueFormatter.Format(42).Should().Be("42");
+	}
 
 	[Fact]
 	public void GoodFormatNestedObject()
 	{
-		var nested = new NestedDto { Label = "outer", Inner = new Dto { Name = "Bob", Age = 42 } };
+		var nested = new NestedDto
+		{
+			Label = "outer",
+			Inner = new Dto { Name = "Bob", Age = 42 },
+		};
 
 		ValueFormatter.Format(nested).Should().Be("NestedDto { Label = \"outer\", Inner = Dto { Name = \"Bob\", Age = 42 } }");
 	}
 
 	[Fact]
-	public void GoodFormatNull() { ValueFormatter.Format(null).Should().Be("null"); }
+	public void GoodFormatNull()
+	{
+		ValueFormatter.Format(null).Should().Be("null");
+	}
 
 	[Fact]
 	public void GoodFormatObjectDumpsProperties()
@@ -102,20 +127,35 @@ public class ValueFormatterTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodFormatObjectWithNoPropertiesRendersEmptyBraces() { ValueFormatter.Format(new NoProperties()).Should().Be("NoProperties { }"); }
+	public void GoodFormatObjectWithNoPropertiesRendersEmptyBraces()
+	{
+		ValueFormatter.Format(new NoProperties()).Should().Be("NoProperties { }");
+	}
 
 	[Fact]
-	public void GoodFormatStringCollectionQuotesElements() { ValueFormatter.Format(new[] { "a", "b" }).Should().Be("[\"a\", \"b\"]"); }
+	public void GoodFormatStringCollectionQuotesElements()
+	{
+		ValueFormatter.Format(new[] { "a", "b" }).Should().Be("[\"a\", \"b\"]");
+	}
 
 	[Fact]
-	public void GoodFormatStringIsBare() { ValueFormatter.Format("hello").Should().Be("hello"); }
+	public void GoodFormatStringIsBare()
+	{
+		ValueFormatter.Format("hello").Should().Be("hello");
+	}
 
 	[Fact]
 	public void GoodFormatThrowingPropertyIsCaught()
 	{
-		ValueFormatter.Format(new ThrowingProperty()).Should().Be("ThrowingProperty { Value = <threw InvalidOperationException> }");
+		ValueFormatter
+			.Format(new ThrowingProperty())
+			.Should()
+			.Be("ThrowingProperty { Value = <threw InvalidOperationException> }");
 	}
 
 	[Fact]
-	public void GoodFormatTypeOverridingToStringUsesIt() { ValueFormatter.Format(new ToStringOverride()).Should().Be("custom-to-string"); }
+	public void GoodFormatTypeOverridingToStringUsesIt()
+	{
+		ValueFormatter.Format(new ToStringOverride()).Should().Be("custom-to-string");
+	}
 }

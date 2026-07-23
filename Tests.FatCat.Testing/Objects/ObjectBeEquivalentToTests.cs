@@ -31,9 +31,9 @@ public class ObjectBeEquivalentToTests : BaseTest
 		};
 
 		RunCompareFailTest(
-							() => subject.Should().BeEquivalentTo(expected),
-							"Person { Name = \"Sam\", Age = 30, Address = Address { City = \"Leeds\", Postcode = \"LS1\" } } should be equivalent to Person { Name = \"Sam\", Age = 30, Address = Address { City = \"York\", Postcode = \"LS1\" } } but Address.City differs: expected \"York\" but found \"Leeds\""
-						);
+			() => subject.Should().BeEquivalentTo(expected),
+			"Person { Name = \"Sam\", Age = 30, Address = Address { City = \"Leeds\", Postcode = \"LS1\" } } should be equivalent to Person { Name = \"Sam\", Age = 30, Address = Address { City = \"York\", Postcode = \"LS1\" } } but Address.City differs: expected \"York\" but found \"Leeds\""
+		);
 	}
 
 	[Fact]
@@ -43,9 +43,9 @@ public class ObjectBeEquivalentToTests : BaseTest
 		var expected = new Person { Name = "Bob", Age = 30 };
 
 		RunCompareFailTest(
-							() => subject.Should().BeEquivalentTo(expected),
-							"Person { Name = \"Alice\", Age = 30, Address = null } should be equivalent to Person { Name = \"Bob\", Age = 30, Address = null } but Name differs: expected \"Bob\" but found \"Alice\""
-						);
+			() => subject.Should().BeEquivalentTo(expected),
+			"Person { Name = \"Alice\", Age = 30, Address = null } should be equivalent to Person { Name = \"Bob\", Age = 30, Address = null } but Name differs: expected \"Bob\" but found \"Alice\""
+		);
 	}
 
 	[Fact]
@@ -73,9 +73,9 @@ public class ObjectBeEquivalentToTests : BaseTest
 		var expected = new Person { Name = "Alice", Age = 30 };
 
 		RunCompareFailTest(
-							() => subject.Should().Not.BeEquivalentTo(expected),
-							"Person { Name = \"Alice\", Age = 30, Address = null } should not be equivalent to Person { Name = \"Alice\", Age = 30, Address = null }"
-						);
+			() => subject.Should().Not.BeEquivalentTo(expected),
+			"Person { Name = \"Alice\", Age = 30, Address = null } should not be equivalent to Person { Name = \"Alice\", Age = 30, Address = null }"
+		);
 	}
 
 	[Fact]

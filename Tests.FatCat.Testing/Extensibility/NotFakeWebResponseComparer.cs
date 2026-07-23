@@ -8,7 +8,10 @@ public class NotFakeWebResponseComparer(FakeWebResponse subject)
 {
 	public NotFakeWebResponseComparer BeOk(string because = null)
 	{
-		if (Subject.StatusCode == 200) { CompareException.New(because ?? $"status code {Subject.StatusCode} should not be 200 (OK)"); }
+		if (Subject.StatusCode == 200)
+		{
+			CompareException.New(because ?? $"status code {Subject.StatusCode} should not be 200 (OK)");
+		}
 
 		return this;
 	}

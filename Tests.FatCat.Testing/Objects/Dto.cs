@@ -6,7 +6,10 @@ public class Dto(string name)
 
 	public override bool Equals(object obj)
 	{
-		if (obj is not Dto other) { return false; }
+		if (obj is not Dto other)
+		{
+			return false;
+		}
 
 		return Name == other.Name;
 	}

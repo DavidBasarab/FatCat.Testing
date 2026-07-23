@@ -6,8 +6,6 @@ public class LineBrokenChainSample
 {
 	public void NegationSplitAcrossLines(object value)
 	{
-		value
-			.Should()
-			.NotBeNull();
+		value.Should().NotBeNull();
 	}
 }

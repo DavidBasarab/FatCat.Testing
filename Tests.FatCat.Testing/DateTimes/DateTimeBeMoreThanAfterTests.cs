@@ -20,9 +20,9 @@ public class DateTimeBeMoreThanAfterTests : BaseTest
 		var other = new DateTime(2026, 1, 1, 10, 0, 0);
 
 		RunCompareFailTest(
-							() => subject.Should().BeMoreThan(2.Hours()).After(other),
-							"2026-01-01 11:00:00 should be more than 02:00:00 after 2026-01-01 10:00:00 but the difference is 01:00:00"
-						);
+			() => subject.Should().BeMoreThan(2.Hours()).After(other),
+			"2026-01-01 11:00:00 should be more than 02:00:00 after 2026-01-01 10:00:00 but the difference is 01:00:00"
+		);
 	}
 
 	[Fact]
@@ -41,9 +41,9 @@ public class DateTimeBeMoreThanAfterTests : BaseTest
 		var other = new DateTime(2026, 1, 1, 12, 0, 0);
 
 		RunCompareFailTest(
-							() => subject.Should().BeMoreThan(2.Hours()).After(other),
-							"2026-01-01 10:00:00 should be more than 02:00:00 after 2026-01-01 12:00:00 but is not after it"
-						);
+			() => subject.Should().BeMoreThan(2.Hours()).After(other),
+			"2026-01-01 10:00:00 should be more than 02:00:00 after 2026-01-01 12:00:00 but is not after it"
+		);
 	}
 
 	[Fact]

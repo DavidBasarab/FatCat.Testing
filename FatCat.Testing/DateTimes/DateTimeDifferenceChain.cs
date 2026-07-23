@@ -35,9 +35,9 @@ public class DateTimeDifferenceChain(DateTimeComparer comparer, TimeSpan toleran
 		if (Subject >= other)
 		{
 			CompareException.New(
-								because
-									?? $"{SubjectFormatted} should be {KindPhrase} {tolerance} before {other:yyyy-MM-dd HH:mm:ss} but is not before it"
-								);
+				because
+					?? $"{SubjectFormatted} should be {KindPhrase} {tolerance} before {other:yyyy-MM-dd HH:mm:ss} but is not before it"
+			);
 		}
 
 		var difference = other - Subject;
@@ -45,9 +45,9 @@ public class DateTimeDifferenceChain(DateTimeComparer comparer, TimeSpan toleran
 		if (!DifferenceIsSatisfied(difference))
 		{
 			CompareException.New(
-								because
-									?? $"{SubjectFormatted} should be {KindPhrase} {tolerance} before {other:yyyy-MM-dd HH:mm:ss} but the difference is {difference}"
-								);
+				because
+					?? $"{SubjectFormatted} should be {KindPhrase} {tolerance} before {other:yyyy-MM-dd HH:mm:ss} but the difference is {difference}"
+			);
 		}
 
 		return comparer;
@@ -58,9 +58,9 @@ public class DateTimeDifferenceChain(DateTimeComparer comparer, TimeSpan toleran
 		if (Subject <= other)
 		{
 			CompareException.New(
-								because
-									?? $"{SubjectFormatted} should be {KindPhrase} {tolerance} after {other:yyyy-MM-dd HH:mm:ss} but is not after it"
-								);
+				because
+					?? $"{SubjectFormatted} should be {KindPhrase} {tolerance} after {other:yyyy-MM-dd HH:mm:ss} but is not after it"
+			);
 		}
 
 		var difference = Subject - other;
@@ -68,9 +68,9 @@ public class DateTimeDifferenceChain(DateTimeComparer comparer, TimeSpan toleran
 		if (!DifferenceIsSatisfied(difference))
 		{
 			CompareException.New(
-								because
-									?? $"{SubjectFormatted} should be {KindPhrase} {tolerance} after {other:yyyy-MM-dd HH:mm:ss} but the difference is {difference}"
-								);
+				because
+					?? $"{SubjectFormatted} should be {KindPhrase} {tolerance} after {other:yyyy-MM-dd HH:mm:ss} but the difference is {difference}"
+			);
 		}
 
 		return comparer;

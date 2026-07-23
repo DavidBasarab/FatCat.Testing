@@ -15,7 +15,10 @@ public class ActionThrowWithMessageTests : BaseTest
 	{
 		Action action = () => throw new InvalidOperationException("boom");
 
-		RunCompareFailTest(() => action.Should().Throw<InvalidOperationException>().WithMessage("bang"), "exception message boom should be bang");
+		RunCompareFailTest(
+			() => action.Should().Throw<InvalidOperationException>().WithMessage("bang"),
+			"exception message boom should be bang"
+		);
 	}
 
 	[Fact]
@@ -23,7 +26,10 @@ public class ActionThrowWithMessageTests : BaseTest
 	{
 		Action action = () => throw new InvalidOperationException("boom");
 
-		RunCompareFailTest(() => action.Should().Throw<InvalidOperationException>().WithMessage("bang", "custom because"), "custom because");
+		RunCompareFailTest(
+			() => action.Should().Throw<InvalidOperationException>().WithMessage("bang", "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]

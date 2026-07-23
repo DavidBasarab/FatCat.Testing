@@ -10,7 +10,10 @@ public class AsyncActionComparer(Func<Task> subject) : ComparerBase<Func<Task>, 
 	{
 		var exception = RunAndCaptureException(Subject);
 
-		if (exception != null) { CompareException.New(because ?? $"should not throw but threw {exception.GetType().Name}: {exception.Message}"); }
+		if (exception != null)
+		{
+			CompareException.New(because ?? $"should not throw but threw {exception.GetType().Name}: {exception.Message}");
+		}
 
 		return this;
 	}
@@ -20,9 +23,15 @@ public class AsyncActionComparer(Func<Task> subject) : ComparerBase<Func<Task>, 
 	{
 		var exception = RunAndCaptureException(Subject);
 
-		if (exception == null) { CompareException.New(because ?? $"should throw {typeof(TException).Name} but no exception was thrown"); }
+		if (exception == null)
+		{
+			CompareException.New(because ?? $"should throw {typeof(TException).Name} but no exception was thrown");
+		}
 
-		if (exception is not TException) { CompareException.New(because ?? $"should throw {typeof(TException).Name} but threw {exception.GetType().Name}"); }
+		if (exception is not TException)
+		{
+			CompareException.New(because ?? $"should throw {typeof(TException).Name} but threw {exception.GetType().Name}");
+		}
 
 		return new ThrownExceptionComparer(exception);
 	}
@@ -32,9 +41,17 @@ public class AsyncActionComparer(Func<Task> subject) : ComparerBase<Func<Task>, 
 	{
 		var exception = RunAndCaptureException(Subject);
 
-		if (exception == null) { CompareException.New(because ?? $"should throw exactly {typeof(TException).Name} but no exception was thrown"); }
+		if (exception == null)
+		{
+			CompareException.New(because ?? $"should throw exactly {typeof(TException).Name} but no exception was thrown");
+		}
 
-		if (exception.GetType() != typeof(TException)) { CompareException.New(because ?? $"should throw exactly {typeof(TException).Name} but threw {exception.GetType().Name}"); }
+		if (exception.GetType() != typeof(TException))
+		{
+			CompareException.New(
+				because ?? $"should throw exactly {typeof(TException).Name} but threw {exception.GetType().Name}"
+			);
+		}
 
 		return new ThrownExceptionComparer(exception);
 	}

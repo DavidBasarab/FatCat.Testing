@@ -15,7 +15,10 @@ public class ActionThrowExactlyTests : BaseTest
 	{
 		Action action = () => throw new ArgumentException("boom");
 
-		RunCompareFailTest(() => action.Should().Not.ThrowExactly<ArgumentException>(), "should not throw exactly ArgumentException but did");
+		RunCompareFailTest(
+			() => action.Should().Not.ThrowExactly<ArgumentException>(),
+			"should not throw exactly ArgumentException but did"
+		);
 	}
 
 	[Fact]
@@ -39,7 +42,10 @@ public class ActionThrowExactlyTests : BaseTest
 	{
 		Action action = () => { };
 
-		RunCompareFailTest(() => action.Should().ThrowExactly<ArgumentException>(), "should throw exactly ArgumentException but no exception was thrown");
+		RunCompareFailTest(
+			() => action.Should().ThrowExactly<ArgumentException>(),
+			"should throw exactly ArgumentException but no exception was thrown"
+		);
 	}
 
 	[Fact]
@@ -55,7 +61,10 @@ public class ActionThrowExactlyTests : BaseTest
 	{
 		Action action = () => throw new ArgumentNullException("param");
 
-		RunCompareFailTest(() => action.Should().ThrowExactly<ArgumentException>(), "should throw exactly ArgumentException but threw ArgumentNullException");
+		RunCompareFailTest(
+			() => action.Should().ThrowExactly<ArgumentException>(),
+			"should throw exactly ArgumentException but threw ArgumentNullException"
+		);
 	}
 
 	[Fact]

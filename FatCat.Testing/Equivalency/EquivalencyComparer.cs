@@ -17,21 +17,42 @@ public static class EquivalencyComparer
 
 	private static EquivalencyResult Compare(object subject, object expected, int depth, HashSet<object> visited)
 	{
-		if (subject == null && expected == null) { return Equivalent(); }
+		if (subject == null && expected == null)
+		{
+			return Equivalent();
+		}
 
-		if (subject == null) { return NotEquivalent(path: "", $"expected {FormatValue(expected)} but found null"); }
+		if (subject == null)
+		{
+			return NotEquivalent(path: "", $"expected {FormatValue(expected)} but found null");
+		}
 
-		if (expected == null) { return NotEquivalent(path: "", $"expected null but found {FormatValue(subject)}"); }
+		if (expected == null)
+		{
+			return NotEquivalent(path: "", $"expected null but found {FormatValue(subject)}");
+		}
 
-		if (depth > MaxDepth) { return Equivalent(); }
+		if (depth > MaxDepth)
+		{
+			return Equivalent();
+		}
 
 		var customRule = ApplyCustomRule(subject, expected);
 
-		if (customRule != null) { return customRule; }
+		if (customRule != null)
+		{
+			return customRule;
+		}
 
-		if (OverridesEquals(subject.GetType())) { return CompareByEquals(subject, expected); }
+		if (OverridesEquals(subject.GetType()))
+		{
+			return CompareByEquals(subject, expected);
+		}
 
-		if (visited.Contains(subject)) { return Equivalent(); }
+		if (visited.Contains(subject))
+		{
+			return Equivalent();
+		}
 
 		visited.Add(subject);
 
@@ -52,7 +73,10 @@ public static class EquivalencyComparer
 
 	private static EquivalencyResult CompareByEquals(object subject, object expected)
 	{
-		if (Equals(subject, expected)) { return Equivalent(); }
+		if (Equals(subject, expected))
+		{
+			return Equivalent();
+		}
 
 		return NotEquivalent(path: "", $"expected {FormatValue(expected)} but found {FormatValue(subject)}");
 	}
@@ -77,13 +101,21 @@ public static class EquivalencyComparer
 
 			var result = Compare(subjectValue, expectedValue, depth + 1, visited);
 
-			if (!result.AreEquivalent) { return NotEquivalent(PrependMember(property.Name, result.Path), result.Difference); }
+			if (!result.AreEquivalent)
+			{
+				return NotEquivalent(PrependMember(property.Name, result.Path), result.Difference);
+			}
 		}
 
 		return Equivalent();
 	}
 
-	private static EquivalencyResult CompareEnumerables(IEnumerable subject, IEnumerable expected, int depth, HashSet<object> visited)
+	private static EquivalencyResult CompareEnumerables(
+		IEnumerable subject,
+		IEnumerable expected,
+		int depth,
+		HashSet<object> visited
+	)
 	{
 		var subjectItems = TakeCapped(subject);
 		var expectedItems = TakeCapped(expected);
@@ -97,9 +129,14 @@ public static class EquivalencyComparer
 
 		foreach (var expectedItem in expectedItems)
 		{
-			var matchIndex = unmatched.FindIndex(candidate => Compare(candidate, expectedItem, depth + 1, visited).AreEquivalent);
+			var matchIndex = unmatched.FindIndex(candidate =>
+				Compare(candidate, expectedItem, depth + 1, visited).AreEquivalent
+			);
 
-			if (matchIndex < 0) { return NotEquivalent(path: "", $"could not find match for {FormatValue(expectedItem)}"); }
+			if (matchIndex < 0)
+			{
+				return NotEquivalent(path: "", $"could not find match for {FormatValue(expectedItem)}");
+			}
 
 			unmatched.RemoveAt(matchIndex);
 		}
@@ -113,7 +150,10 @@ public static class EquivalencyComparer
 
 		foreach (var item in enumerable)
 		{
-			if (items.Count >= MaxCollectionElements) { break; }
+			if (items.Count >= MaxCollectionElements)
+			{
+				break;
+			}
 
 			items.Add(item);
 		}
@@ -124,9 +164,15 @@ public static class EquivalencyComparer
 	private static EquivalencyResult ApplyCustomRule(object subject, object expected)
 	{
 		// The Using<T>() override registry is consulted here, before the Equals base case and the member walk, keyed on the node's runtime type. A registered rule short-circuits recursion for that type.
-		if (!Equivalency.TryGetRule(subject.GetType(), out var rule)) { return null; }
+		if (!Equivalency.TryGetRule(subject.GetType(), out var rule))
+		{
+			return null;
+		}
 
-		if (rule(subject, expected)) { return Equivalent(); }
+		if (rule(subject, expected))
+		{
+			return Equivalent();
+		}
 
 		return NotEquivalent(path: "", $"expected {FormatValue(expected)} but found {FormatValue(subject)}");
 	}
@@ -148,28 +194,46 @@ public static class EquivalencyComparer
 
 	private static string FormatValue(object value)
 	{
-		if (value is string text) { return $"\"{text}\""; }
+		if (value is string text)
+		{
+			return $"\"{text}\"";
+		}
 
-		if (value is char character) { return $"'{character}'"; }
+		if (value is char character)
+		{
+			return $"'{character}'";
+		}
 
 		return ValueFormatter.Format(value);
 	}
 
 	private static string PrependMember(string member, string childPath)
 	{
-		if (string.IsNullOrEmpty(childPath)) { return member; }
+		if (string.IsNullOrEmpty(childPath))
+		{
+			return member;
+		}
 
 		return $"{member}.{childPath}";
 	}
 
 	private static string UnwrapExceptionTypeName(Exception exception)
 	{
-		if (exception is TargetInvocationException && exception.InnerException != null) { return exception.InnerException.GetType().Name; }
+		if (exception is TargetInvocationException && exception.InnerException != null)
+		{
+			return exception.InnerException.GetType().Name;
+		}
 
 		return exception.GetType().Name;
 	}
 
-	private static EquivalencyResult Equivalent() { return new EquivalencyResult(areEquivalent: true, path: "", difference: null); }
+	private static EquivalencyResult Equivalent()
+	{
+		return new EquivalencyResult(areEquivalent: true, path: "", difference: null);
+	}
 
-	private static EquivalencyResult NotEquivalent(string path, string difference) { return new EquivalencyResult(areEquivalent: false, path, difference); }
+	private static EquivalencyResult NotEquivalent(string path, string difference)
+	{
+		return new EquivalencyResult(areEquivalent: false, path, difference);
+	}
 }

@@ -7,7 +7,9 @@ public class ThrownExceptionWhereTests : BaseTest
 	{
 		Action action = () => throw new InvalidOperationException("boom");
 
-		RunCompareFailTest(() => action.Should().Throw<InvalidOperationException>().Where(exception => exception.Message == "bang"));
+		RunCompareFailTest(() =>
+			action.Should().Throw<InvalidOperationException>().Where(exception => exception.Message == "bang")
+		);
 	}
 
 	[Fact]
@@ -15,7 +17,10 @@ public class ThrownExceptionWhereTests : BaseTest
 	{
 		Action action = () => throw new InvalidOperationException("boom");
 
-		RunCompareFailTest(() => action.Should().Throw<InvalidOperationException>().Where(exception => exception.Message == "bang"), "thrown exception should match the predicate but did not");
+		RunCompareFailTest(
+			() => action.Should().Throw<InvalidOperationException>().Where(exception => exception.Message == "bang"),
+			"thrown exception should match the predicate but did not"
+		);
 	}
 
 	[Fact]
@@ -23,7 +28,14 @@ public class ThrownExceptionWhereTests : BaseTest
 	{
 		Action action = () => throw new InvalidOperationException("boom");
 
-		RunCompareFailTest(() => action.Should().Throw<InvalidOperationException>().Where(exception => exception.Message == "bang", "custom because"), "custom because");
+		RunCompareFailTest(
+			() =>
+				action
+					.Should()
+					.Throw<InvalidOperationException>()
+					.Where(exception => exception.Message == "bang", "custom because"),
+			"custom because"
+		);
 	}
 
 	[Fact]

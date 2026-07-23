@@ -30,7 +30,10 @@ This library is the exception to the rule above, and it is intentional: a failed
 ```csharp
 public BoolComparer Be(bool expected, string because = null)
 {
-    if (Subject != expected) { CompareException.New(because ?? $"{Subject} should be {expected}"); }
+    if (Subject != expected)
+    {
+        CompareException.New(because ?? $"{Subject} should be {expected}");
+    }
 
     return this;
 }

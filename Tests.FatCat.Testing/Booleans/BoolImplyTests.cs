@@ -3,16 +3,28 @@ namespace Tests.FatCat.Testing.Booleans;
 public class BoolImplyTests : BaseTest
 {
 	[Fact]
-	public void BadImply() { RunCompareFailTest(() => true.Should().Imply(false)); }
+	public void BadImply()
+	{
+		RunCompareFailTest(() => true.Should().Imply(false));
+	}
 
 	[Fact]
-	public void BadImplyShowsCorrectMessage() { RunCompareFailTest(() => true.Should().Imply(false), "True should imply False"); }
+	public void BadImplyShowsCorrectMessage()
+	{
+		RunCompareFailTest(() => true.Should().Imply(false), "True should imply False");
+	}
 
 	[Fact]
-	public void BadImplyWithBecause() { RunCompareFailTest(() => true.Should().Imply(false, "custom because"), "custom because"); }
+	public void BadImplyWithBecause()
+	{
+		RunCompareFailTest(() => true.Should().Imply(false, "custom because"), "custom because");
+	}
 
 	[Fact]
-	public void BadNotImply() { RunCompareFailTest(() => true.Should().Not.Imply(true)); }
+	public void BadNotImply()
+	{
+		RunCompareFailTest(() => true.Should().Not.Imply(true));
+	}
 
 	[Fact]
 	public void BadNotImplyShowsCorrectMessage()
@@ -27,11 +39,20 @@ public class BoolImplyTests : BaseTest
 	}
 
 	[Fact]
-	public void GoodImplyWhenAntecedentFalse() { false.Should().Imply(false); }
+	public void GoodImplyWhenAntecedentFalse()
+	{
+		false.Should().Imply(false);
+	}
 
 	[Fact]
-	public void GoodImplyWhenBothTrue() { true.Should().Imply(true); }
+	public void GoodImplyWhenBothTrue()
+	{
+		true.Should().Imply(true);
+	}
 
 	[Fact]
-	public void GoodNotImply() { true.Should().Not.Imply(false); }
+	public void GoodNotImply()
+	{
+		true.Should().Not.Imply(false);
+	}
 }

@@ -39,10 +39,7 @@ public class DateTimeHaveYearTests : BaseTest
 	{
 		var date = new DateTime(2024, 6, 15, 10, 30, 45);
 
-		RunCompareFailTest(
-							() => date.Should().Not.HaveYear(2024),
-							"2024-06-15 10:30:45 should not have year 2024"
-						);
+		RunCompareFailTest(() => date.Should().Not.HaveYear(2024), "2024-06-15 10:30:45 should not have year 2024");
 	}
 
 	[Fact]

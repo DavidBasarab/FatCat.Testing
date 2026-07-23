@@ -18,9 +18,9 @@ public class DateTimeBeSameDateAsTests : BaseTest
 		var other = new DateTime(2026, 1, 2, 10, 0, 0);
 
 		RunCompareFailTest(
-							() => subject.Should().BeSameDateAs(other),
-							"2026-01-01 10:00:00 should be on the same date as 2026-01-02"
-						);
+			() => subject.Should().BeSameDateAs(other),
+			"2026-01-01 10:00:00 should be on the same date as 2026-01-02"
+		);
 	}
 
 	[Fact]
@@ -48,9 +48,9 @@ public class DateTimeBeSameDateAsTests : BaseTest
 		var other = new DateTime(2026, 1, 1, 22, 45, 0);
 
 		RunCompareFailTest(
-							() => subject.Should().Not.BeSameDateAs(other),
-							"2026-01-01 10:00:00 should not be on the same date as 2026-01-01"
-						);
+			() => subject.Should().Not.BeSameDateAs(other),
+			"2026-01-01 10:00:00 should not be on the same date as 2026-01-01"
+		);
 	}
 
 	[Fact]

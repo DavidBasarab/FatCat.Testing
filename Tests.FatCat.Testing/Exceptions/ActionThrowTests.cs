@@ -15,7 +15,10 @@ public class ActionThrowTests : BaseTest
 	{
 		Action action = () => throw new InvalidOperationException("boom");
 
-		RunCompareFailTest(() => action.Should().Not.Throw<InvalidOperationException>(), "should not throw InvalidOperationException but did");
+		RunCompareFailTest(
+			() => action.Should().Not.Throw<InvalidOperationException>(),
+			"should not throw InvalidOperationException but did"
+		);
 	}
 
 	[Fact]
@@ -39,7 +42,10 @@ public class ActionThrowTests : BaseTest
 	{
 		Action action = () => { };
 
-		RunCompareFailTest(() => action.Should().Throw<InvalidOperationException>(), "should throw InvalidOperationException but no exception was thrown");
+		RunCompareFailTest(
+			() => action.Should().Throw<InvalidOperationException>(),
+			"should throw InvalidOperationException but no exception was thrown"
+		);
 	}
 
 	[Fact]
@@ -47,7 +53,10 @@ public class ActionThrowTests : BaseTest
 	{
 		Action action = () => throw new ArgumentException("bad arg");
 
-		RunCompareFailTest(() => action.Should().Throw<InvalidOperationException>(), "should throw InvalidOperationException but threw ArgumentException");
+		RunCompareFailTest(
+			() => action.Should().Throw<InvalidOperationException>(),
+			"should throw InvalidOperationException but threw ArgumentException"
+		);
 	}
 
 	[Fact]
