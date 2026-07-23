@@ -689,6 +689,10 @@ differences you will hit are:
 The full mapping table, the behavioural differences, the known-unsupported list, and the codemod that
 automates the mechanical parts all live in [`MIGRATION.md`](MIGRATION.md).
 
+The mechanical negation rewrite ships as a codemod, `tools/Convert-FluentAssertions.ps1` — run it with
+`pwsh ./tools/Convert-FluentAssertions.ps1 -Path <dir> -WhatIf` to preview, then without `-WhatIf` to apply;
+see [`MIGRATION.md`](MIGRATION.md) §7.
+
 ## Known Limitations
 
 - **xUnit only.** `CompareException` derives from `XunitException`; there is no framework-detection shim. See

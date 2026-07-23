@@ -260,4 +260,83 @@ These FluentAssertions constructs have no FatCat.Testing equivalent. Each row gi
 
 ## 7. The Codemod
 
-_Ships in phase 11 — see `tasks/todo/final_gaps/11-migration-codemod.md`._
+The rewrite in §2 is mechanical, so the repository ships a codemod that performs it across a tree of C#
+source: `tools/Convert-FluentAssertions.ps1`. It is a PowerShell 7 (`pwsh`) script; it is **not** part of the
+NuGet package — it lives in the GitHub repository only, since packaging a script into a library `.nupkg`
+changes the package layout for no consumer benefit.
+
+> The file and function are named `Convert-FluentAssertions` rather than `Migrate-FluentAssertions`, because
+> the repository's PowerShell rules require an approved `Verb-Noun` verb and `Migrate` is not one (`Get-Verb`);
+> `Convert` is.
+
+### The transform
+
+The core is a single regular expression:
+
+```
+find:     \.Should\(\)\.Not([A-Z]\w*)\(
+replace:  .Should().Not.$1(
+```
+
+FluentAssertions negations are always the literal `Not` followed by a PascalCase method name, so
+`.Should().NotBeNull()` becomes `.Should().Not.BeNull()` uniformly. The script only rewrites a `Not<Method>`
+whose `<Method>` is a **known FluentAssertions negation**; a `.Should().Not<Method>(` whose method it does not
+recognise is left untouched and **reported** (case 3 below), so a project-defined assertion that merely starts
+with `Not` is never silently broken.
+
+The rewrite is **idempotent**: an already-migrated `.Should().Not.BeNull()` no longer matches the find pattern
+(`Not` is followed by `.`, not an uppercase letter), so running the script a second time changes nothing.
+
+### Running it
+
+Preview every change without touching a file:
+
+```pwsh
+pwsh ./tools/Convert-FluentAssertions.ps1 -Path <directory> -WhatIf
+```
+
+Then apply the rewrite:
+
+```pwsh
+pwsh ./tools/Convert-FluentAssertions.ps1 -Path <directory>
+```
+
+`-Path` is the root to search; every `*.cs` file beneath it is scanned, and `bin/` and `obj/` are excluded.
+The script prints how many negations it rewrote, in which files, followed by the four cases below.
+
+### The four cases the regex cannot catch
+
+The script **reports** each of these rather than silently skipping or mangling it, so nothing is lost to a
+blind rewrite.
+
+1. **Chained negations through `.And`** — `x.Should().Contain(a).And.NotContain(b)`. `.And` is not supported
+   (there is no `.And` property; see §6). The regex leaves the `.And.NotContain(` untouched. **Fix:** split
+   the chain into separate statements — `x.Should().Contain(a); x.Should().Not.Contain(b);`.
+2. **Line-broken chains** — `.Should()` and `.NotXxx(` on different lines. The single-line regex does not
+   match across the break, so nothing is rewritten. **Fix:** rewrite by hand, inserting the `Not.` before the
+   method — for example a `.NotBeNull()` continuation line becomes `.Not.BeNull()`.
+3. **Project-defined negations** — a method whose name begins with `Not` but is defined by your project, not
+   FluentAssertions. The script rewrites only method names it recognises as FluentAssertions negations; an
+   unrecognised `.Should().Not<Method>(` is left in place and listed for review. **Fix:** confirm whether it is
+   a FluentAssertions negation (rewrite it) or your own assertion (leave it, or migrate it per the custom
+   comparer guidance in [`README.md`](README.md)).
+4. **Negations on a subject the target build does not yet cover** — a rewritten `.Should().Not.Xxx(` compiles
+   only once FatCat.Testing ships the matching assertion for that subject type. This is not detectable from
+   source and does not arise for the in-repo fixtures, but in a consumer repository it means the rewrite must
+   follow the per-repo order below. **Fix:** run the codemod per repository in the sequence in §5.4, then build
+   and resolve any residue the compiler flags.
+
+### Per-repo sequence
+
+FluentAssertions is a transitive dependency for downstream consumers, so migrate in dependency order:
+
+1. **`FatCat.Toolkit` first.** It references FluentAssertions from **production** projects (not only tests)
+   because it ships test helpers, so replacing it changes the public contract of the Toolkit NuGet package —
+   treat it as its own release step. Swap the `global using FluentAssertions;` to `global using
+   FatCat.Testing;`, run the codemod, then build and fix the residue.
+2. **Port the custom assertion layer next** — the FluentAssertions custom assertions built on
+   `ReferenceTypeAssertions<T, TAssertions>` become comparers deriving from `ComparerBase<TSubject, TComparer>`
+   (see the custom-assertion note in §5 and the `## Custom Comparers` recipe in [`README.md`](README.md)).
+3. **`Fog` last**, once it can pick up a FluentAssertions-free Toolkit.
+
+The script reports what it cannot rewrite; those sites are hand-edited in the consuming repository.

@@ -1,0 +1,16 @@
+using FatCat.Testing;
+
+namespace Consumer.Sample;
+
+public class PlainNegationSample
+{
+	public void SingleLineNegations(string name, object value, List<int> numbers)
+	{
+		value.Should().Not.BeNull();
+		name.Should().Not.BeNullOrEmpty();
+		name.Should().Not.BeNullOrWhiteSpace();
+		numbers.Should().Not.Contain(7);
+		numbers.Should().Not.BeEmpty();
+		value.Should().Not.BeSameAs(name);
+	}
+}
