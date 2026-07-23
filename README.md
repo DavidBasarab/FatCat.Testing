@@ -248,7 +248,35 @@ unsigned relatives).
 
 ### Objects
 
-_Ships in phase 06 — see `tasks/todo/final_gaps/06-object-comparer.md`._
+Any reference type has a `.Should()` entry point through `Should<T>(this T) where T : class`. Concrete
+collection shapes (`IEnumerable<T>`, `List<T>`, `T[]`) keep binding to their own comparer, so a `List<string>`
+never lands here by accident.
+
+| Assertion | What it asserts |
+|---|---|
+| `Be(expected)` | The subject equals `expected` by **value** — `Equals`, so a type that overrides `Equals` compares by value. |
+| `BeNull()` | The subject is `null`. |
+| `BeSameAs(expected)` | The subject is the **same instance** as `expected` — reference identity (`ReferenceEquals`). |
+| `Satisfy(inspector)` | The subject passes the `inspector` action without throwing. |
+| `BeOfType(type)` | *(inherited)* The subject is exactly `type`. |
+| `BeAssignableTo(type)` | *(inherited)* The subject is assignable to `type`. |
+| `BeOneOf(values)` | *(inherited)* The subject equals one of `values`. |
+
+`Be` and `BeSameAs` are different questions. `Be` is **value** equality: two distinct instances that are
+`Equals` pass `Be` and **fail** `BeSameAs`. `BeSameAs` is **reference identity**: only the very same object
+passes. `Be` is *not* structural comparison — comparing the members of a type that does not override
+`Equals` is `BeEquivalentTo` (arrives in phase 07). When two objects differ but render the same text (because
+they override `ToString`), the `Be` failure message cannot explain *why* they differ; `BeEquivalentTo` is the
+assertion that does.
+
+A bare `null` literal cannot receive `Should()` — the compiler has no type to bind `T` to. Type the variable
+first:
+
+```csharp
+Dto result = null;
+result.Should().BeNull();
+result.Should().Not.BeNull(); // fails with "null should not be null"
+```
 
 ### Strings
 

@@ -60,12 +60,13 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | FluentAssertions | FatCat.Testing | Status | Proven by |
 |---|---|---|---|
 | `.Should().Be(x)` *(value types & string)* | `.Should().Be(x)` | ✅ supported | `BoolBeTests`, `IntBeTests` |
-| `.Should().Be(x)` *(objects)* | `.Should().Be(x)` | ⬜ pending (phase 06) | — |
+| `.Should().Be(x)` *(objects)* | `.Should().Be(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeTests` |
+| `.Should().NotBe(x)` *(objects)* | `.Should().Not.Be(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeTests` |
 | `.Should().NotBe(x)` *(value types)* | `.Should().Not.Be(x)` | ✅ supported | `BoolBeTests` |
 | `.Should().BeTrue()` / `.Should().BeFalse()` | `.Should().BeTrue()` / `.Should().BeFalse()` | ✅ supported | `BoolBeTrueTests`, `BoolBeFalseTests` |
 | `.Should().BeNull()` *(value types & string)* | `.Should().BeNull()` | ✅ supported | `StringBeNullTests`, `NullableGuidBeNullTests` |
-| `.Should().BeNull()` *(objects)* | `.Should().BeNull()` | ⬜ pending (phase 06) | — |
-| `.Should().NotBeNull()` *(objects)* | `.Should().Not.BeNull()` | ⬜ pending (phase 06) | — |
+| `.Should().BeNull()` *(objects)* | `.Should().BeNull()` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeNullTests` |
+| `.Should().NotBeNull()` *(objects)* | `.Should().Not.BeNull()` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeNullTests` |
 | `.Should().BeEmpty()` *(string & Guid)* | `.Should().BeEmpty()` | ✅ supported | `StringBeEmptyTests`, `GuidBeEmptyTests` |
 | `.Should().BeEmpty()` *(collections)* | `.Should().BeEmpty()` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionBeEmptyTests` |
 | `.Should().NotBeEmpty()` *(collections)* | `.Should().Not.BeEmpty()` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionNotBeEmptyTests` |
@@ -86,7 +87,8 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().BeLessOrEqualTo(x)` | `.Should().BeLessThanOrEqualTo(x)` | ⬜ pending (phase 16) | — |
 | `.Should().BeOfType<T>()` | `.Should().BeOfType(typeof(T))` | ✅ supported | `ComparerBaseTests` |
 | `.Should().BeOneOf(...)` | `.Should().BeOneOf(...)` | ✅ supported | `ComparerBaseTests` |
-| `.Should().BeSameAs(x)` / `.Should().NotBeSameAs(x)` | `.Should().BeSameAs(x)` / `.Should().Not.BeSameAs(x)` | ⬜ pending (phase 06) | — |
+| `.Should().BeSameAs(x)` | `.Should().BeSameAs(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeSameAsTests` |
+| `.Should().NotBeSameAs(x)` | `.Should().Not.BeSameAs(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeSameAsTests` |
 | `.Should().HaveCount(n)` | `.Should().HaveCount(n)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionHaveCountTests` |
 | `.Should().ContainSingle()` | `.Should().ContainSingle()` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainSingleTests` |
 | `.Should().ContainSingle(p)` | `.Should().ContainSingle(p)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainSinglePredicateTests` |
@@ -122,7 +124,7 @@ Which subject types have a `.Should()` entry point today.
 | `Guid`, `Guid?` | ✅ | |
 | `string` | ✅ | |
 | `TimeSpan`, `TimeSpan?` | ✅ | |
-| `object` / reference types | ⬜ pending (phase 06) | Blocks object `Be`, `BeNull`, `BeSameAs`, `BeEquivalentTo`. |
+| `object` / reference types | ✅ | `Be` (value), `BeNull`, `BeSameAs` (reference identity) ship; `BeEquivalentTo` pending phase 07. |
 | Collections (`IEnumerable<T>`, `List<T>`, `T[]`) | ✅ | Core methods (`Contain`, `BeEmpty`, `HaveCount`, `ContainSingle`) ship; `ContainEquivalentOf` pending phase 08. |
 | `Action` | ✅ | Exception assertions — `Throw<T>`, `NotThrow`. |
 | `Func<Task>` | ✅ | Async exception assertions — `ThrowAsync<T>`, `NotThrowAsync`. |
