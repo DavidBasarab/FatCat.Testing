@@ -160,8 +160,46 @@ empty), and `Not.HaveCount(n)`.
 | `HaveMillisecond(millisecond)` | The millisecond component equals `millisecond`. |
 | `HaveKind(kind)` | The `DateTimeKind` equals `kind`. |
 | `HaveOffset(offset)` | The value's offset equals `offset`. |
+| `BeIn(kind)` | The value's `Kind` equals `kind`. Alias of `HaveKind` under the FluentAssertions name. |
+| `BeSameDateAs(other)` | The value falls on the same calendar date as `other`, ignoring the time of day. |
+| `BeLessThan(tolerance).Before(other)` / `.After(other)` | The gap between the value and `other` is less than `tolerance`. |
+| `BeMoreThan(tolerance).Before(other)` / `.After(other)` | The gap between the value and `other` is more than `tolerance`. |
+| `BeAtLeast(tolerance).Before(other)` / `.After(other)` | The gap between the value and `other` is at least `tolerance`. |
+| `BeWithin(tolerance).Before(other)` / `.After(other)` | The gap between the value and `other` is at most `tolerance`. |
+| `BeExactly(tolerance).Before(other)` / `.After(other)` | The gap between the value and `other` is exactly `tolerance`. |
 | `BeNull()` | *(nullable only)* The nullable has no value. |
 | `HaveValue()` | *(nullable only)* The nullable has a value. |
+
+`BeIn` overlaps `HaveKind` — both assert on `Subject.Kind`. `BeIn` exists so the FluentAssertions name is
+available; `HaveKind` remains the native spelling. Either reads the same failure through the same check.
+
+#### Difference chains
+
+The five difference builders are a two-step assertion. The builder captures the tolerance; `.Before(other)`
+or `.After(other)` names the direction and runs the check. `.Before` requires the value to be earlier than
+`other` and measures `other - value`; `.After` requires it to be later and measures `value - other`. Calling
+the wrong direction is a failure, not a silent pass. Each direction rejoins the normal fluent surface by
+returning the `DateTimeComparer`.
+
+```csharp
+var start = new DateTime(2026, 1, 1, 10, 0, 0);
+var end = new DateTime(2026, 1, 1, 11, 30, 0);
+
+start.Should().BeLessThan(2.Hours()).Before(end);
+end.Should().BeMoreThan(1.Hours()).After(start);
+```
+
+#### Numeric time extensions
+
+`Hours()`, `Minutes()`, `Seconds()`, `Days()`, and `Milliseconds()` are extension methods on `int` that return
+a `TimeSpan`, so a tolerance reads as `2.Hours()` instead of `TimeSpan.FromHours(2)`. They exist primarily to
+make the difference chains read well, but they are general-purpose and usable anywhere a `TimeSpan` is wanted.
+
+```csharp
+2.Hours(); // TimeSpan.FromHours(2)
+30.Minutes(); // TimeSpan.FromMinutes(30)
+250.Milliseconds(); // TimeSpan.FromMilliseconds(250)
+```
 
 ### Doubles And Floats
 

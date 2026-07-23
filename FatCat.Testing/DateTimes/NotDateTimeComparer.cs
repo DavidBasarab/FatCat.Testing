@@ -58,6 +58,13 @@ public class NotDateTimeComparer(DateTime subject) : NotComparerBase<DateTime, N
 		return this;
 	}
 
+	public NotDateTimeComparer BeIn(DateTimeKind expected, string because = null)
+	{
+		if (Subject.Kind == expected) { CompareException.New(because ?? $"{SubjectFormatted} should not be in {expected}"); }
+
+		return this;
+	}
+
 	public NotDateTimeComparer BeLocal(string because = null)
 	{
 		if (Subject.Kind == DateTimeKind.Local) { CompareException.New(because ?? $"{SubjectFormatted} should not be local"); }
@@ -83,6 +90,18 @@ public class NotDateTimeComparer(DateTime subject) : NotComparerBase<DateTime, N
 		{
 			CompareException.New(
 								because ?? $"{SubjectFormatted} should not be on or before {expected:yyyy-MM-dd HH:mm:ss}"
+								);
+		}
+
+		return this;
+	}
+
+	public NotDateTimeComparer BeSameDateAs(DateTime expected, string because = null)
+	{
+		if (Subject.Date == expected.Date)
+		{
+			CompareException.New(
+								because ?? $"{SubjectFormatted} should not be on the same date as {expected:yyyy-MM-dd}"
 								);
 		}
 

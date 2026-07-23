@@ -31,6 +31,8 @@ public class DateTimeComparer(DateTime subject) : ComparerBase<DateTime, DateTim
 		return this;
 	}
 
+	public DateTimeDifferenceChain BeAtLeast(TimeSpan tolerance) { return new DateTimeDifferenceChain(this, tolerance, DifferenceKind.AtLeast); }
+
 	public DateTimeComparer BeBefore(DateTime expected, string because = null)
 	{
 		if (Subject >= expected) { CompareException.New(because ?? $"{SubjectFormatted} should be before {expected:yyyy-MM-dd HH:mm:ss}"); }
@@ -50,12 +52,25 @@ public class DateTimeComparer(DateTime subject) : ComparerBase<DateTime, DateTim
 		return this;
 	}
 
+	public DateTimeDifferenceChain BeExactly(TimeSpan tolerance) { return new DateTimeDifferenceChain(this, tolerance, DifferenceKind.Exactly); }
+
+	public DateTimeComparer BeIn(DateTimeKind expected, string because = null)
+	{
+		if (Subject.Kind != expected) { CompareException.New(because ?? $"{SubjectFormatted} should be in {expected}"); }
+
+		return this;
+	}
+
+	public DateTimeDifferenceChain BeLessThan(TimeSpan tolerance) { return new DateTimeDifferenceChain(this, tolerance, DifferenceKind.LessThan); }
+
 	public DateTimeComparer BeLocal(string because = null)
 	{
 		if (Subject.Kind != DateTimeKind.Local) { CompareException.New(because ?? $"{SubjectFormatted} should be local"); }
 
 		return this;
 	}
+
+	public DateTimeDifferenceChain BeMoreThan(TimeSpan tolerance) { return new DateTimeDifferenceChain(this, tolerance, DifferenceKind.MoreThan); }
 
 	public DateTimeComparer BeOnOrAfter(DateTime expected, string because = null)
 	{
@@ -81,12 +96,26 @@ public class DateTimeComparer(DateTime subject) : ComparerBase<DateTime, DateTim
 		return this;
 	}
 
+	public DateTimeComparer BeSameDateAs(DateTime expected, string because = null)
+	{
+		if (Subject.Date != expected.Date)
+		{
+			CompareException.New(
+								because ?? $"{SubjectFormatted} should be on the same date as {expected:yyyy-MM-dd}"
+								);
+		}
+
+		return this;
+	}
+
 	public DateTimeComparer BeUtc(string because = null)
 	{
 		if (Subject.Kind != DateTimeKind.Utc) { CompareException.New(because ?? $"{SubjectFormatted} should be UTC"); }
 
 		return this;
 	}
+
+	public DateTimeDifferenceChain BeWithin(TimeSpan tolerance) { return new DateTimeDifferenceChain(this, tolerance, DifferenceKind.Within); }
 
 	public DateTimeComparer HaveDay(int expected, string because = null)
 	{

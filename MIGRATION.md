@@ -83,6 +83,14 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().NotBeEquivalentTo(x)` | `.Should().Not.BeEquivalentTo(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeEquivalentToTests` |
 | `options.Using<T>(...).WhenTypeIs<T>()` | `Equivalency.Using<T>((s, e) => ...)` | ✅ supported | `Tests.FatCat.Testing.Equivalency.EquivalencyUsingTests` |
 | `.Should().BeCloseTo(x, tolerance)` | `.Should().BeCloseTo(x, tolerance)` | ✅ supported | `DateTimeBeCloseToTests`, `TimeSpanBeCloseToTests` |
+| `.Should().BeSameDateAs(x)` *(DateTime)* | `.Should().BeSameDateAs(x)` | ✅ supported *(coverage — no call site)* | `DateTimeBeSameDateAsTests` |
+| `.Should().BeIn(kind)` *(DateTime)* | `.Should().BeIn(kind)` | ✅ supported *(coverage — no call site)* | `DateTimeBeInTests` |
+| `.Should().BeLessThan(t).Before(x)` / `.After(x)` *(DateTime)* | same | ✅ supported *(coverage — no call site)* | `DateTimeBeLessThanBeforeTests`, `DateTimeBeLessThanAfterTests` |
+| `.Should().BeMoreThan(t).Before(x)` / `.After(x)` *(DateTime)* | same | ✅ supported *(coverage — no call site)* | `DateTimeBeMoreThanBeforeTests`, `DateTimeBeMoreThanAfterTests` |
+| `.Should().BeAtLeast(t).Before(x)` / `.After(x)` *(DateTime)* | same | ✅ supported *(coverage — no call site)* | `DateTimeBeAtLeastBeforeTests`, `DateTimeBeAtLeastAfterTests` |
+| `.Should().BeWithin(t).Before(x)` / `.After(x)` *(DateTime)* | same | ✅ supported *(coverage — no call site)* | `DateTimeBeWithinBeforeTests`, `DateTimeBeWithinAfterTests` |
+| `.Should().BeExactly(t).Before(x)` / `.After(x)` *(DateTime)* | same | ✅ supported *(coverage — no call site)* | `DateTimeBeExactlyBeforeTests`, `DateTimeBeExactlyAfterTests` |
+| `2.Hours()` / `2.Minutes()` *(FluentAssertions.Extensions)* | `2.Hours()` / `2.Minutes()` | ✅ supported *(coverage — no call site)* | `NumericTimeExtensionsTests` |
 | `.Should().BeApproximately(x, tolerance)` | `.Should().BeApproximately(x, tolerance)` | ✅ supported | `DoubleBeApproximatelyTests` |
 | `.Should().BeGreaterThan(x)` / `.Should().BeLessThan(x)` | same | ✅ supported | `IntBeGreaterThanTests`, `IntBeLessThanTests` |
 | `.Should().BeGreaterOrEqualTo(x)` | `.Should().BeGreaterThanOrEqualTo(x)` | ⬜ pending (phase 16) | — |
