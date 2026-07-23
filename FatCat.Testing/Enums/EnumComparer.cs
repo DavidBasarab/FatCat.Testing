@@ -28,4 +28,20 @@ public class EnumComparer<T>(T subject) : ComparerBase<T, EnumComparer<T>>(subje
 
 		return this;
 	}
+
+	public EnumComparer<T> HaveSameNameAs<TOther>(TOther other, string because = null)
+		where TOther : struct, Enum
+	{
+		if (Enum.GetName(Subject) != Enum.GetName(other)) { CompareException.New(because ?? $"{Subject} should have the same name as {other}"); }
+
+		return this;
+	}
+
+	public EnumComparer<T> HaveSameValueAs<TOther>(TOther other, string because = null)
+		where TOther : struct, Enum
+	{
+		if (Convert.ToInt64(Subject) != Convert.ToInt64(other)) { CompareException.New(because ?? $"{Subject} should have the same value as {other}"); }
+
+		return this;
+	}
 }

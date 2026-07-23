@@ -245,8 +245,10 @@ Both `double` and `float` share the same assertion set.
 | Assertion | What it asserts |
 |---|---|
 | `Be(expected)` | The value equals `expected`. |
-| `BeDefined()` | The value is a defined member of the enum. |
+| `BeDefined()` | The value is a defined member of the enum. Negatable — `Not.BeDefined()` asserts the value is not defined. |
 | `HaveFlag(flag)` | The value has `flag` set. |
+| `HaveSameNameAs(other)` | The value has the same member name as `other`, an enum of any type. |
+| `HaveSameValueAs(other)` | The value has the same underlying numeric value as `other`, an enum of any type. |
 | `BeNull()` | *(nullable only)* The nullable has no value. |
 | `HaveValue()` | *(nullable only)* The nullable has a value. |
 

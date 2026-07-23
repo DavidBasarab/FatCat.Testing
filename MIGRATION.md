@@ -140,6 +140,9 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().Throw<T>().WithInnerExceptionExactly<TInner>()` | `.Should().Throw<T>().WithInnerExceptionExactly<TInner>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ThrownExceptionWithInnerExceptionExactlyTests` |
 | `.Should().Throw<T>().Where(predicate)` | `.Should().Throw<T>().Where(predicate)` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ThrownExceptionWhereTests` |
 | `.Should().Throw<T>().WithParameterName(name)` | `.Should().Throw<T>().WithParameterName(name)` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ThrownExceptionWithParameterNameTests` |
+| `.Should().HaveSameNameAs(x)` | `.Should().HaveSameNameAs(x)` | ✅ supported | `Tests.FatCat.Testing.Enums.EnumHaveSameNameAsTests` |
+| `.Should().HaveSameValueAs(x)` | `.Should().HaveSameValueAs(x)` | ✅ supported | `Tests.FatCat.Testing.Enums.EnumHaveSameValueAsTests` |
+| `.Should().NotBeDefined()` | `.Should().Not.BeDefined()` | ✅ supported | `Tests.FatCat.Testing.Enums.EnumBeDefinedTests` |
 | `ReferenceTypeAssertions<T, TAssertions>` *(custom-assertion base)* | `ComparerBase<TSubject, TComparer>` | ✅ supported | `Tests.FatCat.Testing.Extensibility.CustomComparerTests` |
 | `AndConstraint<T>` *(custom-assertion return)* | return `this` (the comparer) | ✅ supported | `Tests.FatCat.Testing.Extensibility.CustomComparerTests` |
 

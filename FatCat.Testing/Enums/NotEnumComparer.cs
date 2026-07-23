@@ -26,4 +26,20 @@ public class NotEnumComparer<T>(T subject) : NotComparerBase<T, NotEnumComparer<
 
 		return this;
 	}
+
+	public NotEnumComparer<T> HaveSameNameAs<TOther>(TOther other, string because = null)
+		where TOther : struct, Enum
+	{
+		if (Enum.GetName(Subject) == Enum.GetName(other)) { CompareException.New(because ?? $"{Subject} should not have the same name as {other}"); }
+
+		return this;
+	}
+
+	public NotEnumComparer<T> HaveSameValueAs<TOther>(TOther other, string because = null)
+		where TOther : struct, Enum
+	{
+		if (Convert.ToInt64(Subject) == Convert.ToInt64(other)) { CompareException.New(because ?? $"{Subject} should not have the same value as {other}"); }
+
+		return this;
+	}
 }
