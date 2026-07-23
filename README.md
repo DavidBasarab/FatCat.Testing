@@ -314,10 +314,14 @@ second blocking site, both disallowed, so this family is intentionally not a com
 
 | Assertion | What it asserts |
 |---|---|
-| `Be(expected)` | The value equals `expected`. |
+| `Be(expected)` | The value equals `expected`. Accepts either a `Guid` or a `string`. |
 | `BeEmpty()` | The value is `Guid.Empty`. |
 | `BeNull()` | *(nullable only)* The nullable has no value. |
 | `HaveValue()` | *(nullable only)* The nullable has a value. |
+
+`Be` has a `string` overload that parses the expected value into a `Guid` before comparing, so
+`id.Should().Be("12345678-1234-1234-1234-123456789012")` reads naturally. An unparseable string is a usage
+error, not a failed assertion — it throws `ArgumentException`, not `CompareException`.
 
 ### Numbers
 

@@ -63,6 +63,7 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().Be(x)` *(objects)* | `.Should().Be(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeTests` |
 | `.Should().NotBe(x)` *(objects)* | `.Should().Not.Be(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeTests` |
 | `.Should().NotBe(x)` *(value types)* | `.Should().Not.Be(x)` | ✅ supported | `BoolBeTests` |
+| `.Should().Be("guid-string")` *(Guid)* | `.Should().Be("guid-string")` | ✅ supported | `Tests.FatCat.Testing.Guids.GuidBeStringTests` |
 | `.Should().BeTrue()` / `.Should().BeFalse()` | `.Should().BeTrue()` / `.Should().BeFalse()` | ✅ supported | `BoolBeTrueTests`, `BoolBeFalseTests` |
 | `.Should().Imply(x)` | `.Should().Imply(x)` | ✅ supported | `Tests.FatCat.Testing.Booleans.BoolImplyTests` |
 | `.Should().BeNull()` *(value types & string)* | `.Should().BeNull()` | ✅ supported | `StringBeNullTests`, `NullableGuidBeNullTests` |

@@ -19,6 +19,13 @@ public class NullableGuidComparer(Guid? subject) : ComparerBase<Guid?, NullableG
 		return this;
 	}
 
+	public NullableGuidComparer Be(string expected, string because = null)
+	{
+		if (!Guid.TryParse(expected, out var parsed)) { throw new ArgumentException($"'{expected}' is not a valid Guid"); }
+
+		return Be(parsed, because);
+	}
+
 	public NullableGuidComparer BeEmpty(string because = null)
 	{
 		if (!Subject.HasValue || Subject.Value != Guid.Empty) { CompareException.New(because ?? $"{SubjectDisplay} should be empty"); }
