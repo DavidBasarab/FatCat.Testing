@@ -79,6 +79,7 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().EndWith(x)` | `.Should().EndWith(x)` | ✅ supported | `StringEndWithTests` |
 | `.Should().BeEquivalentTo(x)` *(string)* | `.Should().BeEquivalentTo(x)` | ✅ supported | `StringBeEquivalentToTests` |
 | `.Should().BeEquivalentTo(x)` *(object graphs)* | `.Should().BeEquivalentTo(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeEquivalentToTests` |
+| `.Should().BeEquivalentTo(coll)` *(collections)* | `.Should().BeEquivalentTo(coll)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionBeEquivalentToTests` |
 | `.Should().NotBeEquivalentTo(x)` | `.Should().Not.BeEquivalentTo(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeEquivalentToTests` |
 | `.Should().BeCloseTo(x, tolerance)` | `.Should().BeCloseTo(x, tolerance)` | ✅ supported | `DateTimeBeCloseToTests`, `TimeSpanBeCloseToTests` |
 | `.Should().BeApproximately(x, tolerance)` | `.Should().BeApproximately(x, tolerance)` | ✅ supported | `DoubleBeApproximatelyTests` |
@@ -92,8 +93,8 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().HaveCount(n)` | `.Should().HaveCount(n)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionHaveCountTests` |
 | `.Should().ContainSingle()` | `.Should().ContainSingle()` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainSingleTests` |
 | `.Should().ContainSingle(p)` | `.Should().ContainSingle(p)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainSinglePredicateTests` |
-| `.Should().ContainEquivalentOf(x)` | `.Should().ContainEquivalentOf(x)` | ⬜ pending (phase 08) | — |
-| `.Should().NotContainEquivalentOf(x)` | `.Should().Not.ContainEquivalentOf(x)` | ⬜ pending (phase 08) | — |
+| `.Should().ContainEquivalentOf(x)` | `.Should().ContainEquivalentOf(x)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainEquivalentOfTests` |
+| `.Should().NotContainEquivalentOf(x)` | `.Should().Not.ContainEquivalentOf(x)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainEquivalentOfTests` |
 | `.Should().OnlyContain(pred)` | `.Should().OnlyContain(pred)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionOnlyContainTests` |
 | `.Should().OnlyHaveUniqueItems()` | `.Should().OnlyHaveUniqueItems()` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionOnlyHaveUniqueItemsTests` |
 | `.Should().Equal(...)` *(collections)* | `.Should().Equal(...)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionEqualTests` |
@@ -125,7 +126,7 @@ Which subject types have a `.Should()` entry point today.
 | `string` | ✅ | |
 | `TimeSpan`, `TimeSpan?` | ✅ | |
 | `object` / reference types | ✅ | `Be` (value), `BeEquivalentTo` (structural), `BeNull`, `BeSameAs` (reference identity) ship. |
-| Collections (`IEnumerable<T>`, `List<T>`, `T[]`) | ✅ | Core methods (`Contain`, `BeEmpty`, `HaveCount`, `ContainSingle`) ship; `ContainEquivalentOf` pending phase 08. |
+| Collections (`IEnumerable<T>`, `List<T>`, `T[]`) | ✅ | Core methods (`Contain`, `BeEmpty`, `HaveCount`, `ContainSingle`), order-sensitive `Equal`, and the structural `BeEquivalentTo` / `ContainEquivalentOf` all ship. |
 | `Action` | ✅ | Exception assertions — `Throw<T>`, `NotThrow`. |
 | `Func<Task>` | ✅ | Async exception assertions — `ThrowAsync<T>`, `NotThrowAsync`. |
 
@@ -153,8 +154,11 @@ These compile fine and behave differently — the dangerous category. Read them 
    `.Should().Not.Be(x)`. See §2.
 
 4. **Collection `BeEquivalentTo` is order-insensitive by default, with no `WithStrictOrdering` opt-out.**
-   This matches FluentAssertions' default, but FluentAssertions lets you opt into strict ordering and
-   FatCat.Testing does not. If you need order-sensitive comparison, use `Equal` instead. *(from phase 08)*
+   This is now backed by a shipped assertion (`CollectionBeEquivalentToTests`). It matches FluentAssertions'
+   default, but FluentAssertions lets you opt into strict ordering and FatCat.Testing does not. If you need
+   order-sensitive comparison, use `Equal` instead. Elements are compared **structurally** (reusing the object
+   equivalency engine) and paired **greedily** — each element takes the first still-unmatched equivalent
+   candidate, rather than solving a full bipartite matching. *(from phase 08)*
 
 6. **Object `BeEquivalentTo` compares public readable instance properties only — fields are excluded.**
    Two objects that differ only in a public **field** are still equivalent. This matches FluentAssertions'

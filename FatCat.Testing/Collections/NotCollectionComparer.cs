@@ -1,4 +1,5 @@
 using FatCat.Testing.Comparers;
+using FatCat.Testing.Equivalency;
 using FatCat.Testing.Exceptions;
 using FatCat.Testing.Formatting;
 
@@ -27,6 +28,45 @@ public class NotCollectionComparer<T>(IEnumerable<T> subject) : NotComparerBase<
 		if (items is null || items.Count == expected) { CompareException.New(because ?? $"{FormatItems()} should not have count {expected}"); }
 
 		return this;
+	}
+
+	public NotCollectionComparer<T> BeEquivalentTo(IEnumerable<T> expected, string because = null)
+	{
+		var expectedItems = expected?.ToList();
+
+		if (items is null || IsEquivalentTo(expectedItems)) { CompareException.New(because ?? $"{FormatItems()} should not be equivalent to {ValueFormatter.Format(expectedItems)}"); }
+
+		return this;
+	}
+
+	public NotCollectionComparer<T> ContainEquivalentOf(T expected, string because = null)
+	{
+		if (items is null || ContainsEquivalentOf(expected)) { CompareException.New(because ?? $"{FormatItems()} should not contain an element equivalent to {ValueFormatter.Format(expected)}"); }
+
+		return this;
+	}
+
+	private bool IsEquivalentTo(List<T> expectedItems)
+	{
+		if (expectedItems is null || items.Count != expectedItems.Count) { return false; }
+
+		var unmatchedExpected = expectedItems.ToList();
+
+		foreach (var actual in items)
+		{
+			var matchIndex = unmatchedExpected.FindIndex(candidate => EquivalencyComparer.Compare(actual, candidate).AreEquivalent);
+
+			if (matchIndex < 0) { return false; }
+
+			unmatchedExpected.RemoveAt(matchIndex);
+		}
+
+		return true;
+	}
+
+	private bool ContainsEquivalentOf(T expected)
+	{
+		return items.Any(element => EquivalencyComparer.Compare(element, expected).AreEquivalent);
 	}
 
 	private string FormatItems() { return ValueFormatter.Format(items); }

@@ -1,4 +1,5 @@
 using FatCat.Testing.Comparers;
+using FatCat.Testing.Equivalency;
 using FatCat.Testing.Exceptions;
 using FatCat.Testing.Formatting;
 
@@ -59,6 +60,23 @@ public class CollectionComparer<T>(IEnumerable<T> subject) : ComparerBase<IEnume
 		return this;
 	}
 
+	public CollectionComparer<T> BeEquivalentTo(IEnumerable<T> expected, string because = null)
+	{
+		var expectedItems = expected?.ToList();
+		var failure = FindEquivalencyFailure(expectedItems);
+
+		if (failure is not null) { CompareException.New(because ?? failure); }
+
+		return this;
+	}
+
+	public CollectionComparer<T> ContainEquivalentOf(T expected, string because = null)
+	{
+		if (items is null || !ContainsEquivalentOf(expected)) { CompareException.New(because ?? $"{FormatItems()} should contain an element equivalent to {ValueFormatter.Format(expected)}"); }
+
+		return this;
+	}
+
 	public CollectionComparer<T> OnlyContain(Func<T, bool> predicate, string because = null)
 	{
 		if (items is null || !items.All(predicate)) { CompareException.New(because ?? $"{FormatItems()} should only contain elements matching the predicate"); }
@@ -89,6 +107,33 @@ public class CollectionComparer<T>(IEnumerable<T> subject) : ComparerBase<IEnume
 		if (items is null || !IsInDescendingOrder()) { CompareException.New(because ?? $"{FormatItems()} should be in descending order"); }
 
 		return this;
+	}
+
+	private string FindEquivalencyFailure(List<T> expectedItems)
+	{
+		var summary = $"{FormatItems()} should be equivalent to {ValueFormatter.Format(expectedItems)}";
+
+		if (items is null || expectedItems is null) { return summary; }
+
+		if (items.Count != expectedItems.Count) { return $"{summary} but they have different counts ({items.Count} and {expectedItems.Count})"; }
+
+		var unmatchedExpected = expectedItems.ToList();
+
+		foreach (var actual in items)
+		{
+			var matchIndex = unmatchedExpected.FindIndex(candidate => EquivalencyComparer.Compare(actual, candidate).AreEquivalent);
+
+			if (matchIndex < 0) { return $"{summary} but could not find a match for {ValueFormatter.Format(actual)}"; }
+
+			unmatchedExpected.RemoveAt(matchIndex);
+		}
+
+		return null;
+	}
+
+	private bool ContainsEquivalentOf(T expected)
+	{
+		return items.Any(element => EquivalencyComparer.Compare(element, expected).AreEquivalent);
 	}
 
 	private bool ContainsInOrder(IReadOnlyList<T> expected)

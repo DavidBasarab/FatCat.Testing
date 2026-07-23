@@ -99,10 +99,11 @@ the nullable value type (`bool?`, `Guid?`, and so on).
 
 ### Collections
 
-Entry points exist for `IEnumerable<T>`, `List<T>`, and `T[]`. Elements are matched by **element equality**
-(`Equals`, via `EqualityComparer<T>.Default`); structural comparison — `ContainEquivalentOf` — arrives in
-phase 08. A lazy `IEnumerable<T>` is **snapshotted once** when `.Should()` is called, so a side-effecting
-query is enumerated a single time and every chained assertion reads that snapshot.
+Entry points exist for `IEnumerable<T>`, `List<T>`, and `T[]`. Most assertions match elements by **element
+equality** (`Equals`, via `EqualityComparer<T>.Default`); `BeEquivalentTo` and `ContainEquivalentOf` match
+**structurally** instead (see below). A lazy `IEnumerable<T>` is **snapshotted once** when `.Should()` is
+called, so a side-effecting query is enumerated a single time and every chained assertion reads that
+snapshot.
 
 | Assertion | What it asserts |
 |---|---|
@@ -111,14 +112,26 @@ query is enumerated a single time and every chained assertion reads that snapsho
 | `HaveCount(count)` | The collection has exactly `count` elements. |
 | `ContainSingle()` | The collection has exactly one element. |
 | `Equal(expected)` | The collection equals `expected` element-by-element, **in order**. |
+| `BeEquivalentTo(expected)` | The collection has the same elements as `expected`, compared structurally, **ignoring order**. |
+| `ContainEquivalentOf(expected)` | The collection contains an element structurally equivalent to `expected`. |
 | `OnlyContain(predicate)` | Every element satisfies `predicate`. |
 | `OnlyHaveUniqueItems()` | The collection has no duplicate elements. |
 | `ContainInOrder(expected)` | The `expected` elements appear in this relative order (not necessarily contiguous). |
 | `BeInDescendingOrder()` | The elements are in descending order (`Comparer<T>.Default`). |
 | `ContainSingle(predicate)` | Exactly one element satisfies `predicate`. |
 
-`Equal` is **order-sensitive** — `[1, 2, 3].Should().Equal([3, 2, 1])` fails. The order-**insensitive**
-counterpart, `BeEquivalentTo`, arrives in phase 08.
+`Equal` is **order-sensitive** — `[1, 2, 3].Should().Equal([3, 2, 1])` fails. `BeEquivalentTo` is its
+order-**insensitive** counterpart — `[1, 2, 3].Should().BeEquivalentTo([3, 2, 1])` **passes**. This is the
+single most surprising default in the library and it matches FluentAssertions; there is no
+`WithStrictOrdering` opt-out — reach for `Equal` when order matters.
+
+`BeEquivalentTo` and `ContainEquivalentOf` compare elements **structurally**, reusing the same object
+equivalency engine as object `BeEquivalentTo` (public readable properties, recursively), so elements match by
+value without needing an `Equals` override. Matching is **greedy**: each element is paired with the first
+still-unmatched candidate it is equivalent to. Greedy pairing can theoretically mis-pair when several
+elements are ambiguously equivalent to one another; this matches FluentAssertions and is accepted rather than
+running a full bipartite matcher. Failure messages render at most **32** elements (the value formatter's cap),
+so a large mismatch does not dump the whole collection.
 
 Predicate-based assertions (`OnlyContain`, `ContainSingle(predicate)`) cannot describe the predicate in the
 generated message, which reads "matching the predicate". Supply `because` to make the failure specific.
