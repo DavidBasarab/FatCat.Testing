@@ -48,7 +48,7 @@ If `dotnet format` changes something, that change is correct — do not revert i
 - All files should be green (no unresolved warnings) unless suppressed with reason.
 
 ## Target Framework & Packaging
-- Both projects target `net10.0` with `ImplicitUsings` enabled and `Nullable` disabled.
+- Both projects target `net11.0` with `ImplicitUsings` enabled and `Nullable` disabled.
 - `FatCat.Testing` is a signed, packable NuGet library — do not change `SignAssembly`, `VersionPrefix`, or the package metadata unless the task is explicitly about releasing.
 - Adding a package reference to `FatCat.Testing` changes what consumers must pull in. Do not add one without a clear need — see `types.md`.
 

@@ -695,7 +695,7 @@ Every migration is some mix of these three, in increasing order of effort:
 
 1. **Swap the reference and the using.** Replace the `FluentAssertions` package reference with
    `FatCat.Testing`, and the `global using FluentAssertions;` with `global using FatCat.Testing;`. Both
-   projects target the same `net10.0`, so nothing else in the project file moves.
+   projects target the same `net11.0`, so nothing else in the project file moves.
 2. **Rewrite the call sites.** Negation moves from a prefixed method to the `Not` property
    (`.NotBeNull()` → `.Not.BeNull()`), and any `because` that used `{0}`-style format arguments becomes an
    interpolated string. The negation rewrite is mechanical — the shipped codemod does it (see below); the

@@ -63,7 +63,7 @@ never reorder them):
 <FluentAssertions 7.0.0 is the last Apache-2.0 release; 8.x is commercially licensed. See tasks/gaps.md.>
 
 ## Install
-<dotnet add package FatCat.Testing — plus the note that it targets net10.0 and requires xUnit.>
+<dotnet add package FatCat.Testing — plus the note that it targets net11.0 and requires xUnit.>
 
 ## Quick Start
 <a handful of real examples: bool, string, numeric, DateTime, and one `because` override.>
