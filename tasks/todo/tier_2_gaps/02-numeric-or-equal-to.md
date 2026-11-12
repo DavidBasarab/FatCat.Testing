@@ -212,12 +212,12 @@ until phase 03 lands. Do not claim numeric coverage is complete in this commit.
 ```pwsh
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
-dotnet format style Fatcat.Testing.sln
-dotnet format analyzers Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
+dotnet format style Fatcat.Testing.slnx
+dotnet format analyzers Fatcat.Testing.slnx
 dotnet csharpier .
-dotnet build Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
 ```
 
 Then run the standards review on the uncommitted change and resolve every finding before committing.
@@ -225,7 +225,7 @@ Then run the standards review on the uncommitted change and resolve every findin
 Targeted run:
 
 ```pwsh
-dotnet test Fatcat.Testing.sln --filter "FullyQualifiedName~OrEqualTo"
+dotnet test Fatcat.Testing.slnx --filter "FullyQualifiedName~OrEqualTo"
 ```
 
 ---
@@ -254,8 +254,8 @@ dotnet test Fatcat.Testing.sln --filter "FullyQualifiedName~OrEqualTo"
 
 ```pwsh
 git revert --no-edit <phase-02-commit>
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 Nothing depends on this phase except 14 (close-out audit). If 14 has landed, revert it first. No manual

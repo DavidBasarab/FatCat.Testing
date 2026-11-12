@@ -156,13 +156,13 @@ call sites (gaps.md A3).
 ```pwsh
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
-dotnet format style Fatcat.Testing.sln
-dotnet format analyzers Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
+dotnet format style Fatcat.Testing.slnx
+dotnet format analyzers Fatcat.Testing.slnx
 dotnet csharpier .
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln --filter "FullyQualifiedName~DateOnlys"
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx --filter "FullyQualifiedName~DateOnlys"
 ```
 
 Then run the standards review on the uncommitted change and resolve every finding.
@@ -190,8 +190,8 @@ Then run the standards review on the uncommitted change and resolve every findin
 
 ```pwsh
 git revert --no-edit <phase-08-commit>
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 Self-contained. Only phase 14 depends on it — revert that first if it landed. No manual steps.

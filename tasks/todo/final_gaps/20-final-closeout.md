@@ -143,12 +143,12 @@ deliberately left for after the surface grew, and now is the moment to make it.
 ```pwsh
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
-dotnet format style Fatcat.Testing.sln
-dotnet format analyzers Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
+dotnet format style Fatcat.Testing.slnx
+dotnet format analyzers Fatcat.Testing.slnx
 dotnet csharpier .
-dotnet build Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
 ```
 
 Full green, no new warnings. Then the codemod re-run (§3). Then standards review; resolve every finding.
@@ -181,8 +181,8 @@ Full green, no new warnings. Then the codemod re-run (§3). Then standards revie
 
 ```pwsh
 git revert --no-edit <phase-20-commit>
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 Removes the audit artefacts and any documentation-catalog test. No library assertion is affected. This is the

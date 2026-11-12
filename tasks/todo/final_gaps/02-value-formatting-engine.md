@@ -196,18 +196,18 @@ and supported so custom comparers (phase 10) can render subjects identically.
 ```pwsh
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
-dotnet format style Fatcat.Testing.sln
-dotnet format analyzers Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
+dotnet format style Fatcat.Testing.slnx
+dotnet format analyzers Fatcat.Testing.slnx
 dotnet csharpier .
-dotnet build Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
 ```
 
 Targeted:
 
 ```pwsh
-dotnet test Fatcat.Testing.sln --filter "FullyQualifiedName~ValueFormatter"
+dotnet test Fatcat.Testing.slnx --filter "FullyQualifiedName~ValueFormatter"
 ```
 
 Then run the standards review on the uncommitted change and resolve every finding before committing.
@@ -241,8 +241,8 @@ Then run the standards review on the uncommitted change and resolve every findin
 
 ```pwsh
 git revert --no-edit <phase-02-commit>
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 Reverting restores the two duplicated `FormatSubject` bodies, so the build stays green. **Phases 04–10 and

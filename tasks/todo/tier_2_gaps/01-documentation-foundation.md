@@ -229,8 +229,8 @@ test helpers), then the custom assertion layer, then Fog. Keep it short and link
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
 git status                                  # only README.md and MIGRATION.md changed
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln              # unchanged count, all green
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx              # unchanged count, all green
 ```
 
 Manual checks:

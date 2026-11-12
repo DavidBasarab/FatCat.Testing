@@ -190,13 +190,13 @@ Awaiting remains correct and is still the recommendation where the test can be a
 ```pwsh
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
-dotnet format style Fatcat.Testing.sln
-dotnet format analyzers Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
+dotnet format style Fatcat.Testing.slnx
+dotnet format analyzers Fatcat.Testing.slnx
 dotnet csharpier .
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln --filter "FullyQualifiedName~Tests.FatCat.Testing.Tasks"
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx --filter "FullyQualifiedName~Tests.FatCat.Testing.Tasks"
 ```
 
 Then run the standards review on the uncommitted change and resolve every finding.
@@ -231,8 +231,8 @@ Select-String -Path FatCat.Testing\**\*.cs -Pattern '\.Result\b|\.Wait\(\)|GetAw
 
 ```pwsh
 git revert --no-edit <phase-06-commit>
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 Reverts cleanly on its own — nothing depends on it except phase 14 (revert that first if it landed). It

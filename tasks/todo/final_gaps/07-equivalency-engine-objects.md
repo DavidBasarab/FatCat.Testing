@@ -220,13 +220,13 @@ recommended rewrite (assert the specific members, or use `Satisfy`).
 ```pwsh
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
-dotnet format style Fatcat.Testing.sln
-dotnet format analyzers Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
+dotnet format style Fatcat.Testing.slnx
+dotnet format analyzers Fatcat.Testing.slnx
 dotnet csharpier .
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln --filter "FullyQualifiedName~Equivalency"
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx --filter "FullyQualifiedName~Equivalency"
 ```
 
 Standards review, then **stop for human review before committing** (high-risk gate).
@@ -261,8 +261,8 @@ Standards review, then **stop for human review before committing** (high-risk ga
 
 ```pwsh
 git revert --no-edit <phase-07-commit>
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 **Phases 08 and 09 build directly on the engine** — revert them first. Removing `BeEquivalentTo` from the

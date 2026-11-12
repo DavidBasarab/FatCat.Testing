@@ -220,19 +220,19 @@ that a bare `null` literal cannot receive `Should()` — the variable must be ty
 ```pwsh
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
-dotnet format style Fatcat.Testing.sln
-dotnet format analyzers Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
+dotnet format style Fatcat.Testing.slnx
+dotnet format analyzers Fatcat.Testing.slnx
 dotnet csharpier .
-dotnet build Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
 ```
 
 **High-risk gate** — run and paste both into the report:
 
 ```pwsh
-dotnet test Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln --filter "FullyQualifiedName~OverloadResolution"
+dotnet test Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx --filter "FullyQualifiedName~OverloadResolution"
 ```
 
 Standards review, then **stop for human review before committing**.
@@ -268,8 +268,8 @@ Standards review, then **stop for human review before committing**.
 
 ```pwsh
 git revert --no-edit <phase-06-commit>
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 Removes the object overload and comparer; the appended overload-resolution cases revert with it. **Phases

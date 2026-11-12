@@ -36,7 +36,7 @@ Record the branch name here before starting: `__________________________`
 Baseline the suite so later phases can compare counts:
 
 ```pwsh
-dotnet test Fatcat.Testing.sln
+dotnet test Fatcat.Testing.slnx
 ```
 
 Note the passing test count: `__________`. Per `project_toolchain_gotchas`, five pre-existing IDE1006
@@ -109,12 +109,12 @@ For each step above:
 ```pwsh
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
-dotnet build Fatcat.Testing.sln                  # zero new warnings
-dotnet test Fatcat.Testing.sln                   # all green
-dotnet format style Fatcat.Testing.sln
-dotnet format analyzers Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx                  # zero new warnings
+dotnet test Fatcat.Testing.slnx                   # all green
+dotnet format style Fatcat.Testing.slnx
+dotnet format analyzers Fatcat.Testing.slnx
 dotnet csharpier .                               # ALWAYS the final step after any C# change
-dotnet build Fatcat.Testing.sln                  # confirm formatting did not break the build
+dotnet build Fatcat.Testing.slnx                  # confirm formatting did not break the build
 ```
 
 Then, before the commit, run a standards review on the uncommitted change and resolve every finding:
@@ -193,8 +193,8 @@ git revert --no-edit <commit-14>
 git revert --no-edit <commit-12> <commit-11> <commit-10> <commit-09> <commit-08> <commit-07>
 git revert --no-edit <commit-06> <commit-05> <commit-04> <commit-03> <commit-02>
 git revert --no-edit <commit-01>
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 Never `git reset --hard` a commit that has been reviewed, and never force-push.

@@ -77,8 +77,8 @@ without that caveat is false.
 ### Step 2 — The suite is green and grew
 
 ```pwsh
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 Compare the total against the baseline the orchestrator recorded before phase 01. Report both numbers. Zero
@@ -179,12 +179,12 @@ moment). Contents:
 ```pwsh
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
-dotnet format style Fatcat.Testing.sln
-dotnet format analyzers Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
+dotnet format style Fatcat.Testing.slnx
+dotnet format analyzers Fatcat.Testing.slnx
 dotnet csharpier .
-dotnet build Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
 ```
 
 Then run the standards review across the whole branch diff (`main..HEAD`), not just this commit — this is
@@ -258,8 +258,8 @@ baseline N -> final N (+N)
 
 ```pwsh
 git revert --no-edit <phase-14-commit>
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 Nothing depends on this phase. Reverting it removes the audit, the close-out section, and (on Path A) the

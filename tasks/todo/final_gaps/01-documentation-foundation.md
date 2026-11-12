@@ -177,8 +177,8 @@ No TDD — there is no code. Work in this order:
 ```pwsh
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 Both must be green — this phase cannot have broken them, and confirming that establishes the baseline count

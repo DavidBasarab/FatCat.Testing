@@ -153,4 +153,4 @@ public void GoodBe()
 
 ## OneOff Is Not A Test Project
 `OneOff` is a scratch console for manual experimentation. Do not put assertions there in place of real tests,
-and do not treat running it as verification. Run `dotnet test Fatcat.Testing.sln`.
+and do not treat running it as verification. Run `dotnet test Fatcat.Testing.slnx`.

@@ -215,13 +215,13 @@ table from the Design section above, so a reader porting numeric `Match` calls i
 ```pwsh
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
-dotnet format style Fatcat.Testing.sln
-dotnet format analyzers Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
+dotnet format style Fatcat.Testing.slnx
+dotnet format analyzers Fatcat.Testing.slnx
 dotnet csharpier .
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln --filter "FullyQualifiedName~MatchEquivalentOf"
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx --filter "FullyQualifiedName~MatchEquivalentOf"
 ```
 
 Then run the standards review on the uncommitted change and resolve every finding — **except** the
@@ -252,8 +252,8 @@ introducing CS8625.
 
 ```pwsh
 git revert --no-edit <phase-04-commit>
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 Independent of every phase except 01 (which it appends to) and 14 (which audits it). If 14 has landed,

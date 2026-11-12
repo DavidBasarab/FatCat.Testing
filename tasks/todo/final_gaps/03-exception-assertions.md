@@ -260,18 +260,18 @@ once phase 14 ships `Where`, or assert on the message directly until then.
 ```pwsh
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
-dotnet format style Fatcat.Testing.sln
-dotnet format analyzers Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
+dotnet format style Fatcat.Testing.slnx
+dotnet format analyzers Fatcat.Testing.slnx
 dotnet csharpier .
-dotnet build Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
 ```
 
 Targeted:
 
 ```pwsh
-dotnet test Fatcat.Testing.sln --filter "FullyQualifiedName~Exceptions"
+dotnet test Fatcat.Testing.slnx --filter "FullyQualifiedName~Exceptions"
 ```
 
 Then run the standards review on the uncommitted change and resolve every finding before committing.
@@ -306,8 +306,8 @@ Then run the standards review on the uncommitted change and resolve every findin
 
 ```pwsh
 git revert --no-edit <phase-03-commit>
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 Removes two `Should()` overloads. Nothing bound to them before this phase, so nothing else breaks. **Phase

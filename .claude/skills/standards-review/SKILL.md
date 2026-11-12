@@ -9,7 +9,7 @@ Review code in a requested scope against the FatCat.Testing coding standards and
 
 ## Step 1 — Resolve the scope
 
-Map the user's phrasing to a concrete set of files to review. Run all `git` commands from the repo root (`C:/Code/FatCat.Testing`). The solution (`Fatcat.Testing.sln`) and the three projects live directly at the repo root — there is no `src/` directory.
+Map the user's phrasing to a concrete set of files to review. Run all `git` commands from the repo root (`C:/Code/FatCat.Testing`). The solution (`Fatcat.Testing.slnx`) and the three projects live directly at the repo root — there is no `src/` directory.
 
 | User says | Scope |
 |---|---|
@@ -20,7 +20,7 @@ Map the user's phrasing to a concrete set of files to review. Run all `git` comm
 | "review commit `<hash>`" | Files changed in `<hash>`: `git show --stat --name-only <hash>`. Review content via `git show <hash>:<path>`. |
 
 Rules:
-- Only review source files: `*.cs`, `*.ps1`. Skip `bin/`, `obj/`, `*.csproj`, `*.sln`, `*.json`, and other non-source files.
+- Only review source files: `*.cs`, `*.ps1`. Skip `bin/`, `obj/`, `*.csproj`, `*.sln`, `*.slnx`, `*.json`, and other non-source files.
 - For commit-scoped reviews, read the file content **at that commit**, not the working tree.
 - If the resolved scope is empty (e.g. no uncommitted changes), say so and stop — do not write a report.
 - If the phrasing is ambiguous about which scope, pick the most likely one and state your assumption before proceeding.

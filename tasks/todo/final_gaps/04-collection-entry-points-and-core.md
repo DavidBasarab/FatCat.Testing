@@ -220,19 +220,19 @@ collections are matched by element equality (`Equals`); `ContainEquivalentOf` (s
 ```pwsh
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
-dotnet format style Fatcat.Testing.sln
-dotnet format analyzers Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
+dotnet format style Fatcat.Testing.slnx
+dotnet format analyzers Fatcat.Testing.slnx
 dotnet csharpier .
-dotnet build Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
 ```
 
 **High-risk gate** — run twice and paste both into the phase report:
 
 ```pwsh
-dotnet test Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln --filter "FullyQualifiedName~OverloadResolution"
+dotnet test Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx --filter "FullyQualifiedName~OverloadResolution"
 ```
 
 Then run the standards review and **stop for human review before committing** (orchestrator high-risk gate).
@@ -266,8 +266,8 @@ Then run the standards review and **stop for human review before committing** (o
 
 ```pwsh
 git revert --no-edit <phase-04-commit>
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 **Cascade:** everything from 05 onward except 03/12/14–19 builds on this. **The trap:** if phase 06 has
