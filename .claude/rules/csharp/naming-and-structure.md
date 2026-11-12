@@ -78,7 +78,7 @@ namespace FatCat.Testing.Booleans
 
 ## Project Layout
 
-The solution is `Fatcat.Testing.sln` with three projects:
+The solution is `Fatcat.Testing.slnx` with three projects:
 
 | Project | Purpose |
 |---|---|

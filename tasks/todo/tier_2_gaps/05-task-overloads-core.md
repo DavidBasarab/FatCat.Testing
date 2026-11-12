@@ -268,13 +268,13 @@ banned by `not-allowed.md`, and they would make the suite non-deterministic.
 ```pwsh
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
-dotnet format style Fatcat.Testing.sln
-dotnet format analyzers Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
+dotnet format style Fatcat.Testing.slnx
+dotnet format analyzers Fatcat.Testing.slnx
 dotnet csharpier .
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln --filter "FullyQualifiedName~Tests.FatCat.Testing.Tasks"
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx --filter "FullyQualifiedName~Tests.FatCat.Testing.Tasks"
 ```
 
 Then run the standards review on the uncommitted change and resolve every finding.
@@ -317,8 +317,8 @@ Exactly one hit, in `TaskResultReader.cs`. Any other hit fails the phase.
 ```pwsh
 git revert --no-edit <phase-06-commit>   # if phase 06 has landed — it depends on this one
 git revert --no-edit <phase-05-commit>
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 **Cascades to phase 06**, which adds overloads calling `TaskResultReader`. Revert 06 first or the build

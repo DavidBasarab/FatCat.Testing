@@ -176,8 +176,8 @@ Fog).
 Set-Location C:\Code\FatCat.Testing
 
 # Library must still be green — this phase touched no C#, confirm nothing regressed.
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 
 # Codemod dry run, then real run over a scratch copy of the fixtures, then idempotency.
 Copy-Item tools/fixtures tools/fixtures-run -Recurse

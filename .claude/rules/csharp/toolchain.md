@@ -11,15 +11,15 @@ CSharpier owns **all** C# layout — braces, spacing, new lines, wrapping, singl
 - CSharpier **expands** a braced body that has any content onto its own lines — `if (Subject != expected) { CompareException.New(because); }` becomes a three-line block with the opening brace on its own line. Only a genuinely **empty** body stays inline (`public void Execute() { }`). Do not hand-write the one-line braced form; let CSharpier expand it. The braces themselves are never optional.
 
 ## Running the Toolchain
-Run these from the repo root (where `Fatcat.Testing.sln` lives). There is no `src/` directory — the solution and the three projects sit directly at the root.
+Run these from the repo root (where `Fatcat.Testing.slnx` lives). There is no `src/` directory — the solution and the three projects sit directly at the root.
 
 ```bash
 dotnet tool restore                                     # once per clone — restores the pinned CSharpier
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
-dotnet format style Fatcat.Testing.sln                  # apply code-style fixes from .editorconfig
-dotnet format analyzers Fatcat.Testing.sln              # apply analyzer fixes
-dotnet format style Fatcat.Testing.sln --verify-no-changes   # CI / pre-commit gate
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
+dotnet format style Fatcat.Testing.slnx                  # apply code-style fixes from .editorconfig
+dotnet format analyzers Fatcat.Testing.slnx              # apply analyzer fixes
+dotnet format style Fatcat.Testing.slnx --verify-no-changes   # CI / pre-commit gate
 dotnet csharpier format .                               # final formatting pass
 dotnet csharpier check .                                # verify formatting without writing
 ```

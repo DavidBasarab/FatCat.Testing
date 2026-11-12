@@ -154,13 +154,13 @@ is now backed by a shipped assertion; add that matching is greedy.
 ```pwsh
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
-dotnet format style Fatcat.Testing.sln
-dotnet format analyzers Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
+dotnet format style Fatcat.Testing.slnx
+dotnet format analyzers Fatcat.Testing.slnx
 dotnet csharpier .
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln --filter "FullyQualifiedName~Equivalent"
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx --filter "FullyQualifiedName~Equivalent"
 ```
 
 Standards review; resolve every finding before committing.
@@ -189,8 +189,8 @@ Standards review; resolve every finding before committing.
 
 ```pwsh
 git revert --no-edit <phase-08-commit>
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 Nothing depends on this phase. Reverts alone. (It uses phase 07's engine but does not modify it.)

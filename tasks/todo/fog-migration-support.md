@@ -97,4 +97,4 @@ No blocking `FatCat.Toolkit` issue. Fog is clear to proceed once §3 publishes t
 - [x] New version published to a feed Fog can restore, version + date recorded above. — `1.0.3` to
       nuget.org on 2026-08-24.
 - [x] `FATCAT_TESTING_VERSION` filled into the Fog overview. — set to `1.0.3`.
-- [x] `dotnet test Fatcat.Testing.sln` green. — 1921 passed, 0 failed.
+- [x] `dotnet test Fatcat.Testing.slnx` green. — 1921 passed, 0 failed.

@@ -195,13 +195,13 @@ sentence for the block:
 ```pwsh
 . $PROFILE
 Set-Location C:\Code\FatCat.Testing
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
-dotnet format style Fatcat.Testing.sln
-dotnet format analyzers Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
+dotnet format style Fatcat.Testing.slnx
+dotnet format analyzers Fatcat.Testing.slnx
 dotnet csharpier .
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln --filter "FullyQualifiedName~DateTimeOffsets"
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx --filter "FullyQualifiedName~DateTimeOffsets"
 ```
 
 Then run the standards review on the uncommitted change — it specifically catches the one-class-per-file
@@ -234,8 +234,8 @@ rule, which a phase adding this many files is most likely to trip. Resolve every
 
 ```pwsh
 git revert --no-edit <phase-07-commit>
-dotnet build Fatcat.Testing.sln
-dotnet test Fatcat.Testing.sln
+dotnet build Fatcat.Testing.slnx
+dotnet test Fatcat.Testing.slnx
 ```
 
 Self-contained: a new folder plus two additive overloads. Nothing but phase 14 depends on it — revert 14
