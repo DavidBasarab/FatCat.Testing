@@ -25,6 +25,16 @@ public class CollectionComparer<T>(IEnumerable<T> subject) : ComparerBase<IEnume
 		return this;
 	}
 
+	public CollectionComparer<T> Contain(Func<T, bool> predicate, string because = null)
+	{
+		if (items is null || !items.Any(predicate))
+		{
+			CompareException.New(because ?? $"{FormatItems()} should contain an element matching the predicate");
+		}
+
+		return this;
+	}
+
 	public CollectionComparer<T> BeEmpty(string because = null)
 	{
 		if (items is null || items.Count > 0)

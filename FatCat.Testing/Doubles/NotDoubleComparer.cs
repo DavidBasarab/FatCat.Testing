@@ -5,6 +5,16 @@ namespace FatCat.Testing.Doubles;
 
 public class NotDoubleComparer(double subject) : NotComparerBase<double, NotDoubleComparer>(subject)
 {
+	public NotDoubleComparer Be(double expected, string because = null)
+	{
+		if (Subject.Equals(expected))
+		{
+			CompareException.New(because ?? $"{Subject} should not be {expected}");
+		}
+
+		return this;
+	}
+
 	public NotDoubleComparer BeApproximately(double expected, double tolerance, string because = null)
 	{
 		if (Math.Abs(Subject - expected) <= tolerance)

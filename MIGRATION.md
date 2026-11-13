@@ -66,6 +66,16 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().Be(x)` *(objects)* | `.Should().Be(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeTests` |
 | `.Should().NotBe(x)` *(objects)* | `.Should().Not.Be(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeTests` |
 | `.Should().NotBe(x)` *(value types)* | `.Should().Not.Be(x)` | ✅ supported | `BoolBeTests` |
+| `.Should().Be(x)` *(double — exact; `NaN` equals `NaN`, as in FluentAssertions)* | `.Should().Be(x)` | ✅ supported | `Tests.FatCat.Testing.Doubles.DoubleBeTests` |
+| `.Should().NotBe(x)` *(double)* | `.Should().Not.Be(x)` | ✅ supported | `Tests.FatCat.Testing.Doubles.DoubleBeTests` |
+| `.Should().Be(x)` / `.Should().NotBe(x)` *(`double?`)* | `.Should().Be(x)` / `.Should().Not.Be(x)` | ✅ supported | `Tests.FatCat.Testing.Doubles.NullableDoubleBeTests` |
+| `.Should().BeNull()` *(`double?`)* | `.Should().BeNull()` | ✅ supported | `Tests.FatCat.Testing.Doubles.NullableDoubleBeNullTests` |
+| `.Should().HaveValue()` / `.Should().NotHaveValue()` / `.Should().NotBeNull()` *(`double?`)* | `.Should().HaveValue()` / `.Should().Not.HaveValue()` / `.Should().HaveValue()` | ✅ supported | `Tests.FatCat.Testing.Doubles.NullableDoubleHaveValueTests` |
+| `.Should().BeApproximately(x, t)` / `.Should().NotBeApproximately(x, t)` *(`double?`)* | `.Should().BeApproximately(x, t)` / `.Should().Not.BeApproximately(x, t)` | ✅ supported | `Tests.FatCat.Testing.Doubles.NullableDoubleBeApproximatelyTests` |
+| `.Should().BeGreaterThan(x)` / `.Should().BeLessThan(x)` *(`double?`)* | same | ✅ supported | `Tests.FatCat.Testing.Doubles.NullableDoubleBeGreaterThanTests`, `Tests.FatCat.Testing.Doubles.NullableDoubleBeLessThanTests` |
+| `.Should().BeGreaterThanOrEqualTo(x)` / `.Should().BeLessThanOrEqualTo(x)` *(`double?`)* | same | ✅ supported | `Tests.FatCat.Testing.Doubles.NullableDoubleBeGreaterThanOrEqualToTests`, `Tests.FatCat.Testing.Doubles.NullableDoubleBeLessThanOrEqualToTests` |
+| `.Should().BeInRange(lo, hi)` / `.BePositive()` / `.BeNegative()` / `.Match(p)` *(`double?`)* | same | ✅ supported | `Tests.FatCat.Testing.Doubles.NullableDoubleBeInRangeTests`, `NullableDoubleBePositiveTests`, `NullableDoubleBeNegativeTests`, `NullableDoubleMatchTests` |
+| `BeZero()` *(`double?`, FatCat-native)* | `.Should().BeZero()` | ✅ supported | `Tests.FatCat.Testing.Doubles.NullableDoubleBeZeroTests` |
 | `.Should().Be("guid-string")` *(Guid)* | `.Should().Be("guid-string")` | ✅ supported | `Tests.FatCat.Testing.Guids.GuidBeStringTests` |
 | `.Should().BeTrue()` / `.Should().BeFalse()` | `.Should().BeTrue()` / `.Should().BeFalse()` | ✅ supported | `BoolBeTrueTests`, `BoolBeFalseTests` |
 | `Imply(x)` *(FatCat-native — no FluentAssertions equivalent)* | `.Should().Imply(x)` | ✅ supported | `Tests.FatCat.Testing.Booleans.BoolImplyTests` |
@@ -84,6 +94,9 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().NotContainAny(...)` *(string)* | `.Should().Not.ContainAny(...)` | ✅ supported | `StringContainTests` |
 | `.Should().Contain(x)` *(collections)* | `.Should().Contain(x)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainTests` |
 | `.Should().NotContain(x)` *(collections)* | `.Should().Not.Contain(x)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainTests` |
+| `.Should().Contain(predicate)` *(collections)* | `.Should().Contain(predicate)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainPredicateTests` |
+| `.Should().NotContain(predicate)` *(collections)* | `.Should().Not.Contain(predicate)` | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionContainPredicateTests` |
+| `.Should()` on a subject typed `IReadOnlyList<T>` / `IReadOnlyCollection<T>` / `IList<T>` / `ICollection<T>` | `.Should()` — binds to the collection comparer | ✅ supported | `Tests.FatCat.Testing.Collections.CollectionOverloadResolutionTests` |
 | `.Should().EndWith(x)` | `.Should().EndWith(x)` | ✅ supported | `StringEndWithTests` |
 | `.Should().BeEquivalentTo(x)` *(string)* | `.Should().BeEquivalentTo(x)` | ✅ supported | `StringBeEquivalentToTests` |
 | `.Should().BeEquivalentTo(x)` *(object graphs)* | `.Should().BeEquivalentTo(x)` | ✅ supported | `Tests.FatCat.Testing.Objects.ObjectBeEquivalentToTests` |
@@ -145,6 +158,15 @@ versus objects), the row reflects what ships today and §4 records the type cove
 | `.Should().Throw<T>().WithInnerExceptionExactly<TInner>()` | `.Should().Throw<T>().WithInnerExceptionExactly<TInner>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ThrownExceptionWithInnerExceptionExactlyTests` |
 | `.Should().Throw<T>().Where(predicate)` | `.Should().Throw<T>().Where(predicate)` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ThrownExceptionWhereTests` |
 | `.Should().Throw<T>().WithParameterName(name)` | `.Should().Throw<T>().WithParameterName(name)` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ThrownExceptionWithParameterNameTests` |
+| `FluentActions.Invoking(() => x())` | `FluentActions.Invoking(() => x())` | ✅ supported | `Tests.FatCat.Testing.FluentActionsInvokingTests` |
+| `subject.Invoking(s => s.Method())` | `subject.Invoking(s => s.Method())` | ✅ supported | `Tests.FatCat.Testing.FluentActionsInvokingTests` |
+| `FluentActions.Awaiting(() => xAsync())` | `FluentActions.Awaiting(() => xAsync())` | ✅ supported | `Tests.FatCat.Testing.FluentActionsAwaitingTests` |
+| `subject.Awaiting(s => s.MethodAsync())` | `subject.Awaiting(s => s.MethodAsync())` | ✅ supported | `Tests.FatCat.Testing.FluentActionsAwaitingTests` |
+| `await act.Should().ThrowAsync<T>()` | `await act.Should().ThrowAsync<T>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ThrownExceptionGetAwaiterTests` |
+| `await act.Should().ThrowAsync<T>().WithMessage(m)` | `await act.Should().ThrowAsync<T>().WithMessage(m)` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ThrownExceptionGetAwaiterTests` |
+| `await act.Should().ThrowExactlyAsync<T>()` | `await act.Should().ThrowExactlyAsync<T>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.ThrownExceptionGetAwaiterTests` |
+| `await act.Should().NotThrowAsync()` | `await act.Should().NotThrowAsync()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.AsyncActionGetAwaiterTests` |
+| `await act.Should().NotThrowAsync<T>()` | `await act.Should().Not.ThrowAsync<T>()` | ✅ supported | `Tests.FatCat.Testing.Exceptions.NotAsyncActionGetAwaiterTests` |
 | `.Should().HaveSameNameAs(x)` | `.Should().HaveSameNameAs(x)` | ✅ supported | `Tests.FatCat.Testing.Enums.EnumHaveSameNameAsTests` |
 | `.Should().HaveSameValueAs(x)` | `.Should().HaveSameValueAs(x)` | ✅ supported | `Tests.FatCat.Testing.Enums.EnumHaveSameValueAsTests` |
 | `.Should().NotBeDefined()` | `.Should().Not.BeDefined()` | ✅ supported | `Tests.FatCat.Testing.Enums.EnumBeDefinedTests` |
@@ -164,16 +186,16 @@ Which subject types have a `.Should()` entry point today.
 | `bool`, `bool?` | ✅ | |
 | `char`, `char?` | ✅ | |
 | `DateTime`, `DateTime?` | ✅ | |
-| `double`, `float` | ✅ | |
+| `double`, `double?`, `float` | ✅ | `Be` (exact equality) is `double` / `double?` only. `double?` mirrors the `int?` member set, adapted to `double` (`BeApproximately` in place of `BeAround`). |
 | Integral numerics (`int`, `long`, `short`, `byte`, `decimal`, unsigned & native variants), `int?` | ✅ | |
 | Enums (`where T : struct, Enum`) | ✅ | |
 | `Guid`, `Guid?` | ✅ | |
 | `string` | ✅ | |
 | `TimeSpan`, `TimeSpan?` | ✅ | |
 | `object` / reference types | ✅ | `Be` (value), `BeEquivalentTo` (structural), `BeNull`, `BeSameAs` (reference identity) ship. |
-| Collections (`IEnumerable<T>`, `List<T>`, `T[]`) | ✅ | Core methods (`Contain`, `BeEmpty`, `HaveCount`, `ContainSingle`), order-sensitive `Equal`, and the structural `BeEquivalentTo` / `ContainEquivalentOf` all ship. |
-| `Action` | ✅ | Exception assertions — `Throw<T>`, `ThrowExactly<T>`, `NotThrow`, plus `WithInnerException`/`Where`/`WithParameterName` on the caught exception. |
-| `Func<Task>` | ✅ | Async exception assertions — `ThrowAsync<T>`, `ThrowExactlyAsync<T>`, `NotThrowAsync`. |
+| Collections (`IEnumerable<T>`, `List<T>`, `T[]`, `IReadOnlyList<T>`, `IReadOnlyCollection<T>`, `IList<T>`, `ICollection<T>`) | ✅ | Core methods (`Contain` by value or predicate, `BeEmpty`, `HaveCount`, `ContainSingle`), order-sensitive `Equal`, and the structural `BeEquivalentTo` / `ContainEquivalentOf` all ship. Other concrete collection classes and custom collection interfaces bind to the object comparer — see §6. |
+| `Action` | ✅ | Exception assertions — `Throw<T>`, `ThrowExactly<T>`, `NotThrow`, plus `WithInnerException`/`Where`/`WithParameterName` on the caught exception. `FluentActions.Invoking(...)` and `subject.Invoking(...)` produce the `Action`. |
+| `Func<Task>` | ✅ | Async exception assertions — `ThrowAsync<T>`, `ThrowExactlyAsync<T>`, `NotThrowAsync`. `FluentActions.Awaiting(...)` and `subject.Awaiting(...)` produce the `Func<Task>`, and the results may be `await`ed (see §5). |
 
 ## 5. Behavioural Differences
 
@@ -244,6 +266,18 @@ These compile fine and behave differently — the dangerous category. Read them 
    `params object[] becauseArgs`, and remember `because` **replaces** the generated message rather than being
    appended to it. Proven by `Tests.FatCat.Testing.Extensibility.CustomComparerTests`. *(from phase 10)*
 
+9. **Awaiting an exception assertion is a pass-through, and an un-awaited one can now warn `CS4014`.**
+   `ThrowAsync<T>()`, `ThrowExactlyAsync<T>()`, `NotThrowAsync()` and `Not.ThrowAsync<T>()` run the delegate
+   and assert **synchronously**, exactly as before; their results expose `GetAwaiter()` only so FluentAssertions'
+   `await act.Should().ThrowAsync<T>();` (and the `.WithMessage(...)` continuation) compiles unchanged. The
+   `await` adds no asynchrony and no timing — the failure has already been thrown by the time it is reached.
+   The side effect: because `ThrownExceptionComparer` (also returned by the synchronous `Throw<T>()`),
+   `AsyncActionComparer` and `NotAsyncActionComparer` are now awaitable, the compiler reports `CS4014` for an
+   **un-awaited** call to one of them inside an `async` method — for example `act.Should().Throw<T>();` in an
+   `async Task` test. The assertion still runs; only the warning is new. Under `TreatWarningsAsErrors` it
+   fails the build. **Fix:** add `await`, or discard the result with `_ = act.Should().Throw<T>();`. Synchronous
+   (`void`) test methods are unaffected.
+
 ## 6. Known Unsupported
 
 These FluentAssertions constructs have no FatCat.Testing equivalent. Each row gives the recommended rewrite.
@@ -260,6 +294,7 @@ These FluentAssertions constructs have no FatCat.Testing equivalent. Each row gi
 | Event monitoring (`Monitor<T>`, `Should().Raise(...)`, `WithArgs<T>`, …) | Not supported. Subscribe to the event in the test and assert on captured arguments. |
 | Reflection / architecture DSL (`Types.InAssembly(...).ThatAre*`, `BeDecoratedWith<T>`, `Implement<T>`, …) | Not supported. Use reflection directly and assert on the results. |
 | `BeEquivalentTo` option methods other than `Using` / `WhenTypeIs` (the ~45 including `Excluding`, `Including`, `WithStrictOrdering`, `ComparingByMembers<T>`, …) | Not supported. FatCat.Testing ships default options plus the `Using<T>()` / `WhenTypeIs<T>()` global registration only. Restructure the expected value, or assert on the specific members. |
+| Collection assertions on a subject statically typed as a **custom collection interface** (ASP.NET's `IHeaderDictionary`, `IImmutableList<T>`, your own `IFooList : IReadOnlyList<Foo>`) or as a **concrete collection class** other than `List<T>` / `T[]` (`HashSet<T>`, `ReadOnlyCollection<T>`, `Collection<T>`, …) | Call `.AsEnumerable().Should()`. Such a subject matches the object overload `Should<T>(this T)` by **identity**, and C# prefers an identity match over the interface conversion any collection overload needs, so it binds to the object comparer (`BeEquivalentTo`, `Be`, `BeNull`, `BeSameAs`) and collection methods such as `Contain` do not compile. No overload can fix this without ambiguity, and dictionary-shaped subjects deliberately keep their object semantics. Proven by `Tests.FatCat.Testing.Collections.CollectionOverloadResolutionTests`. |
 
 ## 7. The Codemod
 

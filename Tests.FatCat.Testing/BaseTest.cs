@@ -15,4 +15,11 @@ public abstract class BaseTest
 
 		Assert.Equal(message, exception.Message);
 	}
+
+	protected async Task RunCompareFailTestAsync(Func<Task> testAction, string message)
+	{
+		var exception = await Assert.ThrowsAsync<CompareException>(testAction);
+
+		Assert.Equal(message, exception.Message);
+	}
 }

@@ -20,6 +20,16 @@ public class NotCollectionComparer<T>(IEnumerable<T> subject)
 		return this;
 	}
 
+	public NotCollectionComparer<T> Contain(Func<T, bool> predicate, string because = null)
+	{
+		if (items is null || items.Any(predicate))
+		{
+			CompareException.New(because ?? $"{FormatItems()} should not contain an element matching the predicate");
+		}
+
+		return this;
+	}
+
 	public NotCollectionComparer<T> BeEmpty(string because = null)
 	{
 		if (items is null || items.Count == 0)
