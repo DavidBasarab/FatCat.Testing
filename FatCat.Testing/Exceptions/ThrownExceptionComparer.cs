@@ -1,7 +1,16 @@
+using System.Runtime.CompilerServices;
+
 namespace FatCat.Testing.Exceptions;
 
 public class ThrownExceptionComparer(Exception thrownException)
 {
+	// The assertion has already run synchronously; the awaiter only lets FluentAssertions-style
+	// `await act.Should().ThrowAsync<T>()` compile unchanged, so awaiting is a pass-through.
+	public TaskAwaiter<ThrownExceptionComparer> GetAwaiter()
+	{
+		return Task.FromResult(this).GetAwaiter();
+	}
+
 	public ThrownExceptionComparer Where(Func<Exception, bool> predicate, string because = null)
 	{
 		if (!predicate(thrownException))

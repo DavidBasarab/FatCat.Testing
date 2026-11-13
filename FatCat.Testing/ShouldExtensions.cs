@@ -1,5 +1,6 @@
 #nullable enable
 
+using System.Runtime.CompilerServices;
 using FatCat.Testing.Booleans;
 using FatCat.Testing.Characters;
 using FatCat.Testing.Collections;
@@ -70,6 +71,11 @@ public static class ShouldExtensions
 	public static DoubleComparer Should(this double subject)
 	{
 		return new DoubleComparer(subject);
+	}
+
+	public static NullableDoubleComparer Should(this double? subject)
+	{
+		return new NullableDoubleComparer(subject);
 	}
 
 	public static FloatComparer Should(this float subject)
@@ -157,12 +163,39 @@ public static class ShouldExtensions
 		return new CollectionComparer<T>(subject);
 	}
 
+	// A value type such as ImmutableArray<T> implements both IList<T> and IReadOnlyList<T>, which leaves those two
+	// overloads ambiguous. Raising the read-only overloads' priority settles that tie; List<T> and T[] share the
+	// priority so their exact-match overloads are never filtered out ahead of an interface conversion.
+	[OverloadResolutionPriority(1)]
 	public static CollectionComparer<T> Should<T>(this List<T> subject)
 	{
 		return new CollectionComparer<T>(subject);
 	}
 
+	[OverloadResolutionPriority(1)]
 	public static CollectionComparer<T> Should<T>(this T[] subject)
+	{
+		return new CollectionComparer<T>(subject);
+	}
+
+	[OverloadResolutionPriority(1)]
+	public static CollectionComparer<T> Should<T>(this IReadOnlyList<T> subject)
+	{
+		return new CollectionComparer<T>(subject);
+	}
+
+	[OverloadResolutionPriority(1)]
+	public static CollectionComparer<T> Should<T>(this IReadOnlyCollection<T> subject)
+	{
+		return new CollectionComparer<T>(subject);
+	}
+
+	public static CollectionComparer<T> Should<T>(this IList<T> subject)
+	{
+		return new CollectionComparer<T>(subject);
+	}
+
+	public static CollectionComparer<T> Should<T>(this ICollection<T> subject)
 	{
 		return new CollectionComparer<T>(subject);
 	}

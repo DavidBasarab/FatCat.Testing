@@ -100,7 +100,11 @@ the nullable value type (`bool?`, `Guid?`, and so on).
 
 ### Collections
 
-Entry points exist for `IEnumerable<T>`, `List<T>`, and `T[]`. Most assertions match elements by **element
+Entry points exist for `IEnumerable<T>`, `List<T>`, `T[]`, `IReadOnlyList<T>`, `IReadOnlyCollection<T>`,
+`IList<T>`, and `ICollection<T>`. A subject statically typed as any **other** concrete collection class
+(`HashSet<T>`, `ReadOnlyCollection<T>`, …) or as a custom collection interface (`IHeaderDictionary`,
+`IImmutableList<T>`, …) binds to the object comparer instead — call `.AsEnumerable().Should()` to reach these
+assertions (see [`MIGRATION.md`](MIGRATION.md) §6). Most assertions match elements by **element
 equality** (`Equals`, via `EqualityComparer<T>.Default`); `BeEquivalentTo` and `ContainEquivalentOf` match
 **structurally** instead (see below). A lazy `IEnumerable<T>` is **snapshotted once** when `.Should()` is
 called, so a side-effecting query is enumerated a single time and every chained assertion reads that
@@ -109,6 +113,7 @@ snapshot.
 | Assertion | What it asserts |
 |---|---|
 | `Contain(expected)` | The collection contains an element equal to `expected`. |
+| `Contain(predicate)` | At least one element satisfies `predicate` (`Func<T, bool>`). |
 | `BeEmpty()` | The collection has no elements. |
 | `HaveCount(count)` | The collection has exactly `count` elements. |
 | `ContainSingle()` | The collection has exactly one element. |
@@ -147,11 +152,15 @@ elements are ambiguously equivalent to one another; this matches FluentAssertion
 running a full bipartite matcher. Failure messages render at most **32** elements (the value formatter's cap),
 so a large mismatch does not dump the whole collection.
 
-Predicate-based assertions (`OnlyContain`, `ContainSingle(predicate)`) cannot describe the predicate in the
-generated message, which reads "matching the predicate". Supply `because` to make the failure specific.
+Predicate-based assertions (`Contain(predicate)`, `OnlyContain`, `ContainSingle(predicate)`) cannot describe the
+predicate in the generated message, which reads "matching the predicate". Supply `because` to make the failure
+specific. Because `Contain` has both a value and a predicate overload, do not pass a bare `null` literal: on a
+`string` or nullable-value collection `Contain(null)` is a compile-time ambiguity, and on an `object` collection it
+binds to the predicate overload and throws `ArgumentNullException`. Use `ContainNulls()`, or cast the literal
+(`Contain((string)null)`).
 
-Negated forms are reached through `Not`: `Not.Contain(x)`, `Not.BeEmpty()` (assert the collection is not
-empty), `Not.HaveCount(n)`, `Not.IntersectWith(other)` (share no element), and `Not.ContainNulls()`. The
+Negated forms are reached through `Not`: `Not.Contain(x)`, `Not.Contain(predicate)` (no element satisfies it),
+`Not.BeEmpty()` (assert the collection is not empty), `Not.HaveCount(n)`, `Not.IntersectWith(other)` (share no element), and `Not.ContainNulls()`. The
 remaining assertions have no negated form because it would not read naturally.
 
 `AllSatisfy` and `SatisfyRespectively` take inspectors that assert on each element and signal failure by
@@ -227,10 +236,13 @@ make the difference chains read well, but they are general-purpose and usable an
 
 ### Doubles And Floats
 
-Both `double` and `float` share the same assertion set.
+Both `double` and `float` share the same assertion set, except `Be`, which is `double`-only. `double?` has
+its own comparer with the same set (less `BeNaN`) plus the nullable-only rows; a `null` subject fails every
+value assertion with a message that starts `null should …`.
 
 | Assertion | What it asserts |
 |---|---|
+| `Be(expected)` | *(`double` / `double?`)* The value equals `expected` exactly. `NaN` equals `NaN`, matching FluentAssertions. |
 | `BeApproximately(expected, tolerance)` | The value is within `tolerance` of `expected`. Negatable via `.Not.BeApproximately(expected, tolerance)`. |
 | `BeGreaterThan(expected)` | The value is strictly greater than `expected`. |
 | `BeLessThan(expected)` | The value is strictly less than `expected`. |
@@ -240,6 +252,8 @@ Both `double` and `float` share the same assertion set.
 | `BePositive()` | The value is greater than zero. |
 | `BeZero()` | The value is zero. |
 | `Match(predicate)` | The value satisfies `predicate`. |
+| `BeNull()` | *(nullable only — `double?`)* The nullable has no value. |
+| `HaveValue()` | *(nullable only — `double?`)* The nullable has a value. |
 
 ### Enums
 
@@ -275,13 +289,24 @@ type name, so there is nothing useful to render, and the messages start with `sh
 
 Three things worth knowing before you use these:
 
-1. **The delegate must be a typed variable.** A bare lambda has no type and cannot receive an extension
-   method, so you cannot write `(() => Foo()).Should()`. Declare the delegate first:
+1. **The delegate must be a typed variable — or wrapped.** A bare lambda has no type and cannot receive an
+   extension method, so you cannot write `(() => Foo()).Should()`. Declare the delegate first, or wrap the
+   lambda with `FluentActions` (same name and shape as FluentAssertions', so migrated code compiles unchanged):
 
    ```csharp
    Action action = () => service.Charge(card);
    action.Should().Throw<InvalidOperationException>();
+
+   FluentActions.Invoking(() => service.Charge(card)).Should().Throw<InvalidOperationException>();
+   FluentActions.Awaiting(() => service.ChargeAsync(card)).Should().ThrowAsync<InvalidOperationException>();
+   service.Invoking(s => s.Charge(card)).Should().Throw<InvalidOperationException>();
+   service.Awaiting(s => s.ChargeAsync(card)).Should().ThrowAsync<InvalidOperationException>();
    ```
+
+   `FluentActions.Invoking(action)` returns the `Action` and `FluentActions.Awaiting(function)` the
+   `Func<Task>` unchanged; the instance forms `subject.Invoking(s => …)` / `subject.Awaiting(s => …)` bind the
+   subject into a new delegate. Nothing runs until the assertion invokes it. A lambda that returns a value (or a
+   `Task<T>`) is accepted — the value is discarded.
 
 2. **`Throw<T>` returns a `ThrownExceptionComparer`, not the action comparer**, so `WithMessage` can chain
    onto the caught exception. This is the one place in the library where an assertion changes comparer type —
@@ -302,10 +327,15 @@ there and FatCat.Testing does not. Use `Where(e => e.Message.Contains("..."))` f
 
 Asserting that code throws does **not** make the assertion API asynchronous: `ThrowAsync<T>` and
 `ThrowExactlyAsync<T>` observe the `Task` synchronously inside the comparer, so the fluent `Should()` surface
-stays synchronous and is never awaited.
+stays synchronous. The results of `ThrowAsync<T>`, `ThrowExactlyAsync<T>`, `NotThrowAsync`, `Not.ThrowAsync<T>`
+(and anything chained off a `ThrownExceptionComparer`) are nevertheless **awaitable**, purely so FluentAssertions'
+`await act.Should().ThrowAsync<T>().WithMessage("...")` compiles unchanged. Awaiting is a pass-through — the
+assertion has already passed or thrown by the time the `await` is reached. One consequence: inside an `async`
+method, an **un-awaited** call that returns one of these comparers (including the synchronous `Throw<T>()`)
+draws compiler warning `CS4014`. Add `await`, or discard it with `_ =`. See [`MIGRATION.md`](MIGRATION.md) §5.
 
-**Deliberate omissions.** FluentAssertions' `Awaiting` / `Invoking` / `Enumerating` wrappers are not
-provided — the `Action` and `Func<Task>` overloads above already adapt a subject into a delegate. `WithResult`
+**Deliberate omissions.** FluentAssertions' `Enumerating` wrapper is not provided, and `Invoking` / `Awaiting`
+ship only in their `Action` / `Func<Task>` forms (no `Func<TResult>` / `Func<Task<TResult>>` variants). `WithResult`
 (asserting an async result value) is omitted as it has no consumer here. `CompleteWithinAsync(TimeSpan)` is
 also omitted: enforcing a timeout requires either a banned primitive (`Task.Delay` / `Thread.Sleep`) or a
 second blocking site, both disallowed, so this family is intentionally not a complete port.
@@ -344,9 +374,13 @@ unsigned relatives).
 
 ### Objects
 
-Any reference type has a `.Should()` entry point through `Should<T>(this T) where T : class`. Concrete
-collection shapes (`IEnumerable<T>`, `List<T>`, `T[]`) keep binding to their own comparer, so a `List<string>`
-never lands here by accident.
+Any reference type has a `.Should()` entry point through `Should<T>(this T) where T : class`. The collection
+shapes with their own overload (`IEnumerable<T>`, `List<T>`, `T[]`, `IReadOnlyList<T>`,
+`IReadOnlyCollection<T>`, `IList<T>`, `ICollection<T>`) keep binding to the collection comparer, so a
+`List<string>` never lands here by accident. Any other concrete collection class (`HashSet<T>`,
+`ReadOnlyCollection<T>`, a dictionary) or custom collection interface **does** land here, because C# prefers
+this overload's identity match over an interface conversion — use `.AsEnumerable().Should()` for collection
+assertions on those.
 
 | Assertion | What it asserts |
 |---|---|
@@ -888,7 +922,8 @@ sequence is in [`MIGRATION.md`](MIGRATION.md) §7.
 
 These have no consumer and are intentionally not part of the current catalog: the collection assertions
 `ContainInConsecutiveOrder`, `HaveElementPreceding` / `HaveElementSucceeding`, and `ContainItemsAssignableTo`;
-the exception wrappers `Awaiting` / `Invoking` / `Enumerating`, `WithResult`, and `CompleteWithinAsync`; and
+the exception wrapper `Enumerating` (and the value-returning `Invoking` / `Awaiting` variants), `WithResult`, and
+`CompleteWithinAsync`; and
 `WithMessage` wildcard matching. See [`MIGRATION.md`](MIGRATION.md) §6.
 
 `BeGreaterOrEqualTo` / `BeLessOrEqualTo` on numerics and `MatchEquivalentOf` on strings are **not** shipped by

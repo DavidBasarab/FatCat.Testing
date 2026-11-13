@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using FatCat.Testing.Comparers;
 
 namespace FatCat.Testing.Exceptions;
@@ -5,6 +6,13 @@ namespace FatCat.Testing.Exceptions;
 public class AsyncActionComparer(Func<Task> subject) : ComparerBase<Func<Task>, AsyncActionComparer>(subject)
 {
 	public NotAsyncActionComparer Not { get; } = new(subject);
+
+	// The assertion has already run synchronously; the awaiter only lets FluentAssertions-style
+	// `await act.Should().NotThrowAsync()` compile unchanged, so awaiting is a pass-through.
+	public TaskAwaiter<AsyncActionComparer> GetAwaiter()
+	{
+		return Task.FromResult(this).GetAwaiter();
+	}
 
 	public AsyncActionComparer NotThrowAsync(string because = null)
 	{

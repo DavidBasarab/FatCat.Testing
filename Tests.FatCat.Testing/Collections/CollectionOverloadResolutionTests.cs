@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using FatCat.Testing.Collections;
 using FatCat.Testing.Enums;
 using FatCat.Testing.Numbers;
@@ -82,5 +84,125 @@ public class CollectionOverloadResolutionTests : BaseTest
 		var comparer = subject.Should();
 
 		Assert.IsType<ObjectComparer<IThing>>(comparer);
+	}
+
+	[Fact]
+	public void ReadOnlyListInterfaceBindsToCollectionComparer()
+	{
+		IReadOnlyList<string> subject = ["a", "b"];
+
+		var comparer = subject.Should();
+
+		Assert.IsType<CollectionComparer<string>>(comparer);
+	}
+
+	[Fact]
+	public void ReadOnlyCollectionInterfaceBindsToCollectionComparer()
+	{
+		IReadOnlyCollection<string> subject = ["a", "b"];
+
+		var comparer = subject.Should();
+
+		Assert.IsType<CollectionComparer<string>>(comparer);
+	}
+
+	[Fact]
+	public void ListInterfaceBindsToCollectionComparer()
+	{
+		IList<string> subject = ["a", "b"];
+
+		var comparer = subject.Should();
+
+		Assert.IsType<CollectionComparer<string>>(comparer);
+	}
+
+	[Fact]
+	public void CollectionInterfaceBindsToCollectionComparer()
+	{
+		ICollection<string> subject = ["a", "b"];
+
+		var comparer = subject.Should();
+
+		Assert.IsType<CollectionComparer<string>>(comparer);
+	}
+
+	[Fact]
+	public void ReadOnlyCollectionClassStillBindsToObjectComparer()
+	{
+		var subject = new ReadOnlyCollection<string>(["a", "b"]);
+
+		var comparer = subject.Should();
+
+		Assert.IsType<ObjectComparer<ReadOnlyCollection<string>>>(comparer);
+	}
+
+	[Fact]
+	public void HashSetStillBindsToObjectComparer()
+	{
+		var subject = new HashSet<string> { "a", "b" };
+
+		var comparer = subject.Should();
+
+		Assert.IsType<ObjectComparer<HashSet<string>>>(comparer);
+	}
+
+	[Fact]
+	public void CustomCollectionInterfaceStillBindsToObjectComparer()
+	{
+		IImmutableList<string> subject = ImmutableList.Create("a", "b");
+
+		var comparer = subject.Should();
+
+		Assert.IsType<ObjectComparer<IImmutableList<string>>>(comparer);
+	}
+
+	[Fact]
+	public void AsEnumerableBindsCustomCollectionInterfaceToCollectionComparer()
+	{
+		IImmutableList<string> subject = ImmutableList.Create("a", "b");
+
+		var comparer = subject.AsEnumerable().Should();
+
+		Assert.IsType<CollectionComparer<string>>(comparer);
+	}
+
+	[Fact]
+	public void ImmutableArrayStillBindsToCollectionComparer()
+	{
+		var subject = ImmutableArray.Create("a", "b");
+
+		var comparer = subject.Should();
+
+		Assert.IsType<CollectionComparer<string>>(comparer);
+	}
+
+	[Fact]
+	public void ArraySegmentStillBindsToCollectionComparer()
+	{
+		var subject = new ArraySegment<string>(["a", "b"]);
+
+		var comparer = subject.Should();
+
+		Assert.IsType<CollectionComparer<string>>(comparer);
+	}
+
+	[Fact]
+	public void DictionaryInterfaceStillBindsToObjectComparer()
+	{
+		IDictionary<string, int> subject = new Dictionary<string, int> { ["a"] = 1 };
+
+		var comparer = subject.Should();
+
+		Assert.IsType<ObjectComparer<IDictionary<string, int>>>(comparer);
+	}
+
+	[Fact]
+	public void ReadOnlyDictionaryInterfaceStillBindsToObjectComparer()
+	{
+		IReadOnlyDictionary<string, int> subject = new Dictionary<string, int> { ["a"] = 1 };
+
+		var comparer = subject.Should();
+
+		Assert.IsType<ObjectComparer<IReadOnlyDictionary<string, int>>>(comparer);
 	}
 }

@@ -7,6 +7,16 @@ public class DoubleComparer(double subject) : ComparerBase<double, DoubleCompare
 {
 	public NotDoubleComparer Not { get; } = new(subject);
 
+	public DoubleComparer Be(double expected, string because = null)
+	{
+		if (!Subject.Equals(expected))
+		{
+			CompareException.New(because ?? $"{Subject} should be {expected}");
+		}
+
+		return this;
+	}
+
 	public DoubleComparer BeApproximately(double expected, double tolerance, string because = null)
 	{
 		if (Math.Abs(Subject - expected) > tolerance)
